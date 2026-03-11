@@ -36,7 +36,7 @@ const projects = [
     tags: ['Solidity', 'Smart Contract Audits', 'Sherlock', 'Code4rena'],
     description:
       'Competitive smart contract security research across public audit contests. Finding vulnerabilities in DeFi protocols — reentrancy, logic errors, oracle manipulation, access control bypasses.',
-    link: 'https://github.com/NinjaPuppetDev',  // ← replace with your GitHub
+    link: 'https://github.com/sherlock-audit/2025-12-monolith-stablecoin-factory-NinjaPuppetDev/issues/1',  // ← replace with your GitHub
     linkLabel: 'View GitHub',
     accent: 'var(--accent)',
   },
