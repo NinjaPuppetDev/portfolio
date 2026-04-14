@@ -12,33 +12,45 @@ const projects = [
     tags: ['Industrial Design', 'Lápiz de Acero', '3D Prototyping', 'MAMM'],
     description:
       'Award-winning jewelry brand exploring the boundary between craft and production. Developed a proprietary microcasting system for complex geometries and collaborated with Museo de Arte Moderno de Medellín and Museo de Antioquia.',
-    link: 'https://www.instagram.com/pepe_matilda_?igsh=MXNvdDY1MzR5bmwyNg==',              // ← replace with your Pepe Matilda link
+    link: 'https://www.instagram.com/pepe_matilda_?igsh=MXNvdDY1MzR5bmwyNg==',
     linkLabel: 'View project',
     accent: 'var(--amber)',
   },
   {
     index: '02',
-    year: '2024–2025',
+    year: '2026',
     title: 'Bruma Protocol',
     subtitle: 'Ethereum · Chainlink · DeFi · Rainfall Derivatives',
     tags: ['Solidity', 'Chainlink Oracles', 'DeFi', 'On-chain Settlement'],
     description:
       'A trustless protocol for hedging and trading rainfall risk on Ethereum. Users can take long or short positions on precipitation data; positions settle automatically via Chainlink oracle feeds — no intermediaries.',
-    link: 'https://bruma-protocol.vercel.app/',              // ← replace with your Bruma link or GitHub repo
+    link: 'https://bruma-protocol.vercel.app/',
     linkLabel: 'View protocol',
     accent: 'var(--accent)',
   },
   {
     index: '03',
-    year: '2023–present',
+    year: '2025–present',
     title: 'Security Research',
     subtitle: 'Smart Contract Auditing · Sherlock · Code4rena',
     tags: ['Solidity', 'Smart Contract Audits', 'Sherlock', 'Code4rena'],
     description:
       'Competitive smart contract security research across public audit contests. Finding vulnerabilities in DeFi protocols — reentrancy, logic errors, oracle manipulation, access control bypasses.',
-    link: 'https://github.com/sherlock-audit/2025-12-monolith-stablecoin-factory-NinjaPuppetDev/issues/1',  // ← replace with your GitHub
+    link: 'https://github.com/sherlock-audit/2025-12-monolith-stablecoin-factory-NinjaPuppetDev/issues/1',
     linkLabel: 'View GitHub',
     accent: 'var(--accent)',
+  },
+  {
+    index: '04',
+    year: '2024',
+    title: 'Brand & UI Design',
+    subtitle: 'Figma · Blender · Visual Identity · Web Mockups',
+    tags: ['Figma', 'Blender', 'Brand Systems', 'UI Design'],
+    description:
+      'Three complete brand and UI projects — MarigoldBloom, NextStep, and Pepe Matilda — each with a full landing page mockup and style guide covering typography, color systems, 3D-rendered packaging, and logo rationale.',
+    link: 'https://www.figma.com/design/iZ4qn2tuRrdexN0ZTRPgkL/PortfolioWix?node-id=0-1&t=LYdt0byEh03HmTUx-1',
+    linkLabel: 'View in Figma',
+    accent: 'var(--amber)',
   },
 ]
 
@@ -291,18 +303,24 @@ export default function LandingPage() {
             color: 'var(--muted)',
             letterSpacing: '0.15em',
           }}>
-            03 projects
+            04 projects
           </span>
         </div>
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
+          gridTemplateColumns: 'repeat(3, 1fr)',
           gap: '1px',
           background: 'var(--border)',
         }}>
-          {projects.map(p => (
-            <div key={p.index} style={{ background: 'var(--bg)' }}>
+          {projects.map((p, i) => (
+            <div
+              key={p.index}
+              style={{
+                background: 'var(--bg)',
+                gridColumn: i === projects.length - 1 && projects.length % 3 !== 0 ? '1 / -1' : undefined,
+              }}
+            >
               <ProjectCard {...p} />
             </div>
           ))}
@@ -375,7 +393,7 @@ export default function LandingPage() {
 
           {/* Stack pills */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', paddingTop: '0.5rem' }}>
-            {['Solidity', 'Ethereum', 'Chainlink', 'Figma', 'Next.js', 'AI Tools', 'CAD / 3D'].map(s => (
+            {['Solidity', 'Ethereum', 'Chainlink', 'Figma', 'Blender', 'Next.js', 'AI Tools', 'CAD / 3D'].map(s => (
               <span key={s} style={{
                 fontFamily: 'var(--mono)',
                 fontSize: '0.6rem',
