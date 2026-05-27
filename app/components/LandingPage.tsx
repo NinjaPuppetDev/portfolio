@@ -31,12 +31,12 @@ const projects = [
   {
     index: '03',
     year: '2025–present',
-    title: 'Security Research',
+    title: 'Developer | Researcher',
     subtitle: 'Smart Contract Auditing · Sherlock · Code4rena',
     tags: ['Solidity', 'Smart Contract Audits', 'Sherlock', 'Code4rena'],
     description:
       'Competitive smart contract security research across public audit contests. Finding vulnerabilities in DeFi protocols — reentrancy, logic errors, oracle manipulation, access control bypasses.',
-    link: 'https://github.com/sherlock-audit/2025-12-monolith-stablecoin-factory-NinjaPuppetDev/issues/1',
+    link: 'https://github.com/NinjaPuppetDev',
     linkLabel: 'View GitHub',
     accent: 'var(--accent)',
   },
@@ -457,7 +457,7 @@ export default function LandingPage() {
         </h2>
 
         <a
-          href="mailto:david@raigoza.co"
+          href="mailto:raigoza.david.j@gmail.com"
           style={{
             display: 'inline-block',
             fontFamily: 'var(--mono)',
