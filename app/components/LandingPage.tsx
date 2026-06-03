@@ -30,14 +30,14 @@ const projects = [
   },
   {
     index: '03',
-    year: '2025–present',
-    title: 'Developer | Researcher',
-    subtitle: 'Smart Contract Auditing · Sherlock · Code4rena',
-    tags: ['Solidity', 'Smart Contract Audits', 'Sherlock', 'Code4rena'],
-    description:
-      'Competitive smart contract security research across public audit contests. Finding vulnerabilities in DeFi protocols — reentrancy, logic errors, oracle manipulation, access control bypasses.',
-    link: 'https://github.com/NinjaPuppetDev',
-    linkLabel: 'View GitHub',
+    year: '2026',
+    title: 'QIE Neobank',
+    subtitle: 'DeFi neobank on QIE Mainnet — on-chain credit scoring, soulbound identity NFTs, and undercollateralized lending. · Solidity · Next.js · Figma',
+    tags: ['Solidity', 'ERC-4626', 'Soulbound NFT', 'DeFi', 'Next.js', 'Figma'],
+     description:
+      'A full-stack DeFi neobank built for the QIE Blockchain Hackathon. Five deployed smart contracts — vault, identity, lending, credit score, and facade — with a custom design system and dashboard UI. Users build a portable on-chain credit score (300–850) from repayment history and deposit behavior, then unlock undercollateralized loans by tier. 45 million Americans are credit invisible. QIE Bank starts them from zero.',
+    link: 'https://qie-bank.vercel.app/',
+    linkLabel: 'View QIE Neobank →',
     accent: 'var(--accent)',
   },
   {
