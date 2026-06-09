@@ -6,16 +6,17 @@ import ProjectCard from './ProjectCard'
 const projects = [
   {
     index: '01',
-    year: '2011–2016',
-    title: 'Pepe Matilda',
-    subtitle: 'Jewelry Design · Microcasting · Material Research',
-    tags: ['Industrial Design', 'Lápiz de Acero', '3D Prototyping', 'MAMM'],
+    year: '2026',
+    title: 'QIE Neobank',
+    subtitle: 'DeFi neobank on QIE Mainnet, on-chain credit scoring, soulbound identity NFTs, and lending. · Solidity · Next.js · Figma',
+    tags: ['Solidity', 'ERC-4626', 'Soulbound NFT', 'DeFi', 'Next.js', 'Figma'],
     description:
-      'Award-winning jewelry brand exploring the boundary between craft and production. Developed a proprietary microcasting system for complex geometries and collaborated with Museo de Arte Moderno de Medellín and Museo de Antioquia.',
-    link: 'https://www.instagram.com/pepe_matilda_?igsh=MXNvdDY1MzR5bmwyNg==',
-    linkLabel: 'View project',
-    accent: 'var(--amber)',
+      'A full-stack DeFi neobank built for the QIE Blockchain Hackathon. Deployed smart contracts: vault, identity, lending, credit score.',
+    link: 'https://qie-bank.vercel.app/',
+    linkLabel: 'View QIE Neobank →',
+    accent: 'var(--accent)',
   },
+  
   {
     index: '02',
     year: '2026',
@@ -31,17 +32,29 @@ const projects = [
   {
     index: '03',
     year: '2026',
-    title: 'QIE Neobank',
-    subtitle: 'DeFi neobank on QIE Mainnet — on-chain credit scoring, soulbound identity NFTs, and undercollateralized lending. · Solidity · Next.js · Figma',
-    tags: ['Solidity', 'ERC-4626', 'Soulbound NFT', 'DeFi', 'Next.js', 'Figma'],
-     description:
-      'A full-stack DeFi neobank built for the QIE Blockchain Hackathon. Five deployed smart contracts — vault, identity, lending, credit score, and facade — with a custom design system and dashboard UI. Users build a portable on-chain credit score (300–850) from repayment history and deposit behavior, then unlock undercollateralized loans by tier. 45 million Americans are credit invisible. QIE Bank starts them from zero.',
-    link: 'https://qie-bank.vercel.app/',
-    linkLabel: 'View QIE Neobank →',
+    title: 'Raigoza Job Scanner',
+    subtitle: 'Next.js · Airtable · No-code Automation · Job Search CRM',
+    tags: ['Next.js', 'Airtable', 'No-code', 'Product Design', 'Dashboard'],
+    description:
+      'A personal job search CRM built on Airtable as the live backend, surfaced through a custom Next.js dashboard. Tracks application funnel stages, interview schedules, and follow-up cadences in real time — the same discipline I apply to design, applied to the search itself.',
+    link: 'https://raigoza-job-scanner.vercel.app/',
+    linkLabel: 'View Job Scanner →',
     accent: 'var(--accent)',
   },
-  {
+   {
     index: '04',
+    year: '2011–2016',
+    title: 'Pepe Matilda',
+    subtitle: 'Jewelry Design · Microcasting · Material Research',
+    tags: ['Industrial Design', 'Lápiz de Acero', '3D Prototyping', 'MAMM'],
+    description:
+      'Award-winning jewelry brand exploring the boundary between craft and production. Developed a proprietary microcasting system for complex geometries and collaborated with Museo de Arte Moderno de Medellín and Museo de Antioquia.',
+    link: 'https://www.instagram.com/pepe_matilda_?igsh=MXNvdDY1MzR5bmwyNg==',
+    linkLabel: 'View project',
+    accent: 'var(--amber)',
+  },
+  {
+    index: '05',
     year: '2024',
     title: 'Brand & UI Design',
     subtitle: 'Figma · Blender · Visual Identity · Web Mockups',
@@ -53,6 +66,41 @@ const projects = [
     accent: 'var(--amber)',
   },
 ]
+
+function ProjectGrid() {
+  const COLS = 3
+  const remainder = projects.length % COLS
+  const orphanStart = remainder === 0 ? null : Math.floor((COLS - remainder) / 2) + 1
+
+  return (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: `repeat(${COLS}, 1fr)`,
+      gap: '0',
+    }}>
+      {projects.map((p, i) => {
+        const isFirstOrphan = orphanStart !== null && i === projects.length - remainder
+        const col = (i % COLS) + 1
+        const row = Math.floor(i / COLS) + 1
+
+        return (
+          <div
+            key={p.index}
+            style={{
+              borderTop: row === 1 ? '1px solid var(--border)' : 'none',
+              borderBottom: '1px solid var(--border)',
+              borderLeft: col === 1 || isFirstOrphan ? '1px solid var(--border)' : 'none',
+              borderRight: '1px solid var(--border)',
+              ...(isFirstOrphan ? { gridColumnStart: orphanStart } : {}),
+            }}
+          >
+            <ProjectCard {...p} />
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
 // Animated glitch text hook
 function useGlitch(text: string, active: boolean) {
@@ -93,16 +141,12 @@ export default function LandingPage() {
   const heroRef = useRef<HTMLDivElement>(null)
   const [mounted, setMounted] = useState(false)
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  useEffect(() => { setMounted(true) }, [])
 
-  // Parallax on hero grid lines
   useEffect(() => {
     const onScroll = () => {
       if (!heroRef.current) return
-      const y = window.scrollY
-      heroRef.current.style.setProperty('--py', `${y * 0.3}px`)
+      heroRef.current.style.setProperty('--py', `${window.scrollY * 0.3}px`)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -124,7 +168,6 @@ export default function LandingPage() {
           overflow: 'hidden',
         }}
       >
-        {/* Grid background */}
         <div style={{
           position: 'absolute',
           inset: 0,
@@ -137,7 +180,6 @@ export default function LandingPage() {
           pointerEvents: 'none',
         }} />
 
-        {/* Glow orb */}
         <div style={{
           position: 'absolute',
           top: '20%',
@@ -149,7 +191,6 @@ export default function LandingPage() {
           filter: 'blur(40px)',
         }} />
 
-        {/* Top label */}
         <div style={{
           position: 'absolute',
           top: '2rem',
@@ -165,7 +206,6 @@ export default function LandingPage() {
           Medellín, Colombia — {new Date().getFullYear()}
         </div>
 
-        {/* Main headline */}
         <div style={{ position: 'relative', zIndex: 1 }}>
           <p style={{
             fontFamily: 'var(--mono)',
@@ -247,7 +287,6 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Scroll hint */}
         <div style={{
           position: 'absolute',
           bottom: '2rem',
@@ -303,28 +342,11 @@ export default function LandingPage() {
             color: 'var(--muted)',
             letterSpacing: '0.15em',
           }}>
-            04 projects
+            {String(projects.length).padStart(2, '0')} projects
           </span>
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '1px',
-          background: 'var(--border)',
-        }}>
-          {projects.map((p, i) => (
-            <div
-              key={p.index}
-              style={{
-                background: 'var(--bg)',
-                gridColumn: i === projects.length - 1 && projects.length % 3 !== 0 ? '1 / -1' : undefined,
-              }}
-            >
-              <ProjectCard {...p} />
-            </div>
-          ))}
-        </div>
+        <ProjectGrid />
       </section>
 
       {/* ── ABOUT ────────────────────────────────────────────────────── */}
@@ -364,36 +386,23 @@ export default function LandingPage() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          <p style={{
-            fontSize: '0.9rem',
-            color: 'var(--muted)',
-            lineHeight: 1.8,
-          }}>
+          <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.8 }}>
             I'm a product designer-engineer from Medellín. I started casting metal,
             ended up writing smart contracts — and somewhere in between I dropped out
             of music school, won a design award, and built a stablecoin for my MA thesis.
           </p>
-          <p style={{
-            fontSize: '0.9rem',
-            color: 'var(--muted)',
-            lineHeight: 1.8,
-          }}>
+          <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.8 }}>
             I use AI as a creative and technical amplifier. I research Web3 security
             competitively on Sherlock and Code4rena. I am fluent in both the language
             of materials and the language of protocols.
           </p>
-          <p style={{
-            fontSize: '0.9rem',
-            color: 'var(--muted)',
-            lineHeight: 1.8,
-          }}>
+          <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.8 }}>
             Currently open to roles at the intersection of product, blockchain,
             and anything that requires someone who thinks with both hands.
           </p>
 
-          {/* Stack pills */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', paddingTop: '0.5rem' }}>
-            {['Solidity', 'Ethereum', 'Chainlink', 'Figma', 'Blender', 'Next.js', 'AI Tools', 'CAD / 3D'].map(s => (
+            {['Solidity', 'Ethereum', 'Chainlink', 'Figma', 'Blender', 'Next.js', 'Airtable', 'AI Tools', 'CAD / 3D'].map(s => (
               <span key={s} style={{
                 fontFamily: 'var(--mono)',
                 fontSize: '0.6rem',
@@ -421,7 +430,6 @@ export default function LandingPage() {
           overflow: 'hidden',
         }}
       >
-        {/* Background glow */}
         <div style={{
           position: 'absolute',
           bottom: '-100px',
@@ -471,11 +479,11 @@ export default function LandingPage() {
             position: 'relative',
             zIndex: 1,
           }}
-          onMouseEnter={e => {
-            e.currentTarget.style.background = 'var(--text)'
+          onMouseEnter={(e: { currentTarget: HTMLAnchorElement }) => {
+            (e.currentTarget as HTMLAnchorElement).style.background = 'var(--text)'
           }}
-          onMouseLeave={e => {
-            e.currentTarget.style.background = 'var(--accent)'
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.background = 'var(--accent)'
           }}
         >
           raigoza.david.j@gmail.com
