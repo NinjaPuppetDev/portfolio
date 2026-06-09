@@ -13,10 +13,9 @@ const projects = [
     description:
       'A full-stack DeFi neobank built for the QIE Blockchain Hackathon. Deployed smart contracts: vault, identity, lending, credit score.',
     link: 'https://qie-bank.vercel.app/',
-    linkLabel: 'View QIE Neobank →',
+    linkLabel: 'View QIE Neobank',
     accent: 'var(--accent)',
   },
-  
   {
     index: '02',
     year: '2026',
@@ -38,17 +37,17 @@ const projects = [
     description:
       'A personal job search CRM built on Airtable as the live backend, surfaced through a custom Next.js dashboard. Tracks application funnel stages, interview schedules, and follow-up cadences in real time — the same discipline I apply to design, applied to the search itself.',
     link: 'https://raigoza-job-scanner.vercel.app/',
-    linkLabel: 'View Job Scanner →',
+    linkLabel: 'View Job Scanner',
     accent: 'var(--accent)',
   },
-   {
+  {
     index: '04',
     year: '2011–2016',
     title: 'Pepe Matilda',
-    subtitle: 'Jewelry Design · Microcasting · Material Research',
-    tags: ['Industrial Design', 'Lápiz de Acero', '3D Prototyping', 'MAMM'],
+    subtitle: 'Jewelry Design · Microcasting · Brand · Material Research',
+    tags: ['Industrial Design', 'Lápiz de Acero', 'Blender', 'MAMM'],
     description:
-      'Award-winning jewelry brand exploring the boundary between craft and production. Developed a proprietary microcasting system for complex geometries and collaborated with Museo de Arte Moderno de Medellín and Museo de Antioquia.',
+      'Built 0→1: designed and hand-cast every piece, engineered a proprietary microcasting system, modeled products in 3D, and built the brand from identity to e-commerce UI. Won Colombia\'s Lápiz de Acero (2013). Exhibited at MAMM and Museo de Antioquia.',
     link: 'https://www.instagram.com/pepe_matilda_?igsh=MXNvdDY1MzR5bmwyNg==',
     linkLabel: 'View project',
     accent: 'var(--amber)',
@@ -68,20 +67,32 @@ const projects = [
 ]
 
 function ProjectGrid() {
-  const COLS = 3
-  const remainder = projects.length % COLS
-  const orphanStart = remainder === 0 ? null : Math.floor((COLS - remainder) / 2) + 1
+  const [cols, setCols] = useState(3)
+
+  useEffect(() => {
+    const update = () => {
+      if (window.innerWidth < 640) setCols(1)
+      else if (window.innerWidth < 900) setCols(2)
+      else setCols(3)
+    }
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
+
+  const remainder = projects.length % cols
+  const orphanStart = remainder === 0 ? null : Math.floor((cols - remainder) / 2) + 1
 
   return (
     <div style={{
       display: 'grid',
-      gridTemplateColumns: `repeat(${COLS}, 1fr)`,
+      gridTemplateColumns: `repeat(${cols}, 1fr)`,
       gap: '0',
     }}>
       {projects.map((p, i) => {
         const isFirstOrphan = orphanStart !== null && i === projects.length - remainder
-        const col = (i % COLS) + 1
-        const row = Math.floor(i / COLS) + 1
+        const col = (i % cols) + 1
+        const row = Math.floor(i / cols) + 1
 
         return (
           <div
@@ -246,7 +257,7 @@ export default function LandingPage() {
           <div style={{
             display: 'flex',
             alignItems: 'flex-start',
-            gap: '3rem',
+            gap: '2rem',
             flexWrap: 'wrap',
             opacity: mounted ? 1 : 0,
             transition: 'opacity 0.8s ease 0.8s',
@@ -479,7 +490,7 @@ export default function LandingPage() {
             position: 'relative',
             zIndex: 1,
           }}
-          onMouseEnter={(e: { currentTarget: HTMLAnchorElement }) => {
+          onMouseEnter={(e) => {
             (e.currentTarget as HTMLAnchorElement).style.background = 'var(--text)'
           }}
           onMouseLeave={(e) => {
