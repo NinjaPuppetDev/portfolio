@@ -64,6 +64,18 @@ const projects = [
     linkLabel: 'View in Figma',
     accent: 'var(--amber)',
   },
+    {
+    index: '06',
+    year: '2019–',
+    title: 'GitHub',
+    subtitle: 'Solidity · Next.js · Smart Contracts · Open Source',
+    tags: ['Solidity', 'Next.js', 'Smart Contracts', 'Web3'],
+    description:
+      'Active repo where the work lives. Smart contracts, protocol interfaces, and the codebase behind this site — version-controlled from first commit to mainnet deploy.',
+    link: 'https://github.com/NinjaPuppetDev',
+    linkLabel: 'View on GitHub',
+    accent: 'var(--accent)',
+  },
 ]
 
 function ProjectGrid() {
