@@ -12,8 +12,8 @@ const projects = [
     tags: ['Solidity', 'ERC-4626', 'Soulbound NFT', 'DeFi', 'Next.js', 'Figma'],
     description:
       'A full-stack DeFi neobank built for the QIE Blockchain Hackathon. Deployed smart contracts: vault, identity, lending, credit score.',
-    link: 'https://qie-bank.vercel.app/',
-    linkLabel: 'View QIE Neobank',
+    link: '/work/qie-neobank',
+    linkLabel: 'View case study',
     accent: 'var(--accent)',
   },
   {
@@ -60,7 +60,7 @@ const projects = [
     tags: ['Figma', 'Blender', 'Brand Systems', 'UI Design'],
     description:
       'Three complete brand and UI projects — MarigoldBloom, NextStep, and Pepe Matilda — each with a full landing page mockup and style guide covering typography, color systems, 3D-rendered packaging, and logo rationale.',
-    link: 'https://www.figma.com/design/iZ4qn2tuRrdexN0ZTRPgkL/PortfolioWix?node-id=0-1&t=LYdt0byEh03HmTUx-1',
+    link: 'https://www.figma.com/design/iZ4qn2tuRrdexN0ZTRPgkL/PortfolioWix?node-id=0-1&p=f&t=8gcYn6JhelNu0YqZ-0',
     linkLabel: 'View in Figma',
     accent: 'var(--amber)',
   },

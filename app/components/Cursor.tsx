@@ -32,32 +32,36 @@ export default function Cursor() {
       raf = requestAnimationFrame(tick)
     }
 
-    const onEnterLink = () => {
-      dot.style.width  = '0px'
-      dot.style.height = '0px'
+    const isInteractive = (e: MouseEvent) =>
+      !!(e.target as Element)?.closest('a, button, [data-cursor]')
+
+    const onEnter = (e: MouseEvent) => {
+      if (!isInteractive(e)) return
+      dot.style.width   = '0px'
+      dot.style.height  = '0px'
       ring.style.width  = '48px'
       ring.style.height = '48px'
       ring.style.opacity = '0.8'
     }
 
-    const onLeaveLink = () => {
-      dot.style.width  = '8px'
-      dot.style.height = '8px'
+    const onLeave = (e: MouseEvent) => {
+      if (!isInteractive(e)) return
+      dot.style.width   = '8px'
+      dot.style.height  = '8px'
       ring.style.width  = '32px'
       ring.style.height = '32px'
       ring.style.opacity = '0.4'
     }
 
     document.addEventListener('mousemove', onMove)
-    document.querySelectorAll('a, button, [data-cursor]').forEach(el => {
-      el.addEventListener('mouseenter', onEnterLink)
-      el.addEventListener('mouseleave', onLeaveLink)
-    })
-
+    document.addEventListener('mouseover', onEnter)
+    document.addEventListener('mouseout',  onLeave)
     raf = requestAnimationFrame(tick)
 
     return () => {
       document.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mouseover', onEnter)
+      document.removeEventListener('mouseout',  onLeave)
       cancelAnimationFrame(raf)
     }
   }, [])
