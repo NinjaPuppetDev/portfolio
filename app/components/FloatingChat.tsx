@@ -59,11 +59,18 @@ const WEB3_TOUR = [
 
 // ─── SUGGESTED PROMPTS ────────────────────────────────────────────────────────
 const SUGGESTIONS = [
-  "I'm a recruiter looking for a UI designer",
-  "I'm looking for a Web3 developer",
-  '¿Está disponible para trabajo remoto?',
-  'What design tools does he use?',
+  "I'm a recruiter",
+  "I need a designer or developer",
+  'Tell me about the Web3 work',
+  'Just exploring',
 ]
+
+// ─── GREETING ─────────────────────────────────────────────────────────────────
+const GREETING: Message = {
+  role: 'assistant',
+  content: "Hi — I'm Vera, the AI built into David's portfolio. I can walk you through his work, answer questions about his background, or give you a guided tour of the projects most relevant to you.\n\nWhat brings you here today?",
+}
+
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
 function isExternal(path: string) {
@@ -74,7 +81,7 @@ function isExternal(path: string) {
 export default function FloatingChat() {
   const router = useRouter()
   const [open, setOpen] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([])
+  const [messages, setMessages] = useState<Message[]>([GREETING])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [mounted, setMounted] = useState(false)
@@ -281,10 +288,10 @@ export default function FloatingChat() {
         }}>
           <div>
             <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--accent)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.2rem' }}>
-              {tourActive ? `Tour · ${tourType === 'design' ? 'Brand & Design' : 'Web3'} · ${tourStep}/${tourType === 'design' ? DESIGN_TOUR.length : WEB3_TOUR.length}` : 'Portfolio AI'}
+              {tourActive ? `Tour · ${tourType === 'design' ? 'Brand & Design' : 'Web3'} · ${tourStep}/${tourType === 'design' ? DESIGN_TOUR.length : WEB3_TOUR.length}` : 'Vera'}
             </p>
             <p style={{ fontFamily: 'var(--sans)', fontSize: '0.8rem', color: 'var(--text)', fontWeight: 500 }}>
-              {tourActive ? 'Guided tour in progress' : "Ask about David's work"}
+              {tourActive ? 'Guided tour in progress' : "David's portfolio assistant"}
             </p>
           </div>
           <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
@@ -315,39 +322,7 @@ export default function FloatingChat() {
           flexDirection: 'column',
           gap: '1rem',
         }}>
-          {/* Empty state */}
-          {messages.length === 0 && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              <p style={{ fontFamily: 'var(--sans)', fontSize: '0.8rem', color: 'var(--muted)', lineHeight: 1.6 }}>
-                You're looking at David's work. Ask me anything — or I can give you a guided tour.
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginTop: '0.5rem' }}>
-                {SUGGESTIONS.map(s => (
-                  <button
-                    key={s}
-                    onClick={() => sendMessage(s)}
-                    style={{
-                      background: 'none',
-                      border: '1px solid var(--border)',
-                      color: 'var(--muted)',
-                      fontFamily: 'var(--sans)',
-                      fontSize: '0.72rem',
-                      padding: '0.5rem 0.75rem',
-                      cursor: 'pointer',
-                      textAlign: 'left',
-                      transition: 'border-color 0.15s, color 0.15s',
-                      lineHeight: 1.4,
-                    }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--text)' }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--muted)' }}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
+      
           {/* Message thread */}
           {messages.map((msg, i) => (
             <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.role === 'user' ? 'flex-end' : 'flex-start', gap: '0.5rem' }}>
@@ -364,6 +339,33 @@ export default function FloatingChat() {
               }}>
                 {msg.content}
               </div>
+
+                        {msg.role === 'assistant' && i === 0 && messages.length === 1 && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  {SUGGESTIONS.map(s => (
+                    <button
+                      key={s}
+                      onClick={() => sendMessage(s)}
+                      style={{
+                        background: 'none',
+                        border: '1px solid var(--border)',
+                        color: 'var(--muted)',
+                        fontFamily: 'var(--sans)',
+                        fontSize: '0.72rem',
+                        padding: '0.5rem 0.75rem',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        transition: 'border-color 0.15s, color 0.15s',
+                        lineHeight: 1.4,
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--text)' }}
+                      onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--muted)' }}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              )}
 
               {/* Tour offer buttons — appear under the last assistant message only */}
               {msg.role === 'assistant' && i === messages.length - 1 && (
@@ -497,7 +499,7 @@ export default function FloatingChat() {
           onMouseLeave={e => (e.currentTarget.style.transform = 'translateY(0)')}
         >
           <span style={{ fontSize: '0.75rem' }}>{open ? '✕' : '◈'}</span>
-          {open ? 'Close' : 'Ask about my work'}
+          {open ? 'Close' : 'Ask Vera'}
         </button>
       </div>
 

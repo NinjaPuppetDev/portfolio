@@ -509,7 +509,7 @@ export default function LandingPage() {
       onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
       onMouseLeave={e => (e.currentTarget.style.opacity = '0.7')}
     >
-      <span>◈</span> Ask the AI about my work
+      <span>◈</span> Ask Vera about my work
     </button>
 
   </section>
