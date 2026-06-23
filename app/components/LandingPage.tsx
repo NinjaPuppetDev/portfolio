@@ -3,18 +3,20 @@
 import { useEffect, useRef, useState } from 'react'
 import ProjectCard from './ProjectCard'
 
-const projects = [
+// ── PROJECT DATA ───────────────────────────────────────────────────────────────
+const web3Projects = [
   {
     index: '01',
     year: '2026',
     title: 'QIE Neobank',
-    subtitle: 'DeFi neobank on QIE Mainnet, on-chain credit scoring, soulbound identity NFTs, and lending. · Solidity · Next.js · Figma',
+    subtitle: 'DeFi neobank · On-chain credit scoring · Soulbound NFTs · Lending',
     tags: ['Solidity', 'ERC-4626', 'Soulbound NFT', 'DeFi', 'Next.js', 'Figma'],
     description:
       'A full-stack DeFi neobank built for the QIE Blockchain Hackathon. Deployed smart contracts: vault, identity, lending, credit score.',
     link: '/work/qie-neobank',
     linkLabel: 'View case study',
     accent: 'var(--accent)',
+    variant: 'web3' as const,
   },
   {
     index: '02',
@@ -23,48 +25,13 @@ const projects = [
     subtitle: 'Ethereum · Chainlink · DeFi · Rainfall Derivatives',
     tags: ['Solidity', 'Chainlink Oracles', 'DeFi', 'On-chain Settlement'],
     description:
-      'A trustless protocol for hedging and trading rainfall risk on Ethereum. Users can take long or short positions on precipitation data; positions settle automatically via Chainlink oracle feeds — no intermediaries.',
+      'A trustless protocol for hedging and trading rainfall risk on Ethereum. Positions settle automatically via Chainlink oracle feeds — no intermediaries.',
     link: 'https://bruma-protocol.vercel.app/',
     linkLabel: 'View protocol',
     accent: 'var(--accent)',
+    variant: 'web3' as const,
   },
   {
-    index: '03',
-    year: '2026',
-    title: 'Raigoza Job Scanner',
-    subtitle: 'Next.js · Airtable · No-code Automation · Job Search CRM',
-    tags: ['Next.js', 'Airtable', 'No-code', 'Product Design', 'Dashboard'],
-    description:
-      'A personal job search CRM built on Airtable as the live backend, surfaced through a custom Next.js dashboard. Tracks application funnel stages, interview schedules, and follow-up cadences in real time — the same discipline I apply to design, applied to the search itself.',
-    link: 'https://raigoza-job-scanner.vercel.app/',
-    linkLabel: 'View Job Scanner',
-    accent: 'var(--accent)',
-  },
-  {
-    index: '04',
-    year: '2011–2016',
-    title: 'Pepe Matilda',
-    subtitle: 'Jewelry Design · Microcasting · Brand · Material Research',
-    tags: ['Industrial Design', 'Lápiz de Acero', 'Blender', 'MAMM'],
-    description:
-      'Built 0→1: designed and hand-cast every piece, engineered a proprietary microcasting system, modeled products in 3D, and built the brand from identity to e-commerce UI. Won Colombia\'s Lápiz de Acero (2013). Exhibited at MAMM and Museo de Antioquia.',
-    link: 'https://www.instagram.com/pepe_matilda_?igsh=MXNvdDY1MzR5bmwyNg==',
-    linkLabel: 'View project',
-    accent: 'var(--amber)',
-  },
-  {
-    index: '05',
-    year: '2024',
-    title: 'Brand & UI Design',
-    subtitle: 'Figma · Blender · Visual Identity · Web Mockups',
-    tags: ['Figma', 'Blender', 'Brand Systems', 'UI Design'],
-    description:
-      'Three complete brand and UI projects — MarigoldBloom, NextStep, and Pepe Matilda — each with a full landing page mockup and style guide covering typography, color systems, 3D-rendered packaging, and logo rationale.',
-    link: 'https://www.figma.com/design/iZ4qn2tuRrdexN0ZTRPgkL/PortfolioWix?node-id=0-1&p=f&t=8gcYn6JhelNu0YqZ-0',
-    linkLabel: 'View in Figma',
-    accent: 'var(--amber)',
-  },
-    {
     index: '06',
     year: '2019–',
     title: 'GitHub',
@@ -75,46 +42,141 @@ const projects = [
     link: 'https://github.com/NinjaPuppetDev',
     linkLabel: 'View on GitHub',
     accent: 'var(--accent)',
+    variant: 'web3' as const,
   },
 ]
 
-function ProjectGrid() {
-  const [cols, setCols] = useState(3)
+const productProjects = [
+  {
+    index: '03',
+    year: '2026',
+    title: 'Raigoza Job Scanner',
+    subtitle: 'Next.js · Airtable · Groq · Job Search CRM',
+    tags: ['Next.js', 'Airtable', 'Groq AI', 'No-code', 'Dashboard'],
+    description:
+      'A personal job search CRM built on Airtable as the live backend, surfaced through a custom Next.js dashboard. Tracks application funnel stages, interview schedules, and follow-up cadences in real time.',
+    link: 'https://raigoza-job-scanner.vercel.app/',
+    linkLabel: 'View Job Scanner',
+    accent: 'var(--accent)',
+    variant: 'product' as const,
+  },
+]
+
+const brandProjects = [
+  {
+    index: '04',
+    year: '2011–2016',
+    title: 'Pepe Matilda',
+    subtitle: 'Jewelry Design · Microcasting · Brand · Material Research',
+    tags: ['Industrial Design', 'Lápiz de Acero', 'Blender', 'MAMM'],
+    description:
+      "Built 0→1: designed and hand-cast every piece, engineered a proprietary microcasting system, modeled products in 3D, and built the brand from identity to e-commerce UI. Won Colombia's Lápiz de Acero (2013). Exhibited at MAMM and Museo de Antioquia.",
+    link: '/work/pepe-matilda',
+    linkLabel: 'View project',
+    accent: 'var(--amber)',
+    variant: 'brand' as const,
+    image: '/work/pepe-matilda/PepeMatilda.png', // drop your Pepe Matilda product photo URL here
+  },
+  {
+  index: '05',
+  year: '2024',
+  title: 'NextStep',
+  subtitle: 'Brand Identity · UI Design · 3D Rendering',
+  tags: ['Figma', 'Blender', 'Brand Systems', 'UI Design'],
+  description:
+    'Full brand and UI system for a 3D-printed custom footwear brand. Designed the visual identity, landing page, and email marketing — built around a high-contrast dark aesthetic with neon green accents, 3D-rendered product shots, and a customization-first UX flow.',
+  link: '/work/next-step',
+  linkLabel: 'View case study',
+  accent: 'var(--amber)',
+  variant: 'brand' as const,
+  image: '/work/nextstep/NextStep.png',
+},
+{
+  index: '06',
+  year: '2024',
+  title: 'Marigold Bloom',
+  subtitle: 'Brand Identity · UI Design · Social Media',
+  tags: ['Figma', 'Blender', 'Brand Systems', 'UI Design'],
+  description:
+    'End-to-end brand and UI system for a botanical skincare brand. Developed the visual identity, e-commerce landing page, and Instagram content system — warm earthy tones, serif typography, and a ritual-driven narrative translated consistently from web to social.',
+  link: '/work/marigold',
+  linkLabel: 'View case study',
+  accent: 'var(--amber)',
+  variant: 'brand' as const,
+  image: '/work/marigold/Marigold.png',
+},
+]
+
+// ── SECTION DIVIDER ────────────────────────────────────────────────────────────
+function SectionLabel({ label, count, accent = 'var(--accent)' }: { label: string; count: number; accent?: string }) {
+  return (
+    <div style={{
+      display: 'flex',
+      alignItems: 'baseline',
+      gap: '1.25rem',
+      marginBottom: '0',
+      paddingBottom: '1rem',
+      borderBottom: '1px solid var(--border)',
+    }}>
+      <span style={{
+        fontFamily: 'var(--mono)',
+        fontSize: '0.6rem',
+        color: accent,
+        letterSpacing: '0.25em',
+        textTransform: 'uppercase',
+      }}>
+        {label}
+      </span>
+      <span style={{
+        fontFamily: 'var(--mono)',
+        fontSize: '0.55rem',
+        color: 'var(--border-hi)',
+        letterSpacing: '0.1em',
+      }}>
+        {String(count).padStart(2, '0')} projects
+      </span>
+    </div>
+  )
+}
+
+// ── GRID ───────────────────────────────────────────────────────────────────────
+function CardGrid({
+  projects,
+  cols = 3,
+}: {
+  projects: typeof web3Projects | typeof brandProjects | typeof productProjects
+  cols?: number
+}) {
+  const [activeCols, setActiveCols] = useState(cols)
 
   useEffect(() => {
     const update = () => {
-      if (window.innerWidth < 640) setCols(1)
-      else if (window.innerWidth < 900) setCols(2)
-      else setCols(3)
+      if (window.innerWidth < 640) setActiveCols(1)
+      else if (window.innerWidth < 900) setActiveCols(2)
+      else setActiveCols(cols)
     }
     update()
     window.addEventListener('resize', update)
     return () => window.removeEventListener('resize', update)
-  }, [])
-
-  const remainder = projects.length % cols
-  const orphanStart = remainder === 0 ? null : Math.floor((cols - remainder) / 2) + 1
+  }, [cols])
 
   return (
     <div style={{
       display: 'grid',
-      gridTemplateColumns: `repeat(${cols}, 1fr)`,
+      gridTemplateColumns: `repeat(${activeCols}, 1fr)`,
       gap: '0',
     }}>
       {projects.map((p, i) => {
-        const isFirstOrphan = orphanStart !== null && i === projects.length - remainder
-        const col = (i % cols) + 1
-        const row = Math.floor(i / cols) + 1
-
+        const col = (i % activeCols) + 1
+        const row = Math.floor(i / activeCols) + 1
         return (
           <div
             key={p.index}
             style={{
               borderTop: row === 1 ? '1px solid var(--border)' : 'none',
               borderBottom: '1px solid var(--border)',
-              borderLeft: col === 1 || isFirstOrphan ? '1px solid var(--border)' : 'none',
+              borderLeft: col === 1 ? '1px solid var(--border)' : 'none',
               borderRight: '1px solid var(--border)',
-              ...(isFirstOrphan ? { gridColumnStart: orphanStart } : {}),
             }}
           >
             <ProjectCard {...p} />
@@ -125,9 +187,9 @@ function ProjectGrid() {
   )
 }
 
-// Animated glitch text hook
+// ── GLITCH TEXT ────────────────────────────────────────────────────────────────
 function useGlitch(text: string, active: boolean) {
-  const chars = '!<>-_\\/[]{}—=+*^?#'
+  const chars = '!<>-_\\/[]{}=+*^?#'
   const [display, setDisplay] = useState(text)
 
   useEffect(() => {
@@ -160,6 +222,7 @@ function GlitchWord({ word }: { word: string }) {
   return <>{display}</>
 }
 
+// ── LANDING PAGE ───────────────────────────────────────────────────────────────
 export default function LandingPage() {
   const heroRef = useRef<HTMLDivElement>(null)
   const [mounted, setMounted] = useState(false)
@@ -177,7 +240,7 @@ export default function LandingPage() {
 
   return (
     <main>
-      {/* ── HERO ─────────────────────────────────────────────────────── */}
+      {/* ── HERO ──────────────────────────────────────────────────────── */}
       <section
         ref={heroRef}
         id="hero"
@@ -333,7 +396,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── WORK ─────────────────────────────────────────────────────── */}
+      {/* ── WORK ──────────────────────────────────────────────────────── */}
       <section
         id="work"
         style={{
@@ -342,6 +405,7 @@ export default function LandingPage() {
           margin: '0 auto',
         }}
       >
+        {/* Section header */}
         <div style={{
           display: 'flex',
           alignItems: 'baseline',
@@ -365,14 +429,36 @@ export default function LandingPage() {
             color: 'var(--muted)',
             letterSpacing: '0.15em',
           }}>
-            {String(projects.length).padStart(2, '0')} projects
+            {String(web3Projects.length + productProjects.length + brandProjects.length).padStart(2, '0')} projects
           </span>
         </div>
 
-        <ProjectGrid />
+        {/* Web3 / Protocol track */}
+        <div style={{ marginBottom: 'clamp(3rem, 6vw, 5rem)' }}>
+          <SectionLabel label="Protocol & Web3" count={web3Projects.length} accent="var(--accent)" />
+          <CardGrid projects={web3Projects} cols={3} />
+        </div>
+
+        {/* Low-code / Product track */}
+        <div style={{ marginBottom: 'clamp(3rem, 6vw, 5rem)' }}>
+          <SectionLabel label="Product & Tools" count={productProjects.length} accent="var(--accent)" />
+          {/* Single card, full width */}
+          <div style={{
+            border: '1px solid var(--border)',
+            borderTop: '1px solid var(--border)',
+          }}>
+            <ProjectCard {...productProjects[0]} />
+          </div>
+        </div>
+
+        {/* Brand / Physical track */}
+        <div style={{ marginBottom: 'clamp(3rem, 6vw, 5rem)' }}>
+          <SectionLabel label="Brand & Craft" count={brandProjects.length} accent="var(--amber)" />
+          <CardGrid projects={brandProjects} cols={3} />
+        </div>
       </section>
 
-      {/* ── ABOUT ────────────────────────────────────────────────────── */}
+      {/* ── ABOUT ─────────────────────────────────────────────────────── */}
       <section
         id="about"
         style={{
@@ -442,7 +528,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── CONTACT ──────────────────────────────────────────────────── */}
+      {/* ── CONTACT ───────────────────────────────────────────────────── */}
       <section
         id="contact"
         style={{
@@ -502,18 +588,14 @@ export default function LandingPage() {
             position: 'relative',
             zIndex: 1,
           }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.background = 'var(--text)'
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.background = 'var(--accent)'
-          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--text)' }}
+          onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--accent)' }}
         >
           raigoza.david.j@gmail.com
         </a>
       </section>
 
-      {/* ── FOOTER ───────────────────────────────────────────────────── */}
+      {/* ── FOOTER ────────────────────────────────────────────────────── */}
       <footer style={{
         borderTop: '1px solid var(--border)',
         padding: '1.5rem clamp(1.5rem, 5vw, 4rem)',
