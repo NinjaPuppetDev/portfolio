@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import ProjectCard from './ProjectCard'
+
 
 // ── PROJECT DATA ───────────────────────────────────────────────────────────────
 const web3Projects = [
@@ -240,161 +242,238 @@ export default function LandingPage() {
 
   return (
     <main>
+
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section
-        ref={heroRef}
-        id="hero"
+  <section
+    ref={heroRef}
+    id="hero"
+    style={{
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-end',
+      padding: 'clamp(6rem, 10vw, 9rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem)',
+      position: 'relative',
+      overflow: 'hidden',
+    }}
+  >
+    {/* Grid */}
+    <div style={{
+      position: 'absolute',
+      inset: 0,
+      backgroundImage: `
+        linear-gradient(rgba(200,240,74,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,240,74,0.04) 1px, transparent 1px)
+      `,
+      backgroundSize: '80px 80px',
+      transform: 'translateY(var(--py, 0px))',
+      pointerEvents: 'none',
+    }} />
+
+    {/* ── MALL RENDER ─────────────────────────────────────────────── */}
+    <div style={{
+      position: 'absolute',
+      top: '50%',
+      right: '-8%',
+      transform: `translateY(calc(-50% + ${mounted ? '0px' : '24px'}))`,
+      width: 'clamp(420px, 58vw, 820px)',
+      opacity: mounted ? 1 : 0,
+      transition: 'opacity 1.1s ease 0.5s, transform 1.1s ease 0.5s',
+      pointerEvents: 'none',
+      zIndex: 0,
+    }}>
+      {/* Fade mask — left edge blends into bg, bottom fades out */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: `
+          linear-gradient(to right, var(--bg) 0%, transparent 28%),
+          linear-gradient(to top, var(--bg) 0%, transparent 18%)
+        `,
+        zIndex: 1,
+        pointerEvents: 'none',
+      }} />
+      <Image
+        src="/images/hero/finalmall.png"
+        alt="Blender render — Marigold, Pepe Matilda, and NextStep brand stores"
+        width={1456}
+        height={816}
+        priority
         style={{
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-end',
-          padding: 'clamp(6rem, 10vw, 9rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem)',
-          position: 'relative',
-          overflow: 'hidden',
+          width: '100%',
+          height: 'auto',
+          display: 'block',
+          objectFit: 'cover',
         }}
-      >
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: `
-            linear-gradient(rgba(200,240,74,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(200,240,74,0.04) 1px, transparent 1px)
-          `,
-          backgroundSize: '80px 80px',
-          transform: 'translateY(var(--py, 0px))',
-          pointerEvents: 'none',
-        }} />
+      />
+    </div>
 
-        <div style={{
-          position: 'absolute',
-          top: '20%',
-          right: '15%',
-          width: '500px',
-          height: '500px',
-          background: 'radial-gradient(circle, rgba(200,240,74,0.06) 0%, transparent 70%)',
-          pointerEvents: 'none',
-          filter: 'blur(40px)',
-        }} />
+    {/* Accent glow — sits behind text, in front of image */}
+    <div style={{
+      position: 'absolute',
+      top: '20%',
+      left: '30%',
+      width: '400px',
+      height: '400px',
+      background: 'radial-gradient(circle, rgba(200,240,74,0.04) 0%, transparent 70%)',
+      pointerEvents: 'none',
+      filter: 'blur(40px)',
+      zIndex: 0,
+    }} />
 
-        <div style={{
-          position: 'absolute',
-          top: '2rem',
-          right: 'clamp(1.5rem, 5vw, 4rem)',
-          fontFamily: 'var(--mono)',
-          fontSize: '0.65rem',
+    {/* Date tag */}
+    <div style={{
+      position: 'absolute',
+      top: '2rem',
+      right: 'clamp(1.5rem, 5vw, 4rem)',
+      fontFamily: 'var(--mono)',
+      fontSize: '0.65rem',
+      color: 'var(--muted)',
+      letterSpacing: '0.15em',
+      textTransform: 'uppercase',
+      opacity: mounted ? 1 : 0,
+      transition: 'opacity 1s ease 0.5s',
+      zIndex: 2,
+    }}>
+      Medellín, Colombia — {new Date().getFullYear()}
+    </div>
+
+    {/* Text content */}
+    <div style={{ position: 'relative', zIndex: 2 }}>
+      <p style={{
+        fontFamily: 'var(--mono)',
+        fontSize: '0.7rem',
+        color: 'var(--accent)',
+        letterSpacing: '0.25em',
+        textTransform: 'uppercase',
+        marginBottom: '1.5rem',
+        opacity: mounted ? 1 : 0,
+        transition: 'opacity 0.8s ease 0.2s',
+      }}>
+        David Raigoza
+      </p>
+
+      <h1 style={{
+        fontFamily: 'var(--serif)',
+        fontSize: 'clamp(3.5rem, 10vw, 9rem)',
+        fontWeight: 300,
+        lineHeight: 0.92,
+        letterSpacing: '-0.02em',
+        color: 'var(--text)',
+        marginBottom: '2.5rem',
+        opacity: mounted ? 1 : 0,
+        transform: mounted ? 'translateY(0)' : 'translateY(30px)',
+        transition: 'opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s',
+      }}>
+        {mounted ? <GlitchWord word="Designer." /> : 'Designer.'}
+        <br />
+        <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>
+          {mounted ? <GlitchWord word="Builder." /> : 'Builder.'}
+        </span>
+        <br />
+        <span style={{ color: 'var(--muted)' }}>
+          {mounted ? <GlitchWord word="Researcher." /> : 'Researcher.'}
+        </span>
+      </h1>
+
+      <div style={{
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: '2rem',
+        flexWrap: 'wrap',
+        opacity: mounted ? 1 : 0,
+        transition: 'opacity 0.8s ease 0.8s',
+      }}>
+        <p style={{
+          fontFamily: 'var(--sans)',
+          fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
           color: 'var(--muted)',
-          letterSpacing: '0.15em',
-          textTransform: 'uppercase',
-          opacity: mounted ? 1 : 0,
-          transition: 'opacity 1s ease 0.5s',
+          maxWidth: '38ch',
+          lineHeight: 1.7,
+          fontWeight: 300,
         }}>
-          Medellín, Colombia — {new Date().getFullYear()}
-        </div>
+          Product designer-engineer turned protocol architect.
+          Jewelry craft to Ethereum smart contracts — always building
+          with both hands and a full mind.
+        </p>
 
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          <p style={{
-            fontFamily: 'var(--mono)',
-            fontSize: '0.7rem',
-            color: 'var(--accent)',
-            letterSpacing: '0.25em',
-            textTransform: 'uppercase',
-            marginBottom: '1.5rem',
-            opacity: mounted ? 1 : 0,
-            transition: 'opacity 0.8s ease 0.2s',
-          }}>
-            David Raigoza
-          </p>
-
-          <h1 style={{
-            fontFamily: 'var(--serif)',
-            fontSize: 'clamp(3.5rem, 10vw, 9rem)',
-            fontWeight: 300,
-            lineHeight: 0.92,
-            letterSpacing: '-0.02em',
-            color: 'var(--text)',
-            marginBottom: '2.5rem',
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? 'translateY(0)' : 'translateY(30px)',
-            transition: 'opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s',
-          }}>
-            {mounted ? <GlitchWord word="Designer." /> : 'Designer.'}
-            <br />
-            <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>
-              {mounted ? <GlitchWord word="Builder." /> : 'Builder.'}
-            </span>
-            <br />
-            <span style={{ color: 'var(--muted)' }}>
-              {mounted ? <GlitchWord word="Researcher." /> : 'Researcher.'}
-            </span>
-          </h1>
-
-          <div style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '2rem',
-            flexWrap: 'wrap',
-            opacity: mounted ? 1 : 0,
-            transition: 'opacity 0.8s ease 0.8s',
-          }}>
-            <p style={{
-              fontFamily: 'var(--sans)',
-              fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          {[
+            ['Lápiz de Acero', '2013'],
+            ['MA with Honours', '2016'],
+            ['EAFIT · Universidad Nacional', ''],
+          ].map(([label, year]) => (
+            <div key={label} style={{
+              fontFamily: 'var(--mono)',
+              fontSize: '0.65rem',
               color: 'var(--muted)',
-              maxWidth: '38ch',
-              lineHeight: 1.7,
-              fontWeight: 300,
+              letterSpacing: '0.1em',
+              display: 'flex',
+              gap: '1rem',
             }}>
-              Product designer-engineer turned protocol architect.
-              Jewelry craft to Ethereum smart contracts — always building
-              with both hands and a full mind.
-            </p>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              {[
-                ['Lápiz de Acero', '2013'],
-                ['MA with Honours', '2016'],
-                ['EAFIT · Universidad Nacional', ''],
-              ].map(([label, year]) => (
-                <div key={label} style={{
-                  fontFamily: 'var(--mono)',
-                  fontSize: '0.65rem',
-                  color: 'var(--muted)',
-                  letterSpacing: '0.1em',
-                  display: 'flex',
-                  gap: '1rem',
-                }}>
-                  <span style={{ color: 'var(--accent)', minWidth: '0.6rem' }}>▸</span>
-                  <span>{label}</span>
-                  {year && <span style={{ color: 'var(--border-hi)' }}>{year}</span>}
-                </div>
-              ))}
+              <span style={{ color: 'var(--accent)', minWidth: '0.6rem' }}>▸</span>
+              <span>{label}</span>
+              {year && <span style={{ color: 'var(--border-hi)' }}>{year}</span>}
             </div>
-          </div>
+          ))}
         </div>
+      </div>
+    </div>
 
-        <div style={{
-          position: 'absolute',
-          bottom: '2rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          fontFamily: 'var(--mono)',
-          fontSize: '0.6rem',
-          color: 'var(--muted)',
-          letterSpacing: '0.2em',
-          textTransform: 'uppercase',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '0.5rem',
-          animation: 'fadeFloat 2s ease-in-out infinite',
-          opacity: mounted ? 1 : 0,
-          transition: 'opacity 1s ease 1.5s',
-        }}>
-          <span>scroll</span>
-          <span style={{ color: 'var(--accent)' }}>↓</span>
-        </div>
-      </section>
+    {/* Scroll indicator */}
+    <div style={{
+      position: 'absolute',
+      bottom: '2rem',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      fontFamily: 'var(--mono)',
+      fontSize: '0.6rem',
+      color: 'var(--muted)',
+      letterSpacing: '0.2em',
+      textTransform: 'uppercase',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '0.5rem',
+      animation: 'fadeFloat 2s ease-in-out infinite',
+      opacity: mounted ? 1 : 0,
+      transition: 'opacity 1s ease 1.5s',
+      zIndex: 2,
+    }}>
+      <span>scroll</span>
+      <span style={{ color: 'var(--accent)' }}>↓</span>
+    </div>
+
+    {/* AI nudge */}
+    <button
+      onClick={() => window.dispatchEvent(new Event('open-portfolio-chat'))}
+      style={{
+        position: 'absolute',
+        bottom: '2rem',
+        left: 'clamp(1.5rem, 5vw, 4rem)',
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.5rem',
+        fontFamily: 'var(--mono)',
+        fontSize: '0.6rem',
+        color: 'var(--accent)',
+        letterSpacing: '0.15em',
+        textTransform: 'uppercase',
+        opacity: mounted ? 0.7 : 0,
+        transition: 'opacity 1s ease 2s',
+        padding: 0,
+        zIndex: 2,
+      }}
+      onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+      onMouseLeave={e => (e.currentTarget.style.opacity = '0.7')}
+    >
+      <span>◈</span> Ask the AI about my work
+    </button>
+
+  </section>
 
       {/* ── WORK ──────────────────────────────────────────────────────── */}
       <section

@@ -4,6 +4,8 @@ import Cursor from './components/Cursor'
 import FloatingChat from './components/FloatingChat'
 
 
+
+
 export const metadata: Metadata = {
   title: 'David Raigoza',
   description: 'Product Designer · Engineer · Web3 Builder. Medellín, Colombia.',
