@@ -5,6 +5,8 @@ import Image from 'next/image'
 import ProjectCard from './ProjectCard'
 
 
+
+
 // ── PROJECT DATA ───────────────────────────────────────────────────────────────
 const web3Projects = [
   {
@@ -229,6 +231,43 @@ export default function LandingPage() {
   const heroRef = useRef<HTMLDivElement>(null)
   const [mounted, setMounted] = useState(false)
 
+  // ── CONTACT STATE ──────────────────────────────────────────────────────────
+  const [contactName, setContactName] = useState('')
+  const [contactEmail, setContactEmail] = useState('')
+  const [contactMessage, setContactMessage] = useState('')
+  const [contactStatus, setContactStatus] = useState('idle')
+  const [contactError, setContactError] = useState('')
+
+  const handleContactSubmit = async () => {
+    if (!contactName.trim() || !contactEmail.trim() || !contactMessage.trim()) {
+      setContactError('All fields are required.')
+      setContactStatus('error')
+      return
+    }
+    setContactStatus('loading')
+    setContactError('')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: contactName, email: contactEmail, message: contactMessage }),
+      })
+      const data = await res.json()
+      if (!res.ok || data.error) {
+        setContactError(data.error ?? 'Something went wrong.')
+        setContactStatus('error')
+      } else {
+        setContactStatus('success')
+        setContactName('')
+        setContactEmail('')
+        setContactMessage('')
+      }
+    } catch {
+      setContactError('Connection error. Try again.')
+      setContactStatus('error')
+    }
+  }
+  
   useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
@@ -613,7 +652,6 @@ export default function LandingPage() {
         style={{
           padding: 'clamp(4rem, 8vw, 8rem) clamp(1.5rem, 5vw, 4rem)',
           borderTop: '1px solid var(--border)',
-          textAlign: 'center',
           position: 'relative',
           overflow: 'hidden',
         }}
@@ -629,49 +667,106 @@ export default function LandingPage() {
           pointerEvents: 'none',
         }} />
 
-        <p style={{
-          fontFamily: 'var(--mono)',
-          fontSize: '0.65rem',
-          color: 'var(--accent)',
-          letterSpacing: '0.25em',
-          textTransform: 'uppercase',
-          marginBottom: '2rem',
-        }}>
-          Contact
-        </p>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))', gap: '4rem' }}>
 
-        <h2 style={{
-          fontFamily: 'var(--serif)',
-          fontSize: 'clamp(2.5rem, 7vw, 6rem)',
-          fontWeight: 300,
-          fontStyle: 'italic',
-          color: 'var(--text)',
-          lineHeight: 1,
-          marginBottom: '2.5rem',
-        }}>
-          Let's build something.
-        </h2>
+          {/* Left */}
+          <div>
+            <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
+              Contact
+            </p>
+            <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(2.5rem, 6vw, 5rem)', fontWeight: 300, fontStyle: 'italic', color: 'var(--text)', lineHeight: 1.05, marginBottom: '1.5rem' }}>
+              Let's build<br />something.
+            </h2>
+            <p style={{ fontFamily: 'var(--sans)', fontSize: '0.875rem', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '36ch' }}>
+              Open to remote roles, freelance projects, and interesting conversations. Based in Medellín — available EST hours.
+            </p>
+            <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em', marginTop: '1.5rem', opacity: 0.6 }}>
+              raigoza.david.j@gmail.com
+            </p>
+          </div>
 
-        <a
-          href="mailto:raigoza.david.j@gmail.com"
-          style={{
-            display: 'inline-block',
-            fontFamily: 'var(--mono)',
-            fontSize: '0.8rem',
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
-            color: 'var(--bg)',
-            background: 'var(--accent)',
-            padding: '1rem 2.5rem',
-            transition: 'all 0.3s ease',
-            position: 'relative',
-            zIndex: 1,
-          }}
-          onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--text)' }}
-          onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'var(--accent)' }}
-        >
-          raigoza.david.j@gmail.com
-        </a>
+          {/* Right — form */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', position: 'relative', zIndex: 1 }}>
+            {contactStatus === 'success' ? (
+              <div style={{ border: '1px solid var(--accent)', padding: '2rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--accent)', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+                  Message sent ✓
+                </p>
+                <p style={{ fontFamily: 'var(--sans)', fontSize: '0.875rem', color: 'var(--muted)', lineHeight: 1.7 }}>
+                  Got it — I'll get back to you shortly.
+                </p>
+                <button
+                  onClick={() => setContactStatus('idle')}
+                  style={{ alignSelf: 'flex-start', background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', fontFamily: 'var(--mono)', fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.5rem 1rem', cursor: 'pointer', marginTop: '0.5rem' }}
+                >
+                  Send another
+                </button>
+              </div>
+            ) : (
+              <>
+                {/* Name */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label style={{ fontFamily: 'var(--mono)', fontSize: '0.58rem', color: 'var(--muted)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>Name</label>
+                  <input
+                    type="text"
+                    value={contactName}
+                    onChange={e => setContactName(e.target.value)}
+                    placeholder="Your name"
+                    style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', color: 'var(--text)', fontFamily: 'var(--sans)', fontSize: '0.875rem', padding: '0.75rem 1rem', outline: 'none', transition: 'border-color 0.15s', width: '100%' }}
+                    onFocus={e => (e.target.style.borderColor = 'var(--accent)')}
+                    onBlur={e => (e.target.style.borderColor = 'var(--border)')}
+                  />
+                </div>
+
+                {/* Email */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label style={{ fontFamily: 'var(--mono)', fontSize: '0.58rem', color: 'var(--muted)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>Email</label>
+                  <input
+                    type="email"
+                    value={contactEmail}
+                    onChange={e => setContactEmail(e.target.value)}
+                    placeholder="your@email.com"
+                    style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', color: 'var(--text)', fontFamily: 'var(--sans)', fontSize: '0.875rem', padding: '0.75rem 1rem', outline: 'none', transition: 'border-color 0.15s', width: '100%' }}
+                    onFocus={e => (e.target.style.borderColor = 'var(--accent)')}
+                    onBlur={e => (e.target.style.borderColor = 'var(--border)')}
+                  />
+                </div>
+
+                {/* Message */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label style={{ fontFamily: 'var(--mono)', fontSize: '0.58rem', color: 'var(--muted)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>Message</label>
+                  <textarea
+                    value={contactMessage}
+                    onChange={e => setContactMessage(e.target.value)}
+                    placeholder="What are you working on?"
+                    rows={5}
+                    style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', color: 'var(--text)', fontFamily: 'var(--sans)', fontSize: '0.875rem', padding: '0.75rem 1rem', outline: 'none', resize: 'vertical', transition: 'border-color 0.15s', width: '100%', lineHeight: 1.6 }}
+                    onFocus={e => (e.target.style.borderColor = 'var(--accent)')}
+                    onBlur={e => (e.target.style.borderColor = 'var(--border)')}
+                  />
+                </div>
+
+                {/* Error */}
+                {contactStatus === 'error' && contactError && (
+                  <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: '#ff4444', letterSpacing: '0.1em' }}>
+                    {contactError}
+                  </p>
+                )}
+
+                {/* Submit */}
+                <button
+                  onClick={handleContactSubmit}
+                  disabled={contactStatus === 'loading'}
+                  style={{ background: contactStatus === 'loading' ? 'var(--border)' : 'var(--accent)', border: 'none', color: 'var(--bg)', fontFamily: 'var(--mono)', fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', padding: '1rem 2rem', cursor: contactStatus === 'loading' ? 'not-allowed' : 'pointer', transition: 'background 0.2s', alignSelf: 'flex-start' }}
+                  onMouseEnter={e => { if (contactStatus !== 'loading') e.currentTarget.style.background = 'var(--text)' }}
+                  onMouseLeave={e => { if (contactStatus !== 'loading') e.currentTarget.style.background = 'var(--accent)' }}
+                >
+                  {contactStatus === 'loading' ? 'Sending…' : 'Send message →'}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
       </section>
 
       {/* ── FOOTER ────────────────────────────────────────────────────── */}
