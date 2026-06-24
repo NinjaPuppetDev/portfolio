@@ -7,18 +7,17 @@ import { useRouter } from 'next/navigation'
 interface Message {
   role: 'user' | 'assistant'
   content: string
-  tourAction?: TourAction   // injected by tour engine, not sent to API
+  tourAction?: TourAction
 }
 
 interface TourAction {
-  navigate?: string          // internal path or external URL
-  nextPrompt?: string        // pre-filled button text for next step
+  navigate?: string
+  nextPrompt?: string
   tourStep?: number
-  offerTour?: boolean        // show "Start tour" CTA
+  offerTour?: boolean
 }
 
 // ─── TOUR DEFINITION ──────────────────────────────────────────────────────────
-// Each stop: what the assistant says, where to navigate, what to offer next
 const DESIGN_TOUR = [
   {
     step: 1,
@@ -57,7 +56,72 @@ const WEB3_TOUR = [
   },
 ]
 
-// ─── SUGGESTED PROMPTS ────────────────────────────────────────────────────────
+// ─── CLIENT-SIDE NAVIGATION INTENT MAP ───────────────────────────────────────
+// Catches common navigation phrases before hitting the API
+const NAV_INTENTS: { patterns: RegExp[]; path: string; label: string }[] = [
+  {
+    patterns: [/\bhome(page)?\b/i, /\bstart\b/i, /\bback to (the )?top\b/i],
+    path: '/',
+    label: 'Taking you home.',
+  },
+  {
+    patterns: [/\bpepe\s*matilda\b/i],
+    path: '/work/pepe-matilda',
+    label: 'Opening Pepe Matilda.',
+  },
+  {
+    patterns: [/\bnext\s*step\b/i],
+    path: '/work/next-step',
+    label: 'Opening NextStep.',
+  },
+  {
+    patterns: [/\bmarigold\b/i],
+    path: '/work/marigold',
+    label: 'Opening Marigold Bloom.',
+  },
+  {
+    patterns: [/\bqie\b/i, /\bneobank\b/i],
+    path: '/work/qie-neobank',
+    label: 'Opening QIE Neobank.',
+  },
+  {
+    patterns: [/\bbruma\b/i],
+    path: 'https://bruma-protocol.vercel.app/',
+    label: 'Opening Bruma Protocol.',
+  },
+  {
+    patterns: [/\bgithub\b/i, /\brepo\b/i],
+    path: 'https://github.com/NinjaPuppetDev',
+    label: 'Opening GitHub.',
+  },
+  {
+    patterns: [/\bjob\s*scanner\b/i],
+    path: 'https://raigoza-job-scanner.vercel.app/',
+    label: 'Opening the Job Scanner.',
+  },
+  {
+    patterns: [/\bcontact\b/i, /\bget in touch\b/i, /\breach out\b/i],
+    path: '#contact',
+    label: 'Scrolling to contact.',
+  },
+]
+
+const NAV_TRIGGER = /\b(take me|go|navigate|open|show me|bring me|jump)\b/i
+
+function detectNavIntent(text: string): { path: string; label: string } | null {
+  if (!NAV_TRIGGER.test(text)) return null
+  for (const intent of NAV_INTENTS) {
+    if (intent.patterns.some(p => p.test(text))) {
+      return { path: intent.path, label: intent.label }
+    }
+  }
+  return null
+}
+
+// ─── TOUR RECOVERY DETECTION ──────────────────────────────────────────────────
+const TOUR_RECOVERY = /\b(show|open|restart|see|start|re-?open).{0,20}tour\b/i
+
+// ─── SUGGESTIONS ──────────────────────────────────────────────────────────────
 const SUGGESTIONS = [
   "I'm a recruiter",
   "I need a designer or developer",
@@ -71,10 +135,19 @@ const GREETING: Message = {
   content: "Hi — I'm Vera, the AI built into David's portfolio. I can walk you through his work, answer questions about his background, or give you a guided tour of the projects most relevant to you.\n\nWhat brings you here today?",
 }
 
-
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
 function isExternal(path: string) {
   return path.startsWith('http')
+}
+
+function executeNavigation(path: string, router: ReturnType<typeof useRouter>) {
+  if (path === '#contact') {
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+  } else if (isExternal(path)) {
+    window.open(path, '_blank')
+  } else {
+    router.push(path)
+  }
 }
 
 // ─── COMPONENT ────────────────────────────────────────────────────────────────
@@ -96,12 +169,23 @@ export default function FloatingChat() {
 
   useEffect(() => { setMounted(true) }, [])
 
-  // Listen for open event from hero nudge or any page
+  // Listen for open event from hero or anywhere on page
   useEffect(() => {
-    const handler = () => setOpen(true)
-    window.addEventListener('open-portfolio-chat', handler)
-    return () => window.removeEventListener('open-portfolio-chat', handler)
-  }, [])
+    const handler = (e: Event) => {
+      setOpen(true)
+      // Support pre-filling the input from the hero prompt bar
+      const detail = (e as CustomEvent).detail
+      if (detail?.prefill) {
+        setInput(detail.prefill)
+      }
+      // Support auto-sending from the hero prompt bar
+      if (detail?.autoSend && detail?.message) {
+        setTimeout(() => sendMessage(detail.message), 100)
+      }
+    }
+    window.addEventListener('open-portfolio-chat', handler as EventListener)
+    return () => window.removeEventListener('open-portfolio-chat', handler as EventListener)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -120,14 +204,8 @@ export default function FloatingChat() {
     setTourType(type)
     setTourStep(1)
 
-    // Navigate to first stop
-    if (isExternal(first.path)) {
-      window.open(first.path, '_blank')
-    } else {
-      router.push(first.path)
-    }
+    executeNavigation(first.path, router)
 
-    // Inject tour message
     setMessages(prev => [...prev, {
       role: 'assistant',
       content: first.intro,
@@ -145,7 +223,6 @@ export default function FloatingChat() {
     const stop = tour[nextStep - 1]
 
     if (!stop) {
-      // Tour complete — drop to free chat
       setTourActive(false)
       setTourType(null)
       setMessages(prev => [...prev, {
@@ -156,14 +233,9 @@ export default function FloatingChat() {
     }
 
     setTourStep(nextStep)
+    executeNavigation(stop.path, router)
 
-    if (isExternal(stop.path)) {
-      window.open(stop.path, '_blank')
-    } else {
-      router.push(stop.path)
-    }
-
-    const nextStop = tour[nextStep] // one ahead
+    const nextStop = tour[nextStep]
     setMessages(prev => [...prev, {
       role: 'assistant',
       content: stop.intro,
@@ -189,9 +261,32 @@ export default function FloatingChat() {
     const trimmed = text.trim()
     if (!trimmed || loading) return
 
-    const userMsg: Message = { role: 'user', content: trimmed }
+    // ── Client-side nav intent (fast path, no API call) ──────────────────────
+    const navIntent = detectNavIntent(trimmed)
+    if (navIntent) {
+      const userMsg: Message = { role: 'user', content: trimmed }
+      setMessages(prev => [...prev, userMsg, {
+        role: 'assistant',
+        content: navIntent.label,
+      }])
+      setInput('')
+      setTimeout(() => executeNavigation(navIntent.path, router), 300)
+      return
+    }
 
-    // Only send clean role/content to the API — strip tourAction
+    // ── Tour recovery (fast path) ────────────────────────────────────────────
+    if (TOUR_RECOVERY.test(trimmed)) {
+      const userMsg: Message = { role: 'user', content: trimmed }
+      setMessages(prev => [...prev, userMsg, {
+        role: 'assistant',
+        content: "Of course — here are the tours. Pick one and I'll walk you through step by step.",
+        tourAction: { offerTour: true },
+      }])
+      setInput('')
+      return
+    }
+
+    const userMsg: Message = { role: 'user', content: trimmed }
     const apiMessages = [...messages, userMsg].map(({ role, content }) => ({ role, content }))
 
     setMessages(prev => [...prev, userMsg])
@@ -216,20 +311,23 @@ export default function FloatingChat() {
       }
 
       const content: string = data.content ?? ''
+      const navigateTo: string | null = data.navigate ?? null
+      const offerTourFromApi: boolean = data.offerTour ?? false
 
-      // Detect tour offers from the AI response
-      const offerDesign = /design tour|tour.*design|brand tour|take you through/i.test(content)
+      // Detect tour offers from response text
+      const offerDesign = /design tour|tour.*design|brand tour/i.test(content)
       const offerWeb3 = /web3 tour|tour.*web3|protocol tour|blockchain tour/i.test(content)
 
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content,
-        tourAction: offerDesign
-          ? { offerTour: true }
-          : offerWeb3
-          ? { offerTour: true }
-          : undefined,
-      }])
+      const tourAction = offerDesign || offerWeb3 || offerTourFromApi
+        ? { offerTour: true }
+        : undefined
+
+      setMessages(prev => [...prev, { role: 'assistant', content, tourAction }])
+
+      // Execute navigation from API signal after message renders
+      if (navigateTo) {
+        setTimeout(() => executeNavigation(navigateTo, router), 400)
+      }
     } catch {
       setMessages(prev => [...prev, {
         role: 'assistant',
@@ -249,7 +347,6 @@ export default function FloatingChat() {
 
   if (!mounted) return null
 
-  // Last assistant message — used to show tour CTAs
   const lastMsg = messages[messages.length - 1]
   const lastAction = lastMsg?.role === 'assistant' ? lastMsg.tourAction : undefined
 
@@ -322,8 +419,6 @@ export default function FloatingChat() {
           flexDirection: 'column',
           gap: '1rem',
         }}>
-      
-          {/* Message thread */}
           {messages.map((msg, i) => (
             <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.role === 'user' ? 'flex-end' : 'flex-start', gap: '0.5rem' }}>
               <div style={{
@@ -340,7 +435,8 @@ export default function FloatingChat() {
                 {msg.content}
               </div>
 
-                        {msg.role === 'assistant' && i === 0 && messages.length === 1 && (
+              {/* Suggestions on first message only */}
+              {msg.role === 'assistant' && i === 0 && messages.length === 1 && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                   {SUGGESTIONS.map(s => (
                     <button
@@ -367,10 +463,9 @@ export default function FloatingChat() {
                 </div>
               )}
 
-              {/* Tour offer buttons — appear under the last assistant message only */}
+              {/* Tour CTAs — only on last assistant message */}
               {msg.role === 'assistant' && i === messages.length - 1 && (
                 <>
-                  {/* Tour start offer */}
                   {msg.tourAction?.offerTour && !tourActive && (
                     <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
                       <TourButton onClick={() => startTour('design')}>Brand & Design tour →</TourButton>
@@ -378,7 +473,6 @@ export default function FloatingChat() {
                     </div>
                   )}
 
-                  {/* Tour advance button */}
                   {tourActive && msg.tourAction?.nextPrompt && (
                     <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
                       <TourButton onClick={advanceTour}>{msg.tourAction.nextPrompt}</TourButton>
@@ -386,8 +480,7 @@ export default function FloatingChat() {
                     </div>
                   )}
 
-                  {/* Final stop — contact CTA */}
-                  {tourActive && !msg.tourAction?.nextPrompt && (
+                  {tourActive && !msg.tourAction?.nextPrompt && !msg.tourAction?.offerTour && (
                     <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
                       <TourButton onClick={() => window.location.href = 'mailto:raigoza.david.j@gmail.com'}>Get in touch →</TourButton>
                       <TourButton secondary onClick={endTour}>Keep exploring</TourButton>
@@ -398,7 +491,6 @@ export default function FloatingChat() {
             </div>
           ))}
 
-          {/* Typing indicator */}
           {loading && (
             <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
               <div style={{ padding: '0.65rem 0.9rem', border: '1px solid var(--border)', display: 'flex', gap: '0.3rem', alignItems: 'center' }}>
