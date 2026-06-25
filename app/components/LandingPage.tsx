@@ -4,12 +4,13 @@ import CardGrid from './CardGrid'
 import ContactForm from './ContactForm'
 
 // ── PROJECT DATA ───────────────────────────────────────────────────────────────
+// ── PROJECT DATA ───────────────────────────────────────────────────────────────
 const web3Projects = [
   {
     index: '01',
     year: '2026',
     title: 'QIE Neobank',
-    subtitle: 'DeFi neobank · On-chain credit scoring · Soulbound NFTs · Lending',
+    subtitle: 'Engineering a non-custodial decentralized liquidity layer and on-chain credit scoring architecture',
     tags: ['Solidity', 'ERC-4626', 'Soulbound NFT', 'DeFi', 'Next.js', 'Figma'],
     description:
       'A full-stack DeFi neobank built for the QIE Blockchain Hackathon. Deployed smart contracts: vault, identity, lending, credit score.',
@@ -22,7 +23,7 @@ const web3Projects = [
     index: '02',
     year: '2026',
     title: 'Bruma Protocol',
-    subtitle: 'Ethereum · Chainlink · DeFi · Rainfall Derivatives',
+    subtitle: 'Architecting a trustless, oracle-driven derivative settlement engine for environmental risk management',
     tags: ['Solidity', 'Chainlink Oracles', 'DeFi', 'On-chain Settlement'],
     description:
       'A trustless protocol for hedging and trading rainfall risk on Ethereum. Positions settle automatically via Chainlink oracle feeds — no intermediaries.',
@@ -35,7 +36,7 @@ const web3Projects = [
     index: '06',
     year: '2019–',
     title: 'GitHub',
-    subtitle: 'Solidity · Next.js · Smart Contracts · Open Source',
+    subtitle: 'Open-source immutable protocol repositories, state systems, and deployment infrastructure',
     tags: ['Solidity', 'Next.js', 'Smart Contracts', 'Web3'],
     description:
       'Active repo where the work lives. Smart contracts, protocol interfaces, and the codebase behind this site — version-controlled from first commit to mainnet deploy.',
@@ -51,7 +52,7 @@ const productProjects = [
     index: '03',
     year: '2026',
     title: 'Raigoza Job Scanner',
-    subtitle: 'Next.js · Airtable · Groq · Job Search CRM',
+    subtitle: 'Building a real-time data ingestion telemetry dashboard and serverless CRM pipeline',
     tags: ['Next.js', 'Airtable', 'Groq AI', 'No-code', 'Dashboard'],
     description:
       'A personal job search CRM built on Airtable as the live backend, surfaced through a custom Next.js dashboard. Tracks application funnel stages, interview schedules, and follow-up cadences in real time.',
@@ -67,7 +68,7 @@ const brandProjects = [
     index: '04',
     year: '2011–2016',
     title: 'Pepe Matilda',
-    subtitle: 'Jewelry Design · Microcasting · Brand · Material Research',
+    subtitle: 'Scaling a proprietary 0-to-1 microcasting manufacturing pipeline and physical-to-digital brand matrix',
     tags: ['Industrial Design', 'Lápiz de Acero', 'Blender', 'MAMM'],
     description:
       "Built 0→1: designed and hand-cast every piece, engineered a proprietary microcasting system, modeled products in 3D, and built the brand from identity to e-commerce UI. Won Colombia's Lápiz de Acero (2013). Exhibited at MAMM and Museo de Antioquia.",
@@ -81,7 +82,7 @@ const brandProjects = [
     index: '05',
     year: '2024',
     title: 'NextStep',
-    subtitle: 'Brand Identity · UI Design · 3D Rendering',
+    subtitle: 'Developing a high-contrast parametric visual infrastructure and customization-first UX flow for physical manufacturing',
     tags: ['Figma', 'Blender', 'Brand Systems', 'UI Design'],
     description:
       'Full brand and UI system for a 3D-printed custom footwear brand. Designed the visual identity, landing page, and email marketing — built around a high-contrast dark aesthetic with neon green accents, 3D-rendered product shots, and a customization-first UX flow.',
@@ -95,7 +96,7 @@ const brandProjects = [
     index: '06',
     year: '2024',
     title: 'Marigold Bloom',
-    subtitle: 'Brand Identity · UI Design · Social Media',
+    subtitle: 'Engineering a cohesive experiential omnichannel identity and ritual-driven digital interface',
     tags: ['Figma', 'Blender', 'Brand Systems', 'UI Design'],
     description:
       'End-to-end brand and UI system for a botanical skincare brand. Developed the visual identity, e-commerce landing page, and Instagram content system — warm earthy tones, serif typography, and a ritual-driven narrative translated consistently from web to social.',

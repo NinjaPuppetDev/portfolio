@@ -45,13 +45,13 @@ export default function HeroSection() {
       <div style={{ position: 'relative', zIndex: 2 }}>
         <p style={{ fontFamily: 'var(--mono)', fontSize: '0.7rem', color: 'var(--accent)', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>David Raigoza</p>
         <h1 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(3.5rem, 10vw, 9rem)', fontWeight: 300, lineHeight: 0.92, letterSpacing: '-0.02em', color: 'var(--text)', marginBottom: '2.5rem' }}>
-          {mounted ? <GlitchWord word="Designer." /> : 'Designer.'}<br />
-          <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>{mounted ? <GlitchWord word="Builder." /> : 'Builder.'}</span><br />
-          <span style={{ color: 'var(--muted)' }}>{mounted ? <GlitchWord word="Researcher." /> : 'Researcher.'}</span>
+          {mounted ? <GlitchWord word="Constraint." /> : 'Constraint.'}<br />
+          <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>{mounted ? <GlitchWord word="Architecture." /> : 'Architecture.'}</span><br />
+          <span style={{ color: 'var(--muted)' }}>{mounted ? <GlitchWord word="Proof." /> : 'Proof.'}</span>
         </h1>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '2rem', flexWrap: 'wrap' }}>
-          <p style={{ fontFamily: 'var(--sans)', fontSize: 'clamp(0.875rem, 1.5vw, 1rem)', color: 'var(--muted)', maxWidth: '38ch', lineHeight: 1.7, fontWeight: 300 }}>
-            Product designer-engineer turned protocol architect. Jewelry craft to Ethereum smart contracts — always building with both hands and a full mind.
+          <p style={{ fontFamily: 'var(--sans)', fontSize: 'clamp(0.875rem, 1.5vw, 1rem)', color: 'var(--muted)', maxWidth: '42ch', lineHeight: 1.7, fontWeight: 300 }}>
+            Every project starts with the same question: what does the existing system refuse to do? The answer becomes the work. Whether engineering a stainless steel microcasting pipeline that didn't exist, deploying trustless derivative settlement for climate risk, or building an AI agent that operates an interface instead of answering questions. The medium changes. The method doesn't.
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {[

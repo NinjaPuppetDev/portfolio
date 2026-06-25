@@ -29,29 +29,29 @@ const PRESS = [
 
 const PROCESS = [
   {
-    label: 'Material research',
+    label: 'Material Architecture',
     description:
-      'Tested casting behavior across brass, silver, and gold alloys. Silver won for its surface quality and material honesty.',
+      'Evaluated casting behavior, surface optimization, and manufacturing tolerances across alloy groups. Silver was selected to balance premium product tiering with optimal material performance.',
   },
   {
-    label: 'Proprietary microcasting',
+    label: '0-to-1 Pipeline Architecture',
     description:
-      'Engineered a custom microcasting system from scratch — no off-the-shelf process existed at the scale and detail the designs required.',
+      'Engineered a proprietary high-precision microcasting infrastructure from the ground up to bypass commercial manufacturing limits and unlock uncompromised geometric detail.',
   },
   {
-    label: '3D modelling',
+    label: 'Parametric Master Schemas',
     description:
-      'Every piece modelled in Blender before casting. The digital file was the mold blueprint, not a rendering exercise.',
+      'Established high-fidelity digital blueprints in Blender as an absolute single source of truth, transferring data directly to master molds to eliminate physical iteration cycles.',
   },
   {
-    label: 'Brand & identity',
+    label: 'Omnichannel Brand Systems',
     description:
-      'Built the full brand system: name, mark, visual language, packaging, and e-commerce UI. Pepe Matilda had to work as a jewelry brand and as a design object.',
+      'Designed a multi-surface visual infrastructure—spanning physical luxury packaging, brand iconography, and digital e-commerce surfaces—to guarantee a cohesive brand experience.',
   },
   {
-    label: 'Institutional distribution',
+    label: 'Ecosystem Validation',
     description:
-      "Sold through MAMM (Museo de Arte Moderno de Medellín) and Museo de Antioquia — two of Colombia's most important cultural institutions.",
+      'Strategically positioned the product ecosystem to secure institutional placement within Colombia’s premier cultural networks (MAMM and Museo de Antioquia).',
   },
 ]
 
