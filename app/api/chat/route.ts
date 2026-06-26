@@ -128,12 +128,43 @@ Direct and confident, never salesy. Match the visitor's energy. Always end with 
 // 2. Clear Named HTTP Method Export to satisfy the Next.js App Router constraint
 export async function POST(req: NextRequest) {
   try {
-    const { messages } = await req.json()
+    // 1. Accept tour tracking parameters from the frontend
+    const { messages, tourType, tourStep } = await req.json()
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json({ error: 'Invalid messages format' }, { status: 400 })
     }
 
+    // Copy the user history so we don't mutate the original array
+    let processedMessages = [
+      { role: 'system', content: SYSTEM_PROMPT },
+      ...messages,
+    ]
+
+    // 2. State-Machine Injection: If a tour is active, force the LLM to stay on script
+    if (tourType && tourStep) {
+      let scriptInstruction = '';
+      
+      if (tourType === 'design') {
+        if (tourStep === 1) scriptInstruction = "The visitor is on Step 1 of the Design Tour looking at Pepe Matilda (/work/pepe-matilda). Explain your industrial design craft and the award. Provide an ending path step to NextStep.";
+        if (tourStep === 2) scriptInstruction = "The visitor is on Step 2 of the Design Tour looking at NextStep (/work/next-step). Explain the customization UX and 3D visual setups. Provide an ending path step to Marigold Bloom.";
+        if (tourStep === 3) scriptInstruction = "The visitor is on Step 3 of the Design Tour looking at Marigold Bloom (/work/marigold-bloom). Explain the omnichannel identity. Conclude the tour cleanly.";
+      }
+      
+      if (tourType === 'web3') {
+        if (tourStep === 1) scriptInstruction = "The visitor is on Step 1 of the Web3 Tour looking at QIE Neobank (/work/qie-neobank). Explain the 6 contracts and credit scoring logic. Provide an ending path step to Bruma Protocol.";
+        if (tourStep === 2) scriptInstruction = "The visitor is on Step 2 of the Web3 Tour looking at Bruma Protocol (/work/bruma-protocol). Explain the automated oracle derivatives. Conclude the tour cleanly.";
+      }
+
+      if (scriptInstruction) {
+        processedMessages.push({
+          role: 'system',
+          content: `CRITICAL CONTEXT: ${scriptInstruction} Stick completely to this step. Do not jump ahead or mention other steps.`
+        });
+      }
+    }
+
+    // 3. Send the synchronized message chain to Groq
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -142,12 +173,9 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         model: 'llama-3.1-8b-instant',
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          ...messages,
-        ],
+        messages: processedMessages, // Uses our state-managed messages
         max_tokens: 400,
-        temperature: 0.5,
+        temperature: 0.3, // Lowered slightly to make her more deterministic and on-script
         stream: false,
       }),
     })
@@ -161,11 +189,9 @@ export async function POST(req: NextRequest) {
     const data = await response.json()
     const rawContent = data.choices?.[0]?.message?.content ?? ''
 
-    // Parse out signals from the LLM execution cycle
     const navMatch = rawContent.match(/\[NAVIGATE:([^\]]+)\]/)
     const offerTourMatch = rawContent.includes('[OFFER_TOUR]')
 
-    // Sanitize the visible message before piping back to client layout
     const content = rawContent
       .replace(/\[NAVIGATE:[^\]]+\]/g, '')
       .replace(/\[OFFER_TOUR\]/g, '')

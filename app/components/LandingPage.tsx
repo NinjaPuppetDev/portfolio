@@ -100,7 +100,7 @@ const brandProjects = [
     tags: ['Figma', 'Blender', 'Brand Systems', 'UI Design'],
     description:
       'End-to-end brand and UI system for a botanical skincare brand. Developed the visual identity, e-commerce landing page, and Instagram content system — warm earthy tones, serif typography, and a ritual-driven narrative translated consistently from web to social.',
-    link: '/work/marigold',
+    link: '/work/marigold-bloom',
     linkLabel: 'View case study',
     accent: 'var(--amber)',
     variant: 'brand' as const,

@@ -17,93 +17,29 @@ interface TourAction {
   offerTour?: boolean
 }
 
-// ─── TOUR DEFINITION ──────────────────────────────────────────────────────────
+// ─── TOUR CONFIGURATION META (FIXED SLUG TO MARIGOLD-BLOOM) ───────────────────
 const DESIGN_TOUR = [
-  {
-    step: 1,
-    path: '/work/pepe-matilda',
-    intro: "Let's start with Pepe Matilda — an award-winning silver jewelry brand I built from zero. We're talking proprietary microcasting system, Blender 3D modeling, full brand identity, and institutional distribution through MAMM and Museo de Antioquia. It won the Lápiz de Acero in 2013, Colombia's most prestigious industrial design award. Take a look around — when you're ready, I'll take you to the next stop.",
-    nextLabel: 'Next: NextStep →',
-  },
-  {
-    step: 2,
-    path: '/work/next-step',
-    intro: "This is NextStep — a full brand and UI system for a 3D-printed custom footwear concept. I designed the visual identity, the e-commerce landing page, 3D product renders in Blender, and a social media pitch doc. The whole thing runs on a high-contrast dark aesthetic with neon green accents. Ready for the last stop?",
-    nextLabel: 'Next: Marigold Bloom →',
-  },
-  {
-    step: 3,
-    path: '/work/marigold',
-    intro: "Last stop — Marigold Bloom. End-to-end brand and UI for a botanical skincare brand. Warm earthy tones, serif typography, ritual-driven narrative translated from web to social. That's the brand and design track. Want to see my Web3 work next, or would you rather get in touch?",
-    nextLabel: 'Get in touch →',
-    finalStop: true,
-  },
+  { step: 1, path: '/work/pepe-matilda', nextLabel: 'Next: NextStep →' },
+  { step: 2, path: '/work/next-step', nextLabel: 'Next: Marigold Bloom →' },
+  { step: 3, path: '/work/marigold-bloom', nextLabel: 'Get in touch →', finalStop: true },
 ]
 
 const WEB3_TOUR = [
-  {
-    step: 1,
-    path: '/work/qie-neobank',
-    intro: "Starting with QIE Neobank — a full-stack DeFi neobank I built for a blockchain hackathon. Six Solidity smart contracts deployed to mainnet: an ERC-4626 yield vault, soulbound identity passport, and an on-chain credit scoring engine with 7-day aging logic. Next.js 16 frontend with RainbowKit, Wagmi, and Viem. Have a look — I'll take you to the next stop when you're ready.",
-    nextLabel: 'Next: Bruma Protocol →',
-  },
-  {
-    step: 2,
-    path: 'https://bruma-protocol.vercel.app/',
-    intro: "This is Bruma Protocol — a trustless rainfall derivatives protocol on Ethereum. Users can hedge and trade rainfall risk with positions that settle automatically via Chainlink oracle feeds. No intermediaries. I designed the smart contract architecture, tokenomics model, and built the full dApp interface. That covers the Web3 track. Want to see the design work, or ready to get in touch?",
-    nextLabel: 'Get in touch →',
-    finalStop: true,
-  },
+  { step: 1, path: '/work/qie-neobank', nextLabel: 'Next: Bruma Protocol →' },
+  { step: 2, path: 'https://bruma-protocol.vercel.app/', nextLabel: 'Get in touch →', finalStop: true },
 ]
 
 // ─── CLIENT-SIDE NAVIGATION INTENT MAP ───────────────────────────────────────
-// Catches common navigation phrases before hitting the API
 const NAV_INTENTS: { patterns: RegExp[]; path: string; label: string }[] = [
-  {
-    patterns: [/\bhome(page)?\b/i, /\bstart\b/i, /\bback to (the )?top\b/i],
-    path: '/',
-    label: 'Taking you home.',
-  },
-  {
-    patterns: [/\bpepe\s*matilda\b/i],
-    path: '/work/pepe-matilda',
-    label: 'Opening Pepe Matilda.',
-  },
-  {
-    patterns: [/\bnext\s*step\b/i],
-    path: '/work/next-step',
-    label: 'Opening NextStep.',
-  },
-  {
-    patterns: [/\bmarigold\b/i],
-    path: '/work/marigold',
-    label: 'Opening Marigold Bloom.',
-  },
-  {
-    patterns: [/\bqie\b/i, /\bneobank\b/i],
-    path: '/work/qie-neobank',
-    label: 'Opening QIE Neobank.',
-  },
-  {
-    patterns: [/\bbruma\b/i],
-    path: 'https://bruma-protocol.vercel.app/',
-    label: 'Opening Bruma Protocol.',
-  },
-  {
-    patterns: [/\bgithub\b/i, /\brepo\b/i],
-    path: 'https://github.com/NinjaPuppetDev',
-    label: 'Opening GitHub.',
-  },
-  {
-    patterns: [/\bjob\s*scanner\b/i],
-    path: 'https://raigoza-job-scanner.vercel.app/',
-    label: 'Opening the Job Scanner.',
-  },
-  {
-    patterns: [/\bcontact\b/i, /\bget in touch\b/i, /\breach out\b/i],
-    path: '#contact',
-    label: 'Scrolling to contact.',
-  },
+  { patterns: [/\bhome(page)?\b/i, /\bstart\b/i, /\bback to (the )?top\b/i], path: '/', label: 'Taking you home.' },
+  { patterns: [/\bpepe\s*matilda\b/i], path: '/work/pepe-matilda', label: 'Opening Pepe Matilda.' },
+  { patterns: [/\bnext\s*step\b/i], path: '/work/next-step', label: 'Opening NextStep.' },
+  { patterns: [/\bmarigold\b/i, /\bmarigold-bloom\b/i], path: '/work/marigold-bloom', label: 'Opening Marigold Bloom.' },
+  { patterns: [/\bqie\b/i, /\bneobank\b/i], path: '/work/qie-neobank', label: 'Opening QIE Neobank.' },
+  { patterns: [/\bbruma\b/i], path: 'https://bruma-protocol.vercel.app/', label: 'Opening Bruma Protocol.' },
+  { patterns: [/\bgithub\b/i, /\brepo\b/i], path: 'https://github.com/NinjaPuppetDev', label: 'Opening GitHub.' },
+  { patterns: [/\bjob\s*scanner\b/i], path: 'https://raigoza-job-scanner.vercel.app/', label: 'Opening the Job Scanner.' },
+  { patterns: [/\bcontact\b/i, /\bget in touch\b/i, /\breach out\b/i], path: '#contact', label: 'Opening contact flow.' },
 ]
 
 const NAV_TRIGGER = /\b(take me|go|navigate|open|show me|bring me|jump)\b/i
@@ -118,10 +54,8 @@ function detectNavIntent(text: string): { path: string; label: string } | null {
   return null
 }
 
-// ─── TOUR RECOVERY DETECTION ──────────────────────────────────────────────────
 const TOUR_RECOVERY = /\b(show|open|restart|see|start|re-?open).{0,20}tour\b/i
 
-// ─── SUGGESTIONS ──────────────────────────────────────────────────────────────
 const SUGGESTIONS = [
   "I'm a recruiter",
   "I need a designer or developer",
@@ -129,20 +63,19 @@ const SUGGESTIONS = [
   'Just exploring',
 ]
 
-// ─── GREETING ─────────────────────────────────────────────────────────────────
 const GREETING: Message = {
   role: 'assistant',
   content: "Hi — I'm Vera, the AI built into David's portfolio. I can walk you through his work, answer questions about his background, or give you a guided tour of the projects most relevant to you.\n\nWhat brings you here today?",
 }
 
-// ─── HELPERS ──────────────────────────────────────────────────────────────────
 function isExternal(path: string) {
   return path.startsWith('http')
 }
 
 function executeNavigation(path: string, router: ReturnType<typeof useRouter>) {
   if (path === '#contact') {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+    const el = document.getElementById('contact')
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
   } else if (isExternal(path)) {
     window.open(path, '_blank')
   } else {
@@ -150,7 +83,6 @@ function executeNavigation(path: string, router: ReturnType<typeof useRouter>) {
   }
 }
 
-// ─── COMPONENT ────────────────────────────────────────────────────────────────
 export default function FloatingChat() {
   const router = useRouter()
   const [open, setOpen] = useState(false)
@@ -159,183 +91,233 @@ export default function FloatingChat() {
   const [loading, setLoading] = useState(false)
   const [mounted, setMounted] = useState(false)
 
-  // Tour state
+  // Explicit Tour Tracking States
   const [tourActive, setTourActive] = useState(false)
   const [tourType, setTourType] = useState<'design' | 'web3' | null>(null)
   const [tourStep, setTourStep] = useState(0)
+
+  // In-Chat Contact Form Intercept Pipeline
+  const [contactMode, setContactMode] = useState(false)
+  const [contactEmail, setContactEmail] = useState('')
+  const [contactName, setContactName] = useState('')
 
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => { setMounted(true) }, [])
 
-  // Listen for open event from hero or anywhere on page
   useEffect(() => {
     const handler = (e: Event) => {
       setOpen(true)
-      // Support pre-filling the input from the hero prompt bar
       const detail = (e as CustomEvent).detail
-      if (detail?.prefill) {
-        setInput(detail.prefill)
-      }
-      // Support auto-sending from the hero prompt bar
+      if (detail?.prefill) setInput(detail.prefill)
       if (detail?.autoSend && detail?.message) {
         setTimeout(() => sendMessage(detail.message), 100)
       }
     }
     window.addEventListener('open-portfolio-chat', handler as EventListener)
     return () => window.removeEventListener('open-portfolio-chat', handler as EventListener)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, loading])
+  }, [messages, loading, contactMode])
 
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 150)
-  }, [open])
+  }, [open, contactMode])
 
-  // ── Tour engine ─────────────────────────────────────────────────────────────
-  const startTour = (type: 'design' | 'web3') => {
-    const tour = type === 'design' ? DESIGN_TOUR : WEB3_TOUR
-    const first = tour[0]
-
-    setTourActive(true)
-    setTourType(type)
-    setTourStep(1)
-
-    executeNavigation(first.path, router)
-
-    setMessages(prev => [...prev, {
-      role: 'assistant',
-      content: first.intro,
-      tourAction: {
-        navigate: first.path,
-        nextPrompt: tour.length > 1 ? tour[1]?.nextLabel : undefined,
-        tourStep: 1,
-      },
-    }])
-  }
-
-  const advanceTour = () => {
-    const tour = tourType === 'design' ? DESIGN_TOUR : WEB3_TOUR
-    const nextStep = tourStep + 1
-    const stop = tour[nextStep - 1]
-
-    if (!stop) {
-      setTourActive(false)
-      setTourType(null)
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: "That's the full tour. Feel free to ask me anything else, or reach out directly at raigoza.david.j@gmail.com",
-      }])
-      return
-    }
-
-    setTourStep(nextStep)
-    executeNavigation(stop.path, router)
-
-    const nextStop = tour[nextStep]
-    setMessages(prev => [...prev, {
-      role: 'assistant',
-      content: stop.intro,
-      tourAction: {
-        navigate: stop.path,
-        nextPrompt: nextStop?.nextLabel ?? (stop.finalStop ? 'Get in touch →' : undefined),
-        tourStep: nextStep,
-      },
-    }])
-  }
-
-  const endTour = () => {
-    setTourActive(false)
-    setTourType(null)
-    setMessages(prev => [...prev, {
-      role: 'assistant',
-      content: "Tour ended. Ask me anything, or reach out at raigoza.david.j@gmail.com",
-    }])
-  }
-
-  // ── AI message send ──────────────────────────────────────────────────────────
-  const sendMessage = async (text: string) => {
+  // ── CORE COMMUNICATIONS PIPELINE ───────────────────────────────────────────
+  const sendMessage = async (text: string, overrideTourType?: 'design' | 'web3', overrideTourStep?: number) => {
     const trimmed = text.trim()
-    if (!trimmed || loading) return
+    if (!trimmed && overrideTourStep === undefined) return
+    if (loading) return
 
-    // ── Client-side nav intent (fast path, no API call) ──────────────────────
-    const navIntent = detectNavIntent(trimmed)
-    if (navIntent) {
-      const userMsg: Message = { role: 'user', content: trimmed }
-      setMessages(prev => [...prev, userMsg, {
-        role: 'assistant',
-        content: navIntent.label,
-      }])
-      setInput('')
-      setTimeout(() => executeNavigation(navIntent.path, router), 300)
+    // Route directly to standard API contact endpoint if form flow is active
+    if (contactMode) {
+      handleChatContactSubmit(trimmed)
       return
     }
 
-    // ── Tour recovery (fast path) ────────────────────────────────────────────
-    if (TOUR_RECOVERY.test(trimmed)) {
-      const userMsg: Message = { role: 'user', content: trimmed }
-      setMessages(prev => [...prev, userMsg, {
-        role: 'assistant',
-        content: "Of course — here are the tours. Pick one and I'll walk you through step by step.",
-        tourAction: { offerTour: true },
-      }])
-      setInput('')
-      return
+    if (trimmed) {
+      const navIntent = detectNavIntent(trimmed)
+      if (navIntent) {
+        if (navIntent.path === '#contact') {
+          initiateContactFlow()
+          return
+        }
+        setTourActive(false)
+        setTourType(null)
+        setTourStep(0)
+        setMessages(prev => [...prev, { role: 'user', content: trimmed }, { role: 'assistant', content: navIntent.label }])
+        setInput('')
+        setTimeout(() => executeNavigation(navIntent.path, router), 300)
+        return
+      }
+
+      if (TOUR_RECOVERY.test(trimmed)) {
+        setTourActive(false)
+        setTourType(null)
+        setTourStep(0)
+        setMessages(prev => [...prev, { role: 'user', content: trimmed }, { role: 'assistant', content: "Of course — here are the tours. Pick one and I'll walk you through step by step.", tourAction: { offerTour: true } }])
+        setInput('')
+        return
+      }
     }
 
-    const userMsg: Message = { role: 'user', content: trimmed }
-    const apiMessages = [...messages, userMsg].map(({ role, content }) => ({ role, content }))
+    const activeType = overrideTourType !== undefined ? overrideTourType : tourType
+    const activeStep = overrideTourStep !== undefined ? overrideTourStep : tourStep
 
-    setMessages(prev => [...prev, userMsg])
+    const backendMessageContent = trimmed || `Describe project step ${activeStep} on the ${activeType} tour.`
+    const userMsg: Message = { role: 'user', content: backendMessageContent }
+    
+    if (trimmed) {
+      setMessages(prev => [...prev, { role: 'user', content: trimmed }])
+    }
+    
     setInput('')
     setLoading(true)
+
+    let formattedApiMessages;
+    if (!trimmed && activeStep > 0) {
+      formattedApiMessages = [{ role: 'user', content: backendMessageContent }]
+    } else {
+      const apiMessages = [...messages]
+      if (trimmed) apiMessages.push(userMsg)
+      formattedApiMessages = apiMessages.map(({ role, content }) => ({ role, content }))
+    }
 
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: apiMessages }),
+        body: JSON.stringify({ 
+          messages: formattedApiMessages,
+          tourType: activeType,
+          tourStep: activeStep
+        }),
       })
 
       const data = await res.json()
 
       if (!res.ok || data.error) {
-        setMessages(prev => [...prev, {
-          role: 'assistant',
-          content: 'Sorry, something went wrong. Try again in a moment.',
-        }])
+        setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, something went wrong. Try again in a moment.' }])
         return
       }
 
       const content: string = data.content ?? ''
-      const navigateTo: string | null = data.navigate ?? null
       const offerTourFromApi: boolean = data.offerTour ?? false
 
-      // Detect tour offers from response text
-      const offerDesign = /design tour|tour.*design|brand tour/i.test(content)
-      const offerWeb3 = /web3 tour|tour.*web3|protocol tour|blockchain tour/i.test(content)
-
-      const tourAction = offerDesign || offerWeb3 || offerTourFromApi
-        ? { offerTour: true }
-        : undefined
-
-      setMessages(prev => [...prev, { role: 'assistant', content, tourAction }])
-
-      // Execute navigation from API signal after message renders
-      if (navigateTo) {
-        setTimeout(() => executeNavigation(navigateTo, router), 400)
+      let actionPayload: TourAction | undefined = undefined
+      if (activeType && activeStep > 0) {
+        actionPayload = { tourStep: activeStep }
+      } else if (offerTourFromApi || /design tour|web3 tour|brand tour|protocol tour/i.test(content)) {
+        actionPayload = { offerTour: true }
       }
-    } catch {
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: 'Connection error. Check your network and try again.',
-      }])
+
+      setMessages(prev => [...prev, { role: 'assistant', content, tourAction: actionPayload }])
+    } catch (err) {
+      console.error('Chat pipeline error:', err)
+      setMessages(prev => [...prev, { role: 'assistant', content: 'Connection error. Check your network and try again.' }])
     } finally {
       setLoading(false)
     }
+  }
+
+  // ── INTEGRATED RESEND API CONTACT SUBMISSION HANDLE ──────────────────────────
+  const initiateContactFlow = () => {
+    setTourActive(false)
+    setTourType(null)
+    setTourStep(0)
+    setContactMode(true)
+    setContactName('')
+    setContactEmail('')
+    setMessages(prev => [...prev, { 
+      role: 'assistant', 
+      content: "Let's get in touch! I can send a message straight to David's inbox from here.\n\nFirst, what is your name?" 
+    }])
+  }
+
+  const handleChatContactSubmit = async (messageContent: string) => {
+    if (!contactName) {
+      setContactName(messageContent)
+      setMessages(prev => [...prev, { role: 'user', content: messageContent }, { role: 'assistant', content: `Great to meet you, ${messageContent}. What email address should David use to reply to you?` }])
+      setInput('')
+      return
+    }
+
+    if (!contactEmail) {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(messageContent)) {
+        setMessages(prev => [...prev, { role: 'user', content: messageContent }, { role: 'assistant', content: "Oops, that doesn't look like a valid email configuration. Let's try again:" }])
+        setInput('')
+        return
+      }
+      setContactEmail(messageContent)
+      setMessages(prev => [...prev, { role: 'user', content: messageContent }, { role: 'assistant', content: "Got it. Finally, what would you like to tell David?" }])
+      setInput('')
+      return
+    }
+
+    // Submit complete object context to /api/contact route
+    setMessages(prev => [...prev, { role: 'user', content: messageContent }])
+    setInput('')
+    setLoading(true)
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: contactName, email: contactEmail, message: messageContent }),
+      })
+      
+      if (res.ok) {
+        setMessages(prev => [...prev, { role: 'assistant', content: "Message sent successfully! ✓\n\nDavid will check his inbox and get back to you shortly. Let me know if there's anything else you'd like to see!" }])
+        setContactMode(false)
+      } else {
+        setMessages(prev => [...prev, { role: 'assistant', content: "I ran into a server problem trying to process that message. Feel free to use the form at the bottom of the page or email raigoza.david.j@gmail.com directly!" }])
+        setContactMode(false)
+      }
+    } catch {
+      setMessages(prev => [...prev, { role: 'assistant', content: "Network error sending contact data. Try again in a second." }])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // ── TOUR STATE STEP CONTROLLERS ──────────────────────────────────────────────
+  const startTour = (type: 'design' | 'web3') => {
+    const tour = type === 'design' ? DESIGN_TOUR : WEB3_TOUR
+    setTourActive(true)
+    setTourType(type)
+    setTourStep(1)
+    
+    if (tour[0]?.path) executeNavigation(tour[0].path, router)
+    sendMessage('', type, 1)
+  }
+
+  const advanceTour = () => {
+    if (!tourType) return
+
+    const tour = tourType === 'design' ? DESIGN_TOUR : WEB3_TOUR
+    const nextStep = tourStep + 1
+    const stop = tour[nextStep - 1]
+
+    if (!stop) {
+      initiateContactFlow()
+      return
+    }
+
+    setTourStep(nextStep)
+    if (stop.path) executeNavigation(stop.path, router)
+    sendMessage('', tourType, nextStep)
+  }
+
+  const endTour = () => {
+    setTourActive(false)
+    setTourType(null)
+    setTourStep(0)
+    setContactMode(false)
+    setMessages(prev => [...prev, { role: 'assistant', content: "Tour ended. Ask me anything, or reach out at raigoza.david.j@gmail.com" }])
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -347,8 +329,10 @@ export default function FloatingChat() {
 
   if (!mounted) return null
 
+  const currentTourArray = tourType === 'design' ? DESIGN_TOUR : WEB3_TOUR
+  const currentStepConfig = currentTourArray[tourStep - 1]
+  const nextStepConfig = currentTourArray[tourStep]
   const lastMsg = messages[messages.length - 1]
-  const lastAction = lastMsg?.role === 'assistant' ? lastMsg.tourAction : undefined
 
   return (
     <>
@@ -375,50 +359,27 @@ export default function FloatingChat() {
         }}
       >
         {/* Header */}
-        <div style={{
-          padding: '1rem 1.25rem',
-          borderBottom: '1px solid var(--border)',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexShrink: 0,
-        }}>
+        <div style={{ padding: '1rem 1.25rem', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
           <div>
             <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--accent)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.2rem' }}>
-              {tourActive ? `Tour · ${tourType === 'design' ? 'Brand & Design' : 'Web3'} · ${tourStep}/${tourType === 'design' ? DESIGN_TOUR.length : WEB3_TOUR.length}` : 'Vera'}
+              {contactMode ? 'Inbox Sync' : tourActive ? `Tour · ${tourType === 'design' ? 'Brand & Design' : 'Web3'} · ${tourStep}/${currentTourArray.length}` : 'Vera'}
             </p>
             <p style={{ fontFamily: 'var(--sans)', fontSize: '0.8rem', color: 'var(--text)', fontWeight: 500 }}>
-              {tourActive ? 'Guided tour in progress' : "David's portfolio assistant"}
+              {contactMode ? 'Direct Contact Form' : tourActive ? 'Guided tour in progress' : "David's portfolio assistant"}
             </p>
           </div>
           <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-            {tourActive && (
-              <button
-                onClick={endTour}
-                style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'var(--mono)', fontSize: '0.55rem', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.25rem 0.5rem' }}
-              >
-                Exit tour
+            {(tourActive || contactMode) && (
+              <button onClick={endTour} style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'var(--mono)', fontSize: '0.55rem', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.25rem 0.5rem' }}>
+                Exit flow
               </button>
             )}
-            <button
-              onClick={() => setOpen(false)}
-              aria-label="Close chat"
-              style={{ background: 'none', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontSize: '1rem', lineHeight: 1, padding: '0.25rem' }}
-            >
-              ✕
-            </button>
+            <button onClick={() => setOpen(false)} aria-label="Close chat" style={{ background: 'none', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontSize: '1rem', padding: '0.25rem' }}>✕</button>
           </div>
         </div>
 
-        {/* Messages */}
-        <div style={{
-          flex: 1,
-          overflowY: 'auto',
-          padding: '1.25rem',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem',
-        }}>
+        {/* Messages Body */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {messages.map((msg, i) => (
             <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.role === 'user' ? 'flex-end' : 'flex-start', gap: '0.5rem' }}>
               <div style={{
@@ -435,25 +396,14 @@ export default function FloatingChat() {
                 {msg.content}
               </div>
 
-              {/* Suggestions on first message only */}
+              {/* Onboarding triggers */}
               {msg.role === 'assistant' && i === 0 && messages.length === 1 && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', width: '100%' }}>
                   {SUGGESTIONS.map(s => (
                     <button
                       key={s}
                       onClick={() => sendMessage(s)}
-                      style={{
-                        background: 'none',
-                        border: '1px solid var(--border)',
-                        color: 'var(--muted)',
-                        fontFamily: 'var(--sans)',
-                        fontSize: '0.72rem',
-                        padding: '0.5rem 0.75rem',
-                        cursor: 'pointer',
-                        textAlign: 'left',
-                        transition: 'border-color 0.15s, color 0.15s',
-                        lineHeight: 1.4,
-                      }}
+                      style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', fontFamily: 'var(--sans)', fontSize: '0.72rem', padding: '0.5rem 0.75rem', cursor: 'pointer', textAlign: 'left', transition: 'border-color 0.15s, color 0.15s', lineHeight: 1.4 }}
                       onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--text)' }}
                       onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--muted)' }}
                     >
@@ -461,32 +411,6 @@ export default function FloatingChat() {
                     </button>
                   ))}
                 </div>
-              )}
-
-              {/* Tour CTAs — only on last assistant message */}
-              {msg.role === 'assistant' && i === messages.length - 1 && (
-                <>
-                  {msg.tourAction?.offerTour && !tourActive && (
-                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                      <TourButton onClick={() => startTour('design')}>Brand & Design tour →</TourButton>
-                      <TourButton onClick={() => startTour('web3')}>Web3 tour →</TourButton>
-                    </div>
-                  )}
-
-                  {tourActive && msg.tourAction?.nextPrompt && (
-                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                      <TourButton onClick={advanceTour}>{msg.tourAction.nextPrompt}</TourButton>
-                      <TourButton secondary onClick={endTour}>Exit tour</TourButton>
-                    </div>
-                  )}
-
-                  {tourActive && !msg.tourAction?.nextPrompt && !msg.tourAction?.offerTour && (
-                    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                      <TourButton onClick={() => window.location.href = 'mailto:raigoza.david.j@gmail.com'}>Get in touch →</TourButton>
-                      <TourButton secondary onClick={endTour}>Keep exploring</TourButton>
-                    </div>
-                  )}
-                </>
               )}
             </div>
           ))}
@@ -504,14 +428,39 @@ export default function FloatingChat() {
           <div ref={bottomRef} />
         </div>
 
-        {/* Input */}
+        {/* Action Button Stage Layouts */}
+        <div style={{ padding: '0px 1.25rem 0.75rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', flexShrink: 0 }}>
+          {(!tourActive && !contactMode && (lastMsg?.tourAction?.offerTour || /tour/i.test(lastMsg?.content ?? ''))) && (
+            <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+              <TourButton onClick={() => startTour('design')}>Brand & Design tour →</TourButton>
+              <TourButton onClick={() => startTour('web3')}>Web3 tour →</TourButton>
+            </div>
+          )}
+
+          {tourActive && !loading && (
+            <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+              {nextStepConfig ? (
+                <TourButton onClick={advanceTour}>{currentStepConfig?.nextLabel ?? 'Next Step →'}</TourButton>
+              ) : (
+                <TourButton onClick={initiateContactFlow}>Get in touch →</TourButton>
+              )}
+              <TourButton secondary onClick={endTour}>Keep exploring</TourButton>
+            </div>
+          )}
+        </div>
+
+        {/* Input area */}
         <div style={{ padding: '0.75rem 1rem', borderTop: '1px solid var(--border)', display: 'flex', gap: '0.5rem', alignItems: 'flex-end', flexShrink: 0 }}>
           <textarea
             ref={inputRef}
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={tourActive ? 'Ask a question or use the buttons above…' : 'Ask anything…'}
+            placeholder={
+              contactMode 
+                ? !contactName ? "Type your name..." : !contactEmail ? "Type your email address..." : "Type your message..."
+                : tourActive ? 'Ask a question or use the buttons above…' : 'Ask anything…'
+            }
             rows={1}
             style={{
               flex: 1,
@@ -552,15 +501,8 @@ export default function FloatingChat() {
         </div>
       </div>
 
-      {/* ── TRIGGER BUTTON + PULSE ────────────────────────────────── */}
-      <div style={{
-        position: 'fixed',
-        bottom: 'clamp(1rem, 3vw, 1.75rem)',
-        right: 'clamp(1rem, 3vw, 2rem)',
-        zIndex: 1000,
-        opacity: mounted ? 1 : 0,
-        transition: 'opacity 0.5s ease',
-      }}>
+      {/* Trigger Button */}
+      <div style={{ position: 'fixed', bottom: 'clamp(1rem, 3vw, 1.75rem)', right: 'clamp(1rem, 3vw, 2rem)', zIndex: 1000, opacity: mounted ? 1 : 0, transition: 'opacity 0.5s ease' }}>
         {!open && (
           <>
             <span style={{ position: 'absolute', inset: 0, border: '2px solid var(--accent)', animation: 'chatPulse 2.5s ease-out 1.5s infinite', pointerEvents: 'none' }} />
@@ -609,7 +551,6 @@ export default function FloatingChat() {
   )
 }
 
-// ─── TOUR BUTTON ──────────────────────────────────────────────────────────────
 function TourButton({ children, onClick, secondary }: { children: React.ReactNode; onClick: () => void; secondary?: boolean }) {
   return (
     <button
