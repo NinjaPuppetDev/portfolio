@@ -43,7 +43,37 @@ export default function HeroSection() {
         Medellín, Colombia — {new Date().getFullYear()}
       </div>
       <div style={{ position: 'relative', zIndex: 2 }}>
-        <p style={{ fontFamily: 'var(--mono)', fontSize: '0.7rem', color: 'var(--accent)', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>David Raigoza</p>
+        
+        {/* Native anchor tag targeting #hero with explicit smooth scroll logic to eliminate dead clicks */}
+        <a 
+          href="#hero" 
+          onClick={(e) => {
+            e.preventDefault()
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }}
+          style={{ 
+            display: 'inline-block', 
+            textDecoration: 'none',
+            marginBottom: '1.5rem' 
+          }}
+        >
+          <p style={{ 
+            fontFamily: 'var(--mono)', 
+            fontSize: '0.7rem', 
+            color: 'var(--accent)', 
+            letterSpacing: '0.25em', 
+            textTransform: 'uppercase',
+            margin: 0,
+            cursor: 'pointer',
+            transition: 'opacity 0.2s ease'
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.8')}
+          onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+          >
+            David Raigoza
+          </p>
+        </a>
+
         <h1 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(3.5rem, 10vw, 9rem)', fontWeight: 300, lineHeight: 0.92, letterSpacing: '-0.02em', color: 'var(--text)', marginBottom: '2.5rem' }}>
           {mounted ? <GlitchWord word="Constraint." /> : 'Constraint.'}<br />
           <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>{mounted ? <GlitchWord word="Architecture." /> : 'Architecture.'}</span><br />
