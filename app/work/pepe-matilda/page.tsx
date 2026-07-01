@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 // ─── CONSTANTS — update these when ready ─────────────────────────────────────
-const CANVA_VIDEO_URL = 'https://drive.google.com/file/d/1yo5wHSdJA9m7wE5c5LYJhhoA7ML6RI2x/preview'  // paste Canva embed URL here
+const CANVA_VIDEO_URL = 'https://drive.google.com/file/d/1yo5wHSdJA9m7wE5c5LYJhhoA7ML6RI2x/preview'
 const INSTAGRAM_URL   = 'https://www.instagram.com/pepe_matilda_?igsh=MXNvdDY1MzR5bmwyNg=='
 const FIGMA_URL       = 'https://www.figma.com/design/iZ4qn2tuRrdexN0ZTRPgkL/PortfolioWix?node-id=0-1&p=f&t=8gcYn6JhelNu0YqZ-0'
 
@@ -70,7 +70,6 @@ const jsonLd = {
     'Pepe Matilda, David Raigoza, Premio Lápiz de Acero 2013, silver jewelry, microcasting, MAMM, Museo de Antioquia',
 }
 
-// ─── COMPONENT ───────────────────────────────────────────────────────────────
 export default function PepeMatildaCaseStudy() {
   const [mounted, setMounted] = useState(false)
 
@@ -114,13 +113,12 @@ export default function PepeMatildaCaseStudy() {
 
         {/* ── HERO ─────────────────────────────────────────────────── */}
         <section style={{
-          padding: 'clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem)',
+          padding: 'clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 4rem)',
           maxWidth: '1200px',
           margin: '0 auto',
           position: 'relative',
           overflow: 'hidden',
         }}>
-          {/* Warm glow */}
           <div style={{
             position: 'absolute', top: '10%', right: '10%',
             width: '500px', height: '500px',
@@ -153,8 +151,8 @@ export default function PepeMatildaCaseStudy() {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--bg)', background: 'var(--amber)', padding: '0.75rem 2rem', textDecoration: 'none', transition: 'background 0.2s ease' }}
-                onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--text)')}
-                onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--amber)')}
+                onMouseEnter={e => (e.currentTarget.style.background = 'var(--text)')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'var(--amber)')}
               >
                 View on Instagram →
               </a>
@@ -164,11 +162,104 @@ export default function PepeMatildaCaseStudy() {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--amber)', border: '1px solid var(--amber)', padding: '0.75rem 2rem', textDecoration: 'none', transition: 'all 0.2s ease' }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = 'var(--amber)'; el.style.color = 'var(--bg)' }}
-                onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = 'transparent'; el.style.color = 'var(--amber)' }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'var(--amber)'; e.currentTarget.style.color = 'var(--bg)' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--amber)' }}
               >
                 Open in Figma →
               </a>
+            </div>
+          </div>
+        </section>
+
+        {/* ── STRATEGIC FRAMEWORK (PROBLEM / SOLUTION) ─────────────────── */}
+        <section style={{
+          borderTop: '1px solid var(--border)',
+          padding: '3rem clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1200px',
+          margin: '0 auto',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '2.5rem',
+          ...fadeIn(0.6)
+        }}>
+          <div>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>01 / The Challenge</span>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text)', marginTop: '0.5rem', fontWeight: 300, lineHeight: 1.6 }}>
+              Translating raw physical engineering, high-tolerance 3D geometric parameters, and organic structures into a luxury market layer that holds deep emotional value.
+            </p>
+          </div>
+          <div>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>02 / The Strategy</span>
+            <p style={{ fontSize: '0.9rem', color: 'var(--muted)', marginTop: '0.5rem', fontWeight: 300, lineHeight: 1.6 }}>
+              Bypassing normal, restrictive industrial pipelines by creating custom micro-casting mechanisms, while stabilizing consumer trust via clean typography paired with explicit physical identity details.
+            </p>
+          </div>
+          <div>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>03 / The Execution</span>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text)', marginTop: '0.5rem', fontWeight: 300, lineHeight: 1.6 }}>
+              A cohesive omnichannel blueprint ranging from physical luxury packaging vectors and institutional museum exhibitions down to modern, high-contrast grid layouts on e-commerce screens.
+            </p>
+          </div>
+        </section>
+
+        {/* ── LOGO APPRECIATION SECTION ────────────────────────────── */}
+        <section style={{
+          borderTop: '1px solid var(--border)',
+          padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1200px',
+          margin: '0 auto',
+          ...fadeIn(0.7)
+        }}>
+          <Label amber>Identity Architecture</Label>
+          <SectionTitle>Logo Dissection</SectionTitle>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '4rem',
+            marginTop: '3rem',
+            alignItems: 'center'
+          }}>
+            {/* Logo Wrapper */}
+            <div style={{
+              border: '1px solid var(--border)',
+              padding: '3rem 2rem',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              background: 'rgba(255, 180, 60, 0.01)',
+              minHeight: '360px',
+            }}>
+              <div style={{ width: '100%', maxWidth: '280px', filter: 'invert(var(--dark-mode-invert, 0))' }}>
+                <Image
+                  src="/work/pepe-matilda/LogoPepeMatilda.png"
+                  alt="LogoPepeMatilda.png"
+                  width={400}
+                  height={400}
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+              </div>
+            </div>
+
+            {/* Design Analysis Text */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+              <div>
+                <h3 style={{ fontFamily: 'var(--mono)', fontSize: '0.7rem', color: 'var(--amber)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+                  Anatomy & Typographic Play
+                </h3>
+                <p style={{ fontFamily: 'var(--sans)', fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.7, fontWeight: 300 }}>
+                  The structural core of the identity balances the organic fluidity of the animal form with structured serif terminal elements. The dominant, highly stylized interlocking letters (<span style={{ color: 'var(--text)', fontWeight: 400 }}>P</span> and <span style={{ color: 'var(--text)', fontWeight: 400 }}>M</span>) utilize high-contrast variable strokes that mirror the varying physical thicknesses required during liquid silver metal flow cycles.
+                </p>
+              </div>
+
+              <div>
+                <h3 style={{ fontFamily: 'var(--mono)', fontSize: '0.7rem', color: 'var(--amber)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+                  The Spatial Boundary
+                </h3>
+                <p style={{ fontFamily: 'var(--sans)', fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.7, fontWeight: 300 }}>
+                  By framing the minimalist hippo line silhouette partially behind the primary logotype boundary, the composition mirrors the tactile depth of physical carving. This architectural layering sets up expectations for an intricate product ecosystem that is deeply inspired by natural geometries.
+                </p>
+              </div>
             </div>
           </div>
         </section>
