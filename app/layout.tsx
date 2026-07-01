@@ -5,9 +5,6 @@ import Cursor from './components/Cursor'
 import FloatingChat from './components/FloatingChat'
 import Script from 'next/script'
 
-
-
-
 export const metadata: Metadata = {
   title: 'David Raigoza',
   description: 'Product Designer · Engineer · Web3 Builder. Medellín, Colombia.',
@@ -29,6 +26,22 @@ export default function RootLayout({
         <Cursor />
         <FloatingChat />
         {children}
+
+        {/* ── GOOGLE TAGS MANAGEMENT ─────────────────────────── */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-YQXEJSG71S"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            // Initialize your new portfolio dashboard tag
+            gtag('config', 'G-YQXEJSG71S');
+          `}
+        </Script>
 
         {/* ── MICROSOFT CLARITY HEATMAP TRACKING ──────────────── */}
         <Script id="microsoft-clarity" strategy="afterInteractive">
