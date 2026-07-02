@@ -3,8 +3,9 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Cursor from './components/Cursor'
 import FloatingChat from './components/FloatingChat'
-import Nav from './components/Nav' // ◄── ADD THIS IMPORT HERE
+import Nav from './components/Nav' 
 import Script from 'next/script'
+import { ExperimentProvider } from './components/ExperimentProvider' 
 
 export const metadata: Metadata = {
   title: 'David Raigoza',
@@ -25,10 +26,13 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Cursor />
-        <FloatingChat />
-        
-        {/* ── GLOBAL HUD NAVIGATION HEADER ───────────────────── */}
-        <Nav /> {/* ◄── MOUNT IT HERE */}
+        <ExperimentProvider>
+          <FloatingChat />
+          
+          {/* ── GLOBAL HUD NAVIGATION HEADER ───────────────────── */}
+          <Nav /> {/* ◄── MOUNT IT HERE */}
+          
+        </ExperimentProvider>
         
         {children}
 
