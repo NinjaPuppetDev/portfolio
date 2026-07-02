@@ -108,15 +108,22 @@ export default function FloatingChat() {
 
   useEffect(() => {
     const handler = (e: Event) => {
-      setOpen(true)
+      setOpen(true) // This opens the chat layout frame instantly!
       const detail = (e as CustomEvent).detail
       if (detail?.prefill) setInput(detail.prefill)
       if (detail?.autoSend && detail?.message) {
         setTimeout(() => sendMessage(detail.message), 100)
       }
     }
+    
+    // Register both event listener tracks
     window.addEventListener('open-portfolio-chat', handler as EventListener)
-    return () => window.removeEventListener('open-portfolio-chat', handler as EventListener)
+    window.addEventListener('open-vera', handler as EventListener)
+    
+    return () => {
+      window.removeEventListener('open-portfolio-chat', handler as EventListener)
+      window.removeEventListener('open-vera', handler as EventListener)
+    }
   }, [])
 
   useEffect(() => {

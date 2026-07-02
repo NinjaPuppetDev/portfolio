@@ -88,7 +88,7 @@ export default function HeroSection() {
         textTransform: 'uppercase', 
         zIndex: 2,
       }}>
-        Medellín, Colombia — {new Date().getFullYear()}
+
       </div>
 
       {/* ── TEXT & COPY CONTAINER ────────────────────────────────────────────── */}

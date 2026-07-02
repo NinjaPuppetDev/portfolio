@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Cursor from './components/Cursor'
 import FloatingChat from './components/FloatingChat'
+import Nav from './components/Nav' // ◄── ADD THIS IMPORT HERE
 import Script from 'next/script'
 
 export const metadata: Metadata = {
@@ -25,6 +26,10 @@ export default function RootLayout({
       <body>
         <Cursor />
         <FloatingChat />
+        
+        {/* ── GLOBAL HUD NAVIGATION HEADER ───────────────────── */}
+        <Nav /> {/* ◄── MOUNT IT HERE */}
+        
         {children}
 
         {/* ── GOOGLE TAGS MANAGEMENT ─────────────────────────── */}
