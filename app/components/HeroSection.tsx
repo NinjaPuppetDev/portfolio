@@ -38,13 +38,12 @@ export default function HeroSection() {
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-end', // Keep text anchored at bottom on all devices
+        justifyContent: 'flex-end',
         padding: isMobile 
           ? '6rem 1.5rem 3rem 1.5rem' 
           : 'clamp(6rem, 10vw, 9rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem)',
         position: 'relative',
         overflow: 'hidden',
-        // Slight dark background fallback on mobile to protect contrast
         backgroundColor: 'var(--bg)',
       }}
     >
@@ -54,17 +53,15 @@ export default function HeroSection() {
       {/* ── IMMERSIVE BACKGROUND IMAGE FOR ALL SCREEN SIZES ────────────────── */}
       <div style={{ 
         position: 'absolute', 
-        // On mobile, push it lower or pin it to center so it acts as an abstract backdrop
         top: isMobile ? '35%' : '50%', 
         right: isMobile ? '-20%' : '-8%', 
         transform: isMobile ? 'translateY(-50%)' : `translateY(calc(-50% + ${mounted ? '0px' : '24px'}))`, 
         width: isMobile ? '120%' : 'clamp(420px, 58vw, 820px)', 
-        opacity: isMobile ? 0.35 : (mounted ? 1 : 0), // Dimmed down on mobile so text punches through
+        opacity: isMobile ? 0.35 : (mounted ? 1 : 0), 
         transition: 'opacity 1.1s ease 0.5s, transform 1.1s ease 0.5s', 
         pointerEvents: 'none', 
         zIndex: 0 
       }}>
-        {/* Dynamic Vignette mask overlay — Much aggressive on mobile to keep text areas dark */}
         <div style={{ 
           position: 'absolute', 
           inset: 0, 
@@ -88,24 +85,32 @@ export default function HeroSection() {
         textTransform: 'uppercase', 
         zIndex: 2,
       }}>
-
       </div>
 
       {/* ── TEXT & COPY CONTAINER ────────────────────────────────────────────── */}
       <div style={{ position: 'relative', zIndex: 2, width: '100%' }}>
         
-        {/* Anchor name tag */}
+        {/* FIX: Hijack the anchor tag to trigger the Agent Event instead of a dead scroll */}
         <a 
           href="#hero" 
           onClick={(e) => {
             e.preventDefault()
-            window.scrollTo({ top: 0, behavior: 'smooth' })
+            // 1. Dispatch custom event to open Vera console
+            window.dispatchEvent(new CustomEvent('open-vera'))
+            
+            // 2. Automatically autofocus the input deck inside <PromptBar />
+            setTimeout(() => {
+              const inputEl = document.querySelector('input') || document.querySelector('textarea')
+              if (inputEl) inputEl.focus()
+            }, 60)
           }}
           style={{ 
             display: 'inline-block', 
             textDecoration: 'none',
-            marginBottom: '1.5rem' 
+            marginBottom: '1.5rem',
+            cursor: 'pointer' // Explicit cursor assignment
           }}
+          className="hover:opacity-80 transition-opacity"
         >
           <p style={{ 
             fontFamily: 'var(--mono)', 
@@ -116,18 +121,17 @@ export default function HeroSection() {
             margin: 0,
           }}
           >
-            David Raigoza
+            David Raigoza ✦
           </p>
         </a>
 
-        {/* Dynamic header scaling and mobile-specific crisp text color formatting */}
+        {/* Dynamic header scaling */}
         <h1 style={{ 
           fontFamily: 'var(--serif)', 
           fontSize: isMobile ? '2.8rem' : 'clamp(3.5rem, 10vw, 9rem)', 
           fontWeight: 300, 
           lineHeight: isMobile ? 1.05 : 0.92, 
           letterSpacing: '-0.02em', 
-          // Pure white/high contrast color injection on mobile to stay hyper-crisp over background assets
           color: isMobile ? '#FFFFFF' : 'var(--text)', 
           marginBottom: '2rem' 
         }}>
@@ -140,7 +144,6 @@ export default function HeroSection() {
           <p style={{ 
             fontFamily: 'var(--sans)', 
             fontSize: isMobile ? '0.92rem' : 'clamp(0.875rem, 1.5vw, 1rem)', 
-            // Swapping out the color to a higher-contrast text on mobile if var(--muted) goes too dark
             color: isMobile ? '#E5E5E5' : 'var(--muted)', 
             maxWidth: '42ch', 
             lineHeight: 1.6, 
