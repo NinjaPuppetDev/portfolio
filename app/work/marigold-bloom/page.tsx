@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
-const FIGMA_URL = 'https://www.figma.com/design/iZ4qn2tuRrdexN0ZTRPgkL/PortfolioWix?node-id=0-1&p=f&t=8gcYn6JhelNu0YqZ-0'
+const FIGMA_URL = 'https://www.figma.com/design/jIBAE61aROr179qls7F8mF/Marigold?node-id=0-1&t=8sC53V4F2EoXE4yI-1'
 
 // ─── PALETTE — locked to Marigold's warm botanical palette ───────────────────
 const MG = {

@@ -7,7 +7,7 @@ import Link from 'next/link'
 // ─── CONSTANTS — update these when ready ─────────────────────────────────────
 const CANVA_VIDEO_URL = 'https://drive.google.com/file/d/1yo5wHSdJA9m7wE5c5LYJhhoA7ML6RI2x/preview'
 const INSTAGRAM_URL   = 'https://www.instagram.com/pepe_matilda_?igsh=MXNvdDY1MzR5bmwyNg=='
-const FIGMA_URL       = 'https://www.figma.com/design/iZ4qn2tuRrdexN0ZTRPgkL/PortfolioWix?node-id=0-1&p=f&t=8gcYn6JhelNu0YqZ-0'
+const FIGMA_URL       = 'https://www.figma.com/design/trenZxWmblUoBeGEJtZbG4/PepeMatilda?node-id=0-1&t=rWBl0OKgxzvjJfYO-1'
 
 const PRESS = [
   {

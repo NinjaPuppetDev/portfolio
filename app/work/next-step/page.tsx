@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const VIMEO_URL  = 'https://drive.google.com/file/d/1XhNZ-JZM1RA1e2w3drjRMUo0DidQGWO_/preview'
-const FIGMA_URL  = 'https://www.figma.com/design/iZ4qn2tuRrdexN0ZTRPgkL/PortfolioWix?node-id=0-1&p=f&t=8gcYn6JhelNu0YqZ-0'
+const FIGMA_URL  = 'https://www.figma.com/design/E0G23dwn7QWhSehxw6RqvX/NextStep?node-id=0-1&t=eYiKS5iuS8zNH3Xb-1'
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 const DELIVERABLES = [

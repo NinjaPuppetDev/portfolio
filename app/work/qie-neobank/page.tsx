@@ -7,7 +7,7 @@ import Link from 'next/link'
 // ─── CONSTANTS ───────────────────────────────────────────────────────────────
 
 const FIGMA_URL =
-  'https://www.figma.com/proto/NphYOk5KuRrMSh4FRjnXwY/QIENeobank?node-id=17-220&t=u7jXCFokvPsuJygv-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=17%3A220'
+  'https://www.figma.com/design/vitqU8fVnqheh0gcxVjr4P/QIENeobank?node-id=0-1&t=eyZdLegUR4EbWgeY-1'
 const LIVE_URL = 'https://qie-bank.vercel.app/'
 
 const CONTRACTS = [
