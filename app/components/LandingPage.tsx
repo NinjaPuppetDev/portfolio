@@ -51,12 +51,12 @@ const productProjects = [
   {
     index: '03',
     year: '2026',
-    title: 'Raigoza Job Scanner',
+    title: 'ApplyIQ',
     subtitle: 'Building a real-time data ingestion telemetry dashboard and serverless CRM pipeline',
-    tags: ['Next.js', 'Airtable', 'Groq AI', 'No-code', 'Dashboard'],
+    tags: ['Next.js', 'Supabase', 'Groq AI', 'Dashboard'],
     description:
-      'A personal job search CRM built on Airtable as the live backend, surfaced through a custom Next.js dashboard. Tracks application funnel stages, interview schedules, and follow-up cadences in real time.',
-    link: 'https://raigoza-job-scanner.vercel.app/',
+      'A job search CRM built on Supabase as the live backend, surfaced through a custom Next.js dashboard. Tracks application funnel stages, interview schedules, and follow-up cadences in real time.',
+    link: 'https://applyiq-job-scanner.vercel.app/',
     linkLabel: 'View Job Scanner',
     accent: 'var(--accent)',
     variant: 'product' as const,
