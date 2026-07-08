@@ -27,12 +27,12 @@ export const ALL_PROJECTS: Record<string, ProjectDetail> = {
     metrics: ['Chainlink Hackathon Project[cite: 2]', 'Trustless oracle data integration[cite: 2]'],
     technicalBreakdown: 'Developed the underlying smart contract protocol logic and modular decentralized app architecture[cite: 2]. Uses dedicated Chainlink decentral oracles to feed automated real-world precipitation analytics directly on-chain, eliminating intermediate counterparty verification risks and handling program automated settlements cleanly[cite: 2].'
   },
-  'raigoza-job-scanner': {
-    slug: 'raigoza-job-scanner',
-    title: 'Raigoza Job Scanner',
+  'ApplyIQ': {
+    slug: 'ApplyIQ',
+    title: 'ApplyIQ',
     subtitle: 'Building a real-time data ingestion telemetry dashboard and serverless CRM pipeline',
     fullDescription: 'A highly functional personal CRM application designed to track operational outreach, interview phases, and application funnel telemetry in near real-time[cite: 2].',
-    tags: ['Next.js', 'Airtable', 'Groq AI', 'No-code', 'Dashboard'],
+    tags: ['Next.js', 'Supabase', 'Groq AI', 'No-code', 'Dashboard'],
     metrics: ['Real-time telemetry ingestion[cite: 2]', 'Automated pipeline tracking[cite: 2]'],
     technicalBreakdown: 'Built using Airtable as an decoupled relational data backend layer, seamlessly piped directly into a responsive Next.js analytics interface[cite: 2]. Leverages custom data mapping hooks and automation rules to model funnel status, metrics, and application state transitions fluidly[cite: 2].'
   },
