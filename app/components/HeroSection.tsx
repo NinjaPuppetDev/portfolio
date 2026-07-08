@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import GlitchWord from './GlitchWord'
 import PromptBar from './PromptBar'
+import { useBodySignals } from '../hooks/useBodySignals'
 
 export default function HeroSection() {
+  useBodySignals()
   const heroRef = useRef<HTMLDivElement>(null)
   const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
