@@ -52,7 +52,7 @@ export default function HeroSection() {
       {/* Grid Overlay Background */}
       <div style={{ position: 'absolute', inset: 0, backgroundImage: `linear-gradient(rgba(200,240,74,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(200,240,74,0.04) 1px, transparent 1px)`, backgroundSize: '80px 80px', transform: 'translateY(var(--py, 0px))', pointerEvents: 'none' }} />
       
-      {/* ── IMMERSIVE BACKGROUND IMAGE FOR ALL SCREEN SIZES ────────────────── */}
+      {/* Immersive Background Image */}
       <div style={{ 
         position: 'absolute', 
         top: isMobile ? '35%' : '50%', 
@@ -92,15 +92,12 @@ export default function HeroSection() {
       {/* ── TEXT & COPY CONTAINER ────────────────────────────────────────────── */}
       <div style={{ position: 'relative', zIndex: 2, width: '100%' }}>
         
-        {/* FIX: Hijack the anchor tag to trigger the Agent Event instead of a dead scroll */}
         <a 
           href="#hero" 
           onClick={(e) => {
             e.preventDefault()
-            // 1. Dispatch custom event to open Vera console
             window.dispatchEvent(new CustomEvent('open-vera'))
             
-            // 2. Automatically autofocus the input deck inside <PromptBar />
             setTimeout(() => {
               const inputEl = document.querySelector('input') || document.querySelector('textarea')
               if (inputEl) inputEl.focus()
@@ -110,7 +107,7 @@ export default function HeroSection() {
             display: 'inline-block', 
             textDecoration: 'none',
             marginBottom: '1.5rem',
-            cursor: 'pointer' // Explicit cursor assignment
+            cursor: 'pointer' 
           }}
           className="hover:opacity-80 transition-opacity"
         >
@@ -123,7 +120,7 @@ export default function HeroSection() {
             margin: 0,
           }}
           >
-            David Raigoza ✦
+            David Raigoza ✦ [System Active — Click to Initialize Agent]
           </p>
         </a>
 
@@ -147,11 +144,11 @@ export default function HeroSection() {
             fontFamily: 'var(--sans)', 
             fontSize: isMobile ? '0.92rem' : 'clamp(0.875rem, 1.5vw, 1rem)', 
             color: isMobile ? '#E5E5E5' : 'var(--muted)', 
-            maxWidth: '42ch', 
+            maxWidth: '44ch', 
             lineHeight: 1.6, 
             fontWeight: 300 
           }}>
-            Every project starts with the same question: what does the existing system refuse to do? The answer becomes the work. Whether engineering a stainless steel microcasting pipeline that didn't exist, deploying trustless derivative settlement for climate risk, or building an AI agent that operates an interface instead of answering questions. The medium changes. The method doesn't.
+            Every project begins where traditional systems fail: what does the existing infrastructure refuse to do? The answer becomes the work. Whether abstracting away the friction of on-chain protocols to enable mass onboarding, engineering sub-100ms dashboards on relational data pipelines, or designing an agentic interface that translates live user telemetry into natural language. The medium changes. The method remains: storytelling through high-agency engineering.
           </p>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>

@@ -4,16 +4,15 @@ import CardGrid from './CardGrid'
 import ContactForm from './ContactForm'
 
 // ── PROJECT DATA ───────────────────────────────────────────────────────────────
-// ── PROJECT DATA ───────────────────────────────────────────────────────────────
 const web3Projects = [
   {
     index: '01',
     year: '2026',
     title: 'QIE Neobank',
-    subtitle: 'Engineering a non-custodial decentralized liquidity layer and on-chain credit scoring architecture',
-    tags: ['Solidity', 'ERC-4626', 'Soulbound NFT', 'DeFi', 'Next.js', 'Figma'],
+    subtitle: 'Designing mass onboarding layers and non-custodial liquidity interfaces for decentralized banking',
+    tags: ['Product Design', 'UX Architecture', 'Solidity', 'Next.js', 'Figma'],
     description:
-      'A full-stack DeFi neobank built for the QIE Blockchain Hackathon. Deployed smart contracts: vault, identity, lending, credit score.',
+      'A full-stack DeFi banking ecosystem built to abstract protocol friction. Shortlisted out of 411 global submissions. Developed end-to-end UX architecture and matching smart contracts, mapping a seamless next-generation onboarding roadmap using account abstraction.',
     link: '/work/qie-neobank',
     linkLabel: 'View case study',
     accent: 'var(--accent)',
@@ -23,10 +22,10 @@ const web3Projects = [
     index: '02',
     year: '2026',
     title: 'Bruma Protocol',
-    subtitle: 'Architecting a trustless, oracle-driven derivative settlement engine for environmental risk management',
-    tags: ['Solidity', 'Chainlink Oracles', 'DeFi', 'On-chain Settlement'],
+    subtitle: 'Translating complex oracle logic into intuitive, real-time derivative risk visualization interfaces',
+    tags: ['UX Design', 'State Management', 'Solidity', 'Chainlink Oracles'],
     description:
-      'A trustless protocol for hedging and trading rainfall risk on Ethereum. Positions settle automatically via Chainlink oracle feeds — no intermediaries.',
+      'A trustless protocol and interface designed to trade environmental risk. Integrated automated contract states with contextual AI descriptions (via Groq API), translating raw blockchain telemetry into clear human narratives during highly volatile settlement windows.',
     link: 'https://bruma-protocol.vercel.app/',
     linkLabel: 'View protocol',
     accent: 'var(--accent)',
@@ -39,7 +38,7 @@ const web3Projects = [
     subtitle: 'Open-source immutable protocol repositories, state systems, and deployment infrastructure',
     tags: ['Solidity', 'Next.js', 'Smart Contracts', 'Web3'],
     description:
-      'Active repo where the work lives. Smart contracts, protocol interfaces, and the codebase behind this site — version-controlled from first commit to mainnet deploy.',
+      'Active repository where the work lives. Smart contracts, protocol interfaces, and the reactive telemetry backend driving this site — version-controlled from first commit to production.',
     link: 'https://github.com/NinjaPuppetDev',
     linkLabel: 'View on GitHub',
     accent: 'var(--accent)',
@@ -52,10 +51,10 @@ const productProjects = [
     index: '03',
     year: '2026',
     title: 'ApplyIQ',
-    subtitle: 'Building a real-time data ingestion telemetry dashboard and serverless CRM pipeline',
-    tags: ['Next.js', 'Supabase', 'Groq AI', 'Dashboard'],
+    subtitle: 'Architecting a real-time data ingestion dashboard and serverless automation CRM',
+    tags: ['Product Architecture', 'Next.js', 'Supabase', 'Dashboard UI'],
     description:
-      'A job search CRM built on Supabase as the live backend, surfaced through a custom Next.js dashboard. Tracks application funnel stages, interview schedules, and follow-up cadences in real time.',
+      'Engineered an internal production tracking CRM, migrating the foundational layer from Airtable to Supabase to support sub-100ms interface reactivity. Built custom telemetry dashboards to track data streams, user funnels, and real-time scheduling hooks.',
     link: 'https://applyiq-job-scanner.vercel.app/',
     linkLabel: 'View Job Scanner',
     accent: 'var(--accent)',
@@ -68,10 +67,10 @@ const brandProjects = [
     index: '04',
     year: '2011–2016',
     title: 'Pepe Matilda',
-    subtitle: 'Scaling a proprietary 0-to-1 microcasting manufacturing pipeline and physical-to-digital brand matrix',
-    tags: ['Industrial Design', 'Lápiz de Acero', 'Blender', 'MAMM'],
+    subtitle: 'Structuring premium e-commerce systems, physical-to-digital brand matrixes, and high-craft industrial pipelines',
+    tags: ['Industrial Design', 'Lápiz de Acero', 'Brand Systems', 'E-commerce UI'],
     description:
-      "Built 0→1: designed and hand-cast every piece, engineered a proprietary microcasting system, modeled products in 3D, and built the brand from identity to e-commerce UI. Won Colombia's Lápiz de Acero (2013). Exhibited at MAMM and Museo de Antioquia.",
+      "Built from 0 to 1: engineered custom physical-to-digital manufacturing pipelines, modeled luxury consumer products in 3D, and designed the comprehensive e-commerce layout. Awarded Colombia's national Lápiz de Acero (2013) and exhibited at MAMM.",
     link: '/work/pepe-matilda',
     linkLabel: 'View project',
     accent: 'var(--amber)',
@@ -144,7 +143,6 @@ function SectionLabel({ label, count, accent = 'var(--accent)' }: { label: strin
 export default function LandingPage() {
   return (
     <main>
-      {/* Client-hydrated Hero, image parallax, and input bar */}
       <HeroSection />
 
       {/* ── WORK ──────────────────────────────────────────────────────── */}
@@ -185,13 +183,13 @@ export default function LandingPage() {
 
         {/* Web3 Track */}
         <div style={{ marginBottom: 'clamp(3rem, 6vw, 5rem)' }}>
-          <SectionLabel label="Protocol & Web3" count={web3Projects.length} accent="var(--accent)" />
+          <SectionLabel label="Protocol & Web3 Architecture" count={web3Projects.length} accent="var(--accent)" />
           <CardGrid projects={web3Projects} cols={3} />
         </div>
 
         {/* Product Track */}
         <div style={{ marginBottom: 'clamp(3rem, 6vw, 5rem)' }}>
-          <SectionLabel label="Product & Tools" count={productProjects.length} accent="var(--accent)" />
+          <SectionLabel label="Product Interfaces & Systems" count={productProjects.length} accent="var(--accent)" />
           <div style={{ border: '1px solid var(--border)' }}>
             <ProjectCard {...productProjects[0]} />
           </div>
@@ -199,7 +197,7 @@ export default function LandingPage() {
 
         {/* Brand Track */}
         <div style={{ marginBottom: 'clamp(3rem, 6vw, 5rem)' }}>
-          <SectionLabel label="Brand & Craft" count={brandProjects.length} accent="var(--amber)" />
+          <SectionLabel label="Brand Storytelling & Craft" count={brandProjects.length} accent="var(--amber)" />
           <CardGrid projects={brandProjects} cols={3} />
         </div>
       </section>
@@ -242,22 +240,24 @@ export default function LandingPage() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.8 }}>
-            I'm a product designer-engineer from Medellín. I started casting metal,
-            ended up writing smart contracts — and somewhere in between I dropped out
-            of music school, won a design award, and built a stablecoin for my MA thesis.
+            I am a product designer-engineer from Medellín operating at the thin line where 
+            complex technology meets human story. My work ranges from physical high-craft 
+            manufacturing to deploying trustless smart contracts — leveraging an unconventional 
+            background to build interfaces that feel intuitive, seamless, and emotionally resonant.
           </p>
           <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.8 }}>
-            I use AI as a creative and technical amplifier. I research Web3 security
-            competitively on Sherlock and Code4rena. I am fluent in both the language
-            of materials and the language of protocols.
+            I treat code, AI, and design systems not as separate skills, but as unified mechanisms 
+            for disruption. Whether optimizing sub-100ms dashboards on relational data pipelines, 
+            abstracting away the onboarding friction of Web3 protocols, or utilizing language models to 
+            turn raw user telemetry into expressive experiences, I build systems that tell a story.
           </p>
           <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.8 }}>
-            Currently open to roles at the intersection of product, blockchain,
-            and anything that requires someone who thinks with both hands.
+            Currently open to high-agency product roles, design-engineering tracks, and spaces 
+            looking for someone who solves hard systemic problems by designing with both hands.
           </p>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', paddingTop: '0.5rem' }}>
-            {['Solidity', 'Ethereum', 'Chainlink', 'Figma', 'Blender', 'Next.js', 'Airtable', 'AI Tools', 'CAD / 3D'].map(s => (
+            {['Product Design', 'Design Systems', 'Next.js', 'Solidity', 'Supabase', 'Figma', 'Blender / 3D', 'Agentic UX', 'Telemetry Architecture'].map(s => (
               <span key={s} style={{
                 fontFamily: 'var(--mono)',
                 fontSize: '0.6rem',
@@ -311,7 +311,6 @@ export default function LandingPage() {
             </p>
           </div>
 
-          {/* Isolated Client-Hydrated Form */}
           <ContactForm />
         </div>
       </section>
