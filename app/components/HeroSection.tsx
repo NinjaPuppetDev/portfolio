@@ -132,12 +132,25 @@ export default function HeroSection() {
           lineHeight: isMobile ? 1.05 : 0.92, 
           letterSpacing: '-0.02em', 
           color: isMobile ? '#FFFFFF' : 'var(--text)', 
-          marginBottom: '2rem' 
+          marginBottom: '1.5rem' 
         }}>
           {mounted ? <GlitchWord word="Constraint." /> : 'Constraint.'}<br />
           <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>{mounted ? <GlitchWord word="Architecture." /> : 'Architecture.'}</span><br />
           <span style={{ color: isMobile ? '#A3A3A3' : 'var(--muted)' }}>{mounted ? <GlitchWord word="Proof." /> : 'Proof.'}</span>
         </h1>
+
+        {/* Direct positioning line — resolves role, domain, and seniority in one pass */}
+        <p style={{
+          fontFamily: 'var(--sans)',
+          fontSize: isMobile ? '1.1rem' : 'clamp(1.1rem, 2vw, 1.45rem)',
+          color: isMobile ? '#FFFFFF' : 'var(--text)',
+          maxWidth: '34ch',
+          lineHeight: 1.35,
+          fontWeight: 500,
+          marginBottom: '2rem',
+        }}>
+          I design AI products, developer tools, and enterprise systems that make technical complexity feel intuitive.
+        </p>
         
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '2rem', flexWrap: 'wrap' }}>
           <p style={{ 
@@ -148,7 +161,7 @@ export default function HeroSection() {
             lineHeight: 1.6, 
             fontWeight: 300 
           }}>
-            Every project begins where traditional systems fail: what does the existing infrastructure refuse to do? The answer becomes the work. Whether abstracting away the friction of on-chain protocols to enable mass onboarding, engineering sub-100ms dashboards on relational data pipelines, or designing an agentic interface that translates live user telemetry into natural language. The medium changes. The method remains: storytelling through high-agency engineering.
+            Every project begins where existing systems break down. I identify the constraint, architect the solution, and validate it through shipped products. From AI interfaces and real-time dashboards to blockchain infrastructure and developer platforms, the medium changes. The method remains: turning complexity into clarity.
           </p>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
