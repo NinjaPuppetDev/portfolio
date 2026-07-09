@@ -17,7 +17,7 @@ interface TourAction {
   offerTour?: boolean
 }
 
-// ─── TOUR CONFIGURATION META (FIXED SLUG TO MARIGOLD-BLOOM) ───────────────────
+// ─── TOUR CONFIGURATION META ──────────────────────────────────────────────────
 const DESIGN_TOUR = [
   { step: 1, path: '/work/pepe-matilda', nextLabel: 'Next: NextStep →' },
   { step: 2, path: '/work/next-step', nextLabel: 'Next: Marigold Bloom →' },
@@ -91,12 +91,10 @@ export default function FloatingChat() {
   const [loading, setLoading] = useState(false)
   const [mounted, setMounted] = useState(false)
 
-  // Explicit Tour Tracking States
   const [tourActive, setTourActive] = useState(false)
   const [tourType, setTourType] = useState<'design' | 'web3' | null>(null)
   const [tourStep, setTourStep] = useState(0)
 
-  // In-Chat Contact Form Intercept Pipeline
   const [contactMode, setContactMode] = useState(false)
   const [contactEmail, setContactEmail] = useState('')
   const [contactName, setContactName] = useState('')
@@ -108,18 +106,15 @@ export default function FloatingChat() {
 
   useEffect(() => {
     const handler = (e: Event) => {
-      setOpen(true) // This opens the chat layout frame instantly!
+      setOpen(true)
       const detail = (e as CustomEvent).detail
       if (detail?.prefill) setInput(detail.prefill)
       if (detail?.autoSend && detail?.message) {
         setTimeout(() => sendMessage(detail.message), 100)
       }
     }
-    
-    // Register both event listener tracks
     window.addEventListener('open-portfolio-chat', handler as EventListener)
     window.addEventListener('open-vera', handler as EventListener)
-    
     return () => {
       window.removeEventListener('open-portfolio-chat', handler as EventListener)
       window.removeEventListener('open-vera', handler as EventListener)
@@ -140,7 +135,6 @@ export default function FloatingChat() {
     if (!trimmed && overrideTourStep === undefined) return
     if (loading) return
 
-    // Route directly to standard API contact endpoint if form flow is active
     if (contactMode) {
       handleChatContactSubmit(trimmed)
       return
@@ -214,6 +208,7 @@ export default function FloatingChat() {
 
       const content: string = data.content ?? ''
       const offerTourFromApi: boolean = data.offerTour ?? false
+      const navigateFromApi: string | null = data.navigate ?? null // ─── THE FIX: Capture dynamic navigation from API ───
 
       let actionPayload: TourAction | undefined = undefined
       if (activeType && activeStep > 0) {
@@ -222,7 +217,22 @@ export default function FloatingChat() {
         actionPayload = { offerTour: true }
       }
 
+      // ─── THE FIX: Append action payload context ───
+      if (navigateFromApi) {
+        actionPayload = { ...actionPayload, navigate: navigateFromApi }
+      }
+
       setMessages(prev => [...prev, { role: 'assistant', content, tourAction: actionPayload }])
+
+      // ─── THE FIX: Execute route navigation instantly when Vera triggers it ───
+      if (navigateFromApi) {
+        if (navigateFromApi === '#contact') {
+          initiateContactFlow()
+        } else {
+          setTimeout(() => executeNavigation(navigateFromApi, router), 400)
+        }
+      }
+
     } catch (err) {
       console.error('Chat pipeline error:', err)
       setMessages(prev => [...prev, { role: 'assistant', content: 'Connection error. Check your network and try again.' }])
@@ -265,7 +275,6 @@ export default function FloatingChat() {
       return
     }
 
-    // Submit complete object context to /api/contact route
     setMessages(prev => [...prev, { role: 'user', content: messageContent }])
     setInput('')
     setLoading(true)
@@ -343,7 +352,6 @@ export default function FloatingChat() {
 
   return (
     <>
-      {/* ── PANEL ─────────────────────────────────────────────────── */}
       <div
         role="dialog"
         aria-label="Portfolio assistant"
@@ -403,7 +411,6 @@ export default function FloatingChat() {
                 {msg.content}
               </div>
 
-              {/* Onboarding triggers */}
               {msg.role === 'assistant' && i === 0 && messages.length === 1 && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', width: '100%' }}>
                   {SUGGESTIONS.map(s => (

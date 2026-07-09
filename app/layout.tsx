@@ -23,14 +23,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body>
+    // ─── THE FIX: Explicitly set dark color-scheme so browsers and Clarity match default dark mode ───
+    <html lang="en" style={{ colorScheme: 'dark', backgroundColor: '#000000' }}>
+      {/* ─── THE FIX: Inline a fallback black background so it renders dark even if CSS fails to stream in Clarity ─── */}
+      <body style={{ backgroundColor: '#000000', color: '#ffffff' }}>
         <Cursor />
         <ExperimentProvider>
           <FloatingChat />
           
           {/* ── GLOBAL HUD NAVIGATION HEADER ───────────────────── */}
-          <Nav /> {/* ◄── MOUNT IT HERE */}
+          <Nav />
           
         </ExperimentProvider>
         
@@ -47,7 +49,6 @@ export default function RootLayout({
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
 
-            // Initialize your new portfolio dashboard tag
             gtag('config', 'G-YQXEJSG71S');
           `}
         </Script>
