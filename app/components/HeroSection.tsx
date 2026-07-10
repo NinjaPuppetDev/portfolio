@@ -89,11 +89,12 @@ export default function HeroSection() {
       }}>
       </div>
 
-      {/* ── TEXT & COPY CONTAINER ────────────────────────────────────────────── */}
+{/* ── TEXT & COPY CONTAINER ────────────────────────────────────────────── */}
       <div style={{ position: 'relative', zIndex: 2, width: '100%' }}>
         
-        <a 
-          href="#hero" 
+        <button 
+          type="button"
+          data-clarity-target="initialize-agent-trigger"
           onClick={(e) => {
             e.preventDefault()
             window.dispatchEvent(new CustomEvent('open-vera'))
@@ -104,10 +105,13 @@ export default function HeroSection() {
             }, 60)
           }}
           style={{ 
+            background: 'none',
+            border: 'none',
+            padding: 0,
             display: 'inline-block', 
-            textDecoration: 'none',
             marginBottom: '1.5rem',
-            cursor: 'pointer' 
+            cursor: 'pointer',
+            textAlign: 'left'
           }}
           className="hover:opacity-80 transition-opacity"
         >
@@ -122,7 +126,7 @@ export default function HeroSection() {
           >
             David Raigoza ✦ [System Active — Click to Initialize Agent]
           </p>
-        </a>
+        </button>
 
         {/* Dynamic header scaling */}
         <h1 style={{ 
