@@ -44,6 +44,7 @@ export default function CardGrid({ projects, cols = 3 }: { projects: Project[]; 
               borderBottom: '1px solid var(--border)',
               borderLeft: col === 1 ? '1px solid var(--border)' : 'none',
               borderRight: '1px solid var(--border)',
+              backgroundColor: '#0A0A0A', // Deep premium chassis color
             }}
           >
             <ProjectCard {...p} />

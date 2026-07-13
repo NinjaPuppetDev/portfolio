@@ -147,35 +147,35 @@ export default function LandingPage() {
     <main 
       style={{ 
         position: 'relative', 
-        backgroundColor: '#050505', 
+        backgroundColor: 'var(--bg)', 
         overflow: 'hidden',
         minHeight: '100vh',
       }}
     >
-      {/* ── TOP HORIZON GRID MASK ── */}
-      {/* Fades out the background grid layout near the top to seamlessly frame the header elements */}
+      {/* ── SOLID GRADIENT MASK MATCHING GLOBAL BACKGROUND ── */}
+      {/* Uses var(--bg) (#080808) to dissolve any background layout grid lines from the hero section */}
       <div style={{
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
-        height: '240px',
-        background: 'linear-gradient(180deg, #050505 0%, rgba(5, 5, 5, 0.8) 40%, transparent 100%)',
+        height: '220px',
+        background: 'linear-gradient(180deg, var(--bg) 0%, rgba(8, 8, 8, 0.7) 60%, transparent 100%)',
         pointerEvents: 'none',
-        zIndex: 3, 
+        zIndex: 3, // Sits cleanly under your global noise/scanlines but masks the hero grid template
       }} />
 
       {/* ── SUBSURFACE WHITE AMBIENT GLOW ── */}
-      {/* Soft, low-intensity white blur providing top depth without conflicting with active text elements */}
+      {/* Soft, low-intensity white blur giving top fold depth around your navigation capsule */}
       <div style={{
         position: 'absolute',
-        top: '-150px',
+        top: '-180px',
         left: '50%',
         transform: 'translateX(-50%)',
-        width: '1200px',
-        height: '400px',
-        background: 'radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.025) 0%, rgba(255, 255, 255, 0.005) 50%, transparent 100%)',
-        filter: 'blur(60px)',
+        width: '1300px',
+        height: '450px',
+        background: 'radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.025) 0%, rgba(255, 255, 255, 0.005) 60%, transparent 100%)',
+        filter: 'blur(70px)',
         pointerEvents: 'none',
         zIndex: 1,
       }} />
@@ -290,7 +290,7 @@ export default function LandingPage() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.8 }}>
-            I am a product designer-engineer from Medellín operating at the thin line where 
+            I am a product designer-engineer operating at the thin line where 
             complex technology meets human story. My work ranges from physical high-craft 
             manufacturing to deploying trustless smart contracts — leveraging an unconventional 
             background to build interfaces that feel intuitive, seamless, and emotionally resonant.
@@ -355,7 +355,7 @@ export default function LandingPage() {
               Let's build<br />something.
             </h2>
             <p style={{ fontFamily: 'var(--sans)', fontSize: '0.875rem', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '36ch' }}>
-              Open to remote roles, freelance projects, and interesting conversations. Based in Medellín — available EST hours.
+              Open to remote roles, freelance projects, and interesting conversations. Available EST hours.
             </p>
             <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em', marginTop: '1.5rem', opacity: 0.6 }}>
               raigoza.david.j@gmail.com

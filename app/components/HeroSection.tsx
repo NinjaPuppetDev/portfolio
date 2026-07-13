@@ -67,16 +67,19 @@ export default function HeroSection() {
         backgroundColor: 'var(--bg)',
       }}
     >
-      {/* Premium Neutral Grid Overlay */}
+      {/* Premium Neutral Grid Overlay with top fade mask */}
       <div style={{ 
         position: 'absolute', 
         inset: 0, 
         backgroundImage: `linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)`, 
         backgroundSize: '100px 100px', 
         transform: 'translateY(var(--py, 0px))', 
-        pointerEvents: 'none' 
+        pointerEvents: 'none',
+        // THE FIX: Progressively hides the grid at the top so it doesn't clip the nav capsule
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.3) 10%, black 25%)',
+        maskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.3) 10%, black 25%)',
       }} />
-      
+
       {/* Balanced Editorial Portrait Masking */}
       <div style={{ 
         position: 'absolute', 

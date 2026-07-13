@@ -23,17 +23,17 @@ const getCardChassisStyles = (hovered: boolean, isMobile: boolean) => ({
   flexDirection: 'column' as const,
   position: 'relative' as const,
   backgroundColor: '#0A0A0A',
-  padding: isMobile ? '1.5rem' : '2rem',
+  // Luxury Spatial Breathing Room: Scaled internally up to 2.75rem padding
+  padding: isMobile ? '1.75rem' : '2.75rem', 
   textDecoration: 'none',
   overflow: 'hidden',
   height: '100%',
   
-  // Lighting setup mirroring the premium navigation system
   borderTop: hovered && !isMobile ? '1px solid rgba(255, 255, 255, 0.16)' : '1px solid rgba(255, 255, 255, 0.08)',
   borderLeft: hovered && !isMobile ? '1px solid rgba(255, 255, 255, 0.09)' : '1px solid rgba(255, 255, 255, 0.04)',
   borderRight: '1px solid rgba(0, 0, 0, 0.6)',
   borderBottom: '1px solid rgba(0, 0, 0, 0.9)',
-  borderRadius: '16px', // Bounded geometric corner radius
+  borderRadius: '16px',
   
   boxShadow: hovered && !isMobile ? `
     0 32px 64px -16px rgba(0, 0, 0, 0.9),
@@ -76,7 +76,7 @@ function Web3Card({ index, title, subtitle, tags, description, link, linkLabel, 
         fontSize: '0.65rem',
         color: accent,
         letterSpacing: '0.2em',
-        marginBottom: '1rem',
+        marginBottom: '1.5rem',
         opacity: active ? 1 : 0.5,
         transition: 'opacity 0.3s ease',
       }}>
@@ -89,7 +89,7 @@ function Web3Card({ index, title, subtitle, tags, description, link, linkLabel, 
         fontWeight: 300,
         lineHeight: 1.1,
         color: '#FFFFFF',
-        marginBottom: '0.4rem',
+        marginBottom: '0.75rem',
         fontStyle: 'italic',
         letterSpacing: '-0.01em',
       }}>
@@ -102,7 +102,7 @@ function Web3Card({ index, title, subtitle, tags, description, link, linkLabel, 
         color: 'var(--muted)',
         letterSpacing: '0.08em',
         textTransform: 'uppercase',
-        marginBottom: '1.25rem',
+        marginBottom: '1.75rem',
         lineHeight: 1.5,
       }}>
         {subtitle}
@@ -116,7 +116,7 @@ function Web3Card({ index, title, subtitle, tags, description, link, linkLabel, 
         overflow: 'hidden',
         opacity: active ? 1 : 0,
         transition: isMobile ? 'none' : 'max-height 0.4s ease, opacity 0.35s ease',
-        marginBottom: active ? '1.5rem' : '0',
+        marginBottom: active ? '2rem' : '0',
         flex: 1,
       }}>
         {description}
@@ -128,7 +128,8 @@ function Web3Card({ index, title, subtitle, tags, description, link, linkLabel, 
         justifyContent: 'space-between',
         flexWrap: 'wrap',
         gap: '0.75rem',
-        marginTop: 'auto'
+        marginTop: 'auto',
+        paddingTop: '1rem',
       }}>
         <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
           {tags.map(tag => (
@@ -206,15 +207,14 @@ function ProductCard({ index, title, subtitle, tags, description, link, linkLabe
       onMouseLeave={() => !isMobile && setHovered(false)}
       style={getCardChassisStyles(hovered, isMobile)}
     >
-      {/* Milled dashboard preview screen */}
       <div style={{
         backgroundColor: '#050505',
         border: '1px solid rgba(0, 0, 0, 0.6)',
         borderBottomColor: 'rgba(255, 255, 255, 0.04)',
         borderRightColor: 'rgba(255, 255, 255, 0.02)',
         borderRadius: '8px',
-        padding: '1.1rem',
-        marginBottom: '1.5rem',
+        padding: '1.25rem',
+        marginBottom: '2rem',
         fontFamily: 'var(--mono)',
         fontSize: '0.65rem',
         lineHeight: 1.8,
@@ -247,7 +247,7 @@ function ProductCard({ index, title, subtitle, tags, description, link, linkLabe
         fontSize: '0.65rem',
         color: accent,
         letterSpacing: '0.2em',
-        marginBottom: '0.75rem',
+        marginBottom: '1rem',
         opacity: active ? 1 : 0.5,
         transition: 'opacity 0.3s ease',
       }}>
@@ -260,7 +260,7 @@ function ProductCard({ index, title, subtitle, tags, description, link, linkLabe
         fontWeight: 300,
         lineHeight: 1.1,
         color: '#FFFFFF',
-        marginBottom: '0.4rem',
+        marginBottom: '0.75rem',
         fontStyle: 'italic',
         letterSpacing: '-0.01em',
       }}>
@@ -273,7 +273,7 @@ function ProductCard({ index, title, subtitle, tags, description, link, linkLabe
         color: 'var(--muted)',
         letterSpacing: '0.08em',
         textTransform: 'uppercase',
-        marginBottom: '1rem',
+        marginBottom: '1.5rem',
         lineHeight: 1.5,
       }}>
         {subtitle}
@@ -287,7 +287,7 @@ function ProductCard({ index, title, subtitle, tags, description, link, linkLabe
         overflow: 'hidden',
         opacity: active ? 1 : 0,
         transition: isMobile ? 'none' : 'max-height 0.4s ease, opacity 0.35s ease',
-        marginBottom: active ? '1.5rem' : '0',
+        marginBottom: active ? '2rem' : '0',
         flex: 1,
       }}>
         {description}
@@ -299,7 +299,8 @@ function ProductCard({ index, title, subtitle, tags, description, link, linkLabe
         justifyContent: 'space-between',
         flexWrap: 'wrap',
         gap: '0.75rem',
-        marginTop: 'auto'
+        marginTop: 'auto',
+        paddingTop: '1rem',
       }}>
         <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
           {tags.map(tag => (
@@ -339,7 +340,7 @@ function ProductCard({ index, title, subtitle, tags, description, link, linkLabe
   )
 }
 
-// ── BRAND CARD ─────────────────────────────────────────────────────────────────
+// ── BRAND CARD (Editorial Image Tray) ─────────────────────────────────────────
 function BrandCard({ index, title, subtitle, tags, description, link, linkLabel, year, accent = 'var(--amber)', image }: ProjectCardProps) {
   const [hovered, setHovered] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
@@ -362,11 +363,11 @@ function BrandCard({ index, title, subtitle, tags, description, link, linkLabel,
       onMouseLeave={() => !isMobile && setHovered(false)}
       style={getCardChassisStyles(hovered, isMobile)}
     >
-      {/* Sunk Image Tray */}
+      {/* Sunk Image Tray with A24 Movie Poster Filters */}
       <div style={{
         width: '100%',
-        aspectRatio: '4 / 3',
-        marginBottom: '1.5rem',
+        aspectRatio: '16 / 10', // Streamlined editorial horizontal scale
+        marginBottom: '2rem',
         position: 'relative',
         overflow: 'hidden',
         backgroundColor: '#050505',
@@ -374,21 +375,35 @@ function BrandCard({ index, title, subtitle, tags, description, link, linkLabel,
         borderBottomColor: 'rgba(255, 255, 255, 0.04)',
         borderRadius: '8px',
         boxShadow: 'inset 0 2px 5px rgba(0,0,0,0.8)',
-        transition: 'border-color 0.4s ease',
       }}>
         {image ? (
-          <Image
-            src={image}
-            alt={title}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, 33vw"
-            style={{
-              objectFit: 'cover',
-              transform: hovered && !isMobile ? 'scale(1.03)' : 'scale(1)',
-              opacity: hovered ? 0.9 : 0.75,
-              transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease',
-            }}
-          />
+          <>
+            {/* A24 Matte Multiply Screen Overlay */}
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundColor: 'rgba(8, 8, 8, 0.22)',
+              mixBlendMode: 'multiply',
+              zIndex: 2,
+              pointerEvents: 'none',
+            }} />
+            <Image
+              src={image}
+              alt={title}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, 33vw"
+              style={{
+                objectFit: 'cover',
+                zIndex: 1,
+                // Normalized highlights & contrast matrix to match across variants
+                filter: hovered && !isMobile 
+                  ? 'brightness(0.85) contrast(1.02) saturate(0.92)' 
+                  : 'brightness(0.72) contrast(1.06) saturate(0.82)',
+                transform: hovered && !isMobile ? 'scale(1.015)' : 'scale(1)',
+                transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+            />
+          </>
         ) : (
           <>
             <div style={{
@@ -436,7 +451,7 @@ function BrandCard({ index, title, subtitle, tags, description, link, linkLabel,
         fontSize: '0.65rem',
         color: accent,
         letterSpacing: '0.2em',
-        marginBottom: '0.75rem',
+        marginBottom: '1rem',
         opacity: active ? 1 : 0.5,
         transition: 'opacity 0.3s ease',
       }}>
@@ -449,7 +464,7 @@ function BrandCard({ index, title, subtitle, tags, description, link, linkLabel,
         fontWeight: 300,
         lineHeight: 1.15,
         color: '#FFFFFF',
-        marginBottom: '0.4rem',
+        marginBottom: '0.75rem',
         fontStyle: 'italic',
         letterSpacing: '-0.01em',
       }}>
@@ -462,7 +477,7 @@ function BrandCard({ index, title, subtitle, tags, description, link, linkLabel,
         color: 'var(--muted)',
         letterSpacing: '0.08em',
         textTransform: 'uppercase',
-        marginBottom: '1rem',
+        marginBottom: '1.5rem',
         lineHeight: 1.5,
       }}>
         {subtitle}
@@ -476,7 +491,7 @@ function BrandCard({ index, title, subtitle, tags, description, link, linkLabel,
         overflow: 'hidden',
         opacity: active ? 1 : 0,
         transition: isMobile ? 'none' : 'max-height 0.4s ease, opacity 0.35s ease',
-        marginBottom: active ? '1.25rem' : '0',
+        marginBottom: active ? '2rem' : '0',
         flex: 1,
       }}>
         {description}
@@ -489,6 +504,7 @@ function BrandCard({ index, title, subtitle, tags, description, link, linkLabel,
         flexWrap: 'wrap',
         gap: '0.75rem',
         marginTop: 'auto',
+        paddingTop: '1rem',
       }}>
         <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
           {tags.map(tag => (
