@@ -65,7 +65,7 @@ const SUGGESTIONS = [
 
 const GREETING: Message = {
   role: 'assistant',
-  content: "Hi — I'm Vera, the AI built into David's portfolio. I can walk you through his work, answer questions about his background, or give you a guided tour of the projects most relevant to you.\n\nWhat brings you here today?",
+  content: "Hi — I'm Vera, an AI system architected into this ecosystem. I can unpack David's operational layout, break down specific technical systems, or guide you through selected production logs.",
 }
 
 function isExternal(path: string) {
@@ -129,7 +129,6 @@ export default function FloatingChat() {
     if (open) setTimeout(() => inputRef.current?.focus(), 150)
   }, [open, contactMode])
 
-  // ── CORE COMMUNICATIONS PIPELINE ───────────────────────────────────────────
   const sendMessage = async (text: string, overrideTourType?: 'design' | 'web3', overrideTourStep?: number) => {
     const trimmed = text.trim()
     if (!trimmed && overrideTourStep === undefined) return
@@ -160,7 +159,7 @@ export default function FloatingChat() {
         setTourActive(false)
         setTourType(null)
         setTourStep(0)
-        setMessages(prev => [...prev, { role: 'user', content: trimmed }, { role: 'assistant', content: "Of course — here are the tours. Pick one and I'll walk you through step by step.", tourAction: { offerTour: true } }])
+        setMessages(prev => [...prev, { role: 'user', content: trimmed }, { role: 'assistant', content: "Select an architectural sequence to begin.", tourAction: { offerTour: true } }])
         setInput('')
         return
       }
@@ -202,13 +201,13 @@ export default function FloatingChat() {
       const data = await res.json()
 
       if (!res.ok || data.error) {
-        setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, something went wrong. Try again in a moment.' }])
+        setMessages(prev => [...prev, { role: 'assistant', content: 'Connection timed out. Please execute request again.' }])
         return
       }
 
       const content: string = data.content ?? ''
       const offerTourFromApi: boolean = data.offerTour ?? false
-      const navigateFromApi: string | null = data.navigate ?? null // ─── THE FIX: Capture dynamic navigation from API ───
+      const navigateFromApi: string | null = data.navigate ?? null
 
       let actionPayload: TourAction | undefined = undefined
       if (activeType && activeStep > 0) {
@@ -217,14 +216,12 @@ export default function FloatingChat() {
         actionPayload = { offerTour: true }
       }
 
-      // ─── THE FIX: Append action payload context ───
       if (navigateFromApi) {
         actionPayload = { ...actionPayload, navigate: navigateFromApi }
       }
 
       setMessages(prev => [...prev, { role: 'assistant', content, tourAction: actionPayload }])
 
-      // ─── THE FIX: Execute route navigation instantly when Vera triggers it ───
       if (navigateFromApi) {
         if (navigateFromApi === '#contact') {
           initiateContactFlow()
@@ -235,13 +232,12 @@ export default function FloatingChat() {
 
     } catch (err) {
       console.error('Chat pipeline error:', err)
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Connection error. Check your network and try again.' }])
+      setMessages(prev => [...prev, { role: 'assistant', content: 'System error. Unable to process command.' }])
     } finally {
       setLoading(false)
     }
   }
 
-  // ── INTEGRATED RESEND API CONTACT SUBMISSION HANDLE ──────────────────────────
   const initiateContactFlow = () => {
     setTourActive(false)
     setTourType(null)
@@ -251,26 +247,26 @@ export default function FloatingChat() {
     setContactEmail('')
     setMessages(prev => [...prev, { 
       role: 'assistant', 
-      content: "Let's get in touch! I can send a message straight to David's inbox from here.\n\nFirst, what is your name?" 
+      content: "Initializing message context sync.\n\nCould you supply your name?" 
     }])
   }
 
   const handleChatContactSubmit = async (messageContent: string) => {
     if (!contactName) {
       setContactName(messageContent)
-      setMessages(prev => [...prev, { role: 'user', content: messageContent }, { role: 'assistant', content: `Great to meet you, ${messageContent}. What email address should David use to reply to you?` }])
+      setMessages(prev => [...prev, { role: 'user', content: messageContent }, { role: 'assistant', content: `Acknowledged, ${messageContent}. Provide a secure email configuration for the return route:` }])
       setInput('')
       return
     }
 
     if (!contactEmail) {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(messageContent)) {
-        setMessages(prev => [...prev, { role: 'user', content: messageContent }, { role: 'assistant', content: "Oops, that doesn't look like a valid email configuration. Let's try again:" }])
+        setMessages(prev => [...prev, { role: 'user', content: messageContent }, { role: 'assistant', content: "Invalid syntax format. Please re-enter secure routing parameter:" }])
         setInput('')
         return
       }
       setContactEmail(messageContent)
-      setMessages(prev => [...prev, { role: 'user', content: messageContent }, { role: 'assistant', content: "Got it. Finally, what would you like to tell David?" }])
+      setMessages(prev => [...prev, { role: 'user', content: messageContent }, { role: 'assistant', content: "Parameters locked. Enter your message core details:" }])
       setInput('')
       return
     }
@@ -287,20 +283,19 @@ export default function FloatingChat() {
       })
       
       if (res.ok) {
-        setMessages(prev => [...prev, { role: 'assistant', content: "Message sent successfully! ✓\n\nDavid will check his inbox and get back to you shortly. Let me know if there's anything else you'd like to see!" }])
+        setMessages(prev => [...prev, { role: 'assistant', content: "Transmission complete. ✓\n\nDavid has been updated on this communication pipeline. Let me know if you need any further indexing." }])
         setContactMode(false)
       } else {
-        setMessages(prev => [...prev, { role: 'assistant', content: "I ran into a server problem trying to process that message. Feel free to use the form at the bottom of the page or email raigoza.david.j@gmail.com directly!" }])
+        setMessages(prev => [...prev, { role: 'assistant', content: "Routing error encountered. You can issue communications manually to raigoza.david.j@gmail.com" }])
         setContactMode(false)
       }
     } catch {
-      setMessages(prev => [...prev, { role: 'assistant', content: "Network error sending contact data. Try again in a second." }])
+      setMessages(prev => [...prev, { role: 'assistant', content: "Network layer drop. Re-initialize contact stack." }])
     } finally {
       setLoading(false)
     }
   }
 
-  // ── TOUR STATE STEP CONTROLLERS ──────────────────────────────────────────────
   const startTour = (type: 'design' | 'web3') => {
     const tour = type === 'design' ? DESIGN_TOUR : WEB3_TOUR
     setTourActive(true)
@@ -333,7 +328,7 @@ export default function FloatingChat() {
     setTourType(null)
     setTourStep(0)
     setContactMode(false)
-    setMessages(prev => [...prev, { role: 'assistant', content: "Tour ended. Ask me anything, or reach out at raigoza.david.j@gmail.com" }])
+    setMessages(prev => [...prev, { role: 'assistant', content: "Sequence stopped. Awaiting independent input." }])
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -354,57 +349,61 @@ export default function FloatingChat() {
     <>
       <div
         role="dialog"
-        aria-label="Portfolio assistant"
+        aria-label="Portfolio operating system"
         style={{
           position: 'fixed',
           bottom: '5.5rem',
-          right: 'clamp(1rem, 3vw, 2rem)',
-          width: 'min(380px, calc(100vw - 2rem))',
-          height: '520px',
-          background: 'var(--bg)',
-          border: '1px solid var(--border)',
+          right: 'clamp(1rem, 3vw, 2.5rem)',
+          width: 'min(360px, calc(100vw - 2rem))',
+          height: '500px',
+          background: 'rgba(10, 10, 10, 0.96)',
+          border: '1px solid rgba(255, 255, 255, 0.05)',
+          borderRadius: '4px',
           display: 'flex',
           flexDirection: 'column',
           zIndex: 999,
-          boxShadow: '0 24px 64px rgba(0,0,0,0.5)',
+          boxShadow: '0 32px 64px -16px rgba(0,0,0,0.65)',
+          backdropFilter: 'blur(24px)',
           opacity: open ? 1 : 0,
-          transform: open ? 'translateY(0) scale(1)' : 'translateY(12px) scale(0.97)',
+          transform: open ? 'translateY(0) scale(1)' : 'translateY(8px) scale(0.99)',
           pointerEvents: open ? 'all' : 'none',
-          transition: 'opacity 0.2s ease, transform 0.2s ease',
+          transition: 'opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       >
-        {/* Header */}
-        <div style={{ padding: '1rem 1.25rem', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
+        {/* Editorial Sub-Header */}
+        <div style={{ padding: '1.25rem', borderBottom: '1px solid rgba(255, 255, 255, 0.04)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
           <div>
-            <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--accent)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.2rem' }}>
-              {contactMode ? 'Inbox Sync' : tourActive ? `Tour · ${tourType === 'design' ? 'Brand & Design' : 'Web3'} · ${tourStep}/${currentTourArray.length}` : 'Vera'}
+            <p style={{ fontFamily: 'var(--mono)', fontSize: '0.55rem', color: 'var(--muted)', opacity: 0.5, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.15rem' }}>
+              {contactMode ? 'System Context' : tourActive ? `Index · 0${tourStep} / 0${currentTourArray.length}` : 'Core Operating Interface'}
             </p>
-            <p style={{ fontFamily: 'var(--sans)', fontSize: '0.8rem', color: 'var(--text)', fontWeight: 500 }}>
-              {contactMode ? 'Direct Contact Form' : tourActive ? 'Guided tour in progress' : "David's portfolio assistant"}
+            <p style={{ fontFamily: 'var(--sans)', fontSize: '0.8rem', color: 'var(--text)', fontWeight: 400, opacity: 0.9 }}>
+              {contactMode ? 'Direct Channel' : tourActive ? 'Guided System Sequence' : 'Vera / Portfolio Layer'}
             </p>
           </div>
-          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
             {(tourActive || contactMode) && (
-              <button onClick={endTour} style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'var(--mono)', fontSize: '0.55rem', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.25rem 0.5rem' }}>
-                Exit flow
+              <button onClick={endTour} style={{ background: 'none', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '3px', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'var(--mono)', fontSize: '0.55rem', letterSpacing: '0.05em', textTransform: 'uppercase', padding: '0.25rem 0.5rem', transition: 'all 0.2s' }} onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'} onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'}>
+                Cancel
               </button>
             )}
-            <button onClick={() => setOpen(false)} aria-label="Close chat" style={{ background: 'none', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontSize: '1rem', padding: '0.25rem' }}>✕</button>
+            <button onClick={() => setOpen(false)} aria-label="Minimize interface" style={{ background: 'none', border: 'none', color: 'var(--muted)', opacity: 0.5, cursor: 'pointer', fontSize: '0.75rem', padding: '0.25rem', transition: 'opacity 0.2s' }} onMouseEnter={e => e.currentTarget.style.opacity = '1'} onMouseLeave={e => e.currentTarget.style.opacity = '0.5'}>✕</button>
           </div>
         </div>
 
-        {/* Messages Body */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        {/* Content Stream */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           {messages.map((msg, i) => (
             <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.role === 'user' ? 'flex-end' : 'flex-start', gap: '0.5rem' }}>
               <div style={{
-                maxWidth: '85%',
-                padding: '0.65rem 0.9rem',
-                background: msg.role === 'user' ? 'var(--accent)' : 'rgba(255,255,255,0.04)',
-                border: msg.role === 'user' ? 'none' : '1px solid var(--border)',
+                maxWidth: '90%',
+                padding: msg.role === 'user' ? '0.5rem 0.8rem' : '0px',
+                background: msg.role === 'user' ? 'rgba(255,255,255,0.05)' : 'none',
+                border: msg.role === 'user' ? '1px solid rgba(255,255,255,0.08)' : 'none',
+                borderRadius: msg.role === 'user' ? '4px' : '0px',
                 fontFamily: 'var(--sans)',
-                fontSize: '0.8rem',
-                color: msg.role === 'user' ? 'var(--bg)' : 'var(--text)',
+                fontSize: '0.78rem',
+                color: 'var(--text)',
+                opacity: msg.role === 'user' ? 1 : 0.85,
                 lineHeight: 1.6,
                 whiteSpace: 'pre-wrap',
               }}>
@@ -412,14 +411,14 @@ export default function FloatingChat() {
               </div>
 
               {msg.role === 'assistant' && i === 0 && messages.length === 1 && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', width: '100%' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', width: '100%', marginTop: '0.5rem' }}>
                   {SUGGESTIONS.map(s => (
                     <button
                       key={s}
                       onClick={() => sendMessage(s)}
-                      style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', fontFamily: 'var(--sans)', fontSize: '0.72rem', padding: '0.5rem 0.75rem', cursor: 'pointer', textAlign: 'left', transition: 'border-color 0.15s, color 0.15s', lineHeight: 1.4 }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--text)' }}
-                      onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--muted)' }}
+                      style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '4px', color: 'var(--muted)', fontFamily: 'var(--sans)', fontSize: '0.75rem', padding: '0.5rem 0.75rem', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s ease', lineHeight: 1.4 }}
+                      onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'; e.currentTarget.style.color = 'var(--text)'; e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+                      onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = 'var(--muted)'; e.currentTarget.style.background = 'rgba(255,255,255,0.02)' }}
                     >
                       {s}
                     </button>
@@ -430,10 +429,10 @@ export default function FloatingChat() {
           ))}
 
           {loading && (
-            <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-              <div style={{ padding: '0.65rem 0.9rem', border: '1px solid var(--border)', display: 'flex', gap: '0.3rem', alignItems: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-start', paddingLeft: '2px' }}>
+              <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
                 {[0, 1, 2].map(i => (
-                  <span key={i} style={{ width: '4px', height: '4px', background: 'var(--accent)', borderRadius: '50%', display: 'inline-block', animation: `chatDot 1.2s ease-in-out ${i * 0.2}s infinite` }} />
+                  <span key={i} style={{ width: '3px', height: '3px', background: 'var(--text)', opacity: 0.3, borderRadius: '50%', display: 'inline-block', animation: `chatDot 1.4s ease-in-out ${i * 0.15}s infinite` }} />
                 ))}
               </div>
             </div>
@@ -442,29 +441,29 @@ export default function FloatingChat() {
           <div ref={bottomRef} />
         </div>
 
-        {/* Action Button Stage Layouts */}
-        <div style={{ padding: '0px 1.25rem 0.75rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', flexShrink: 0 }}>
+        {/* Action Controls Deck */}
+        <div style={{ padding: '0px 1.25rem 0.75rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.35rem', flexShrink: 0 }}>
           {(!tourActive && !contactMode && (lastMsg?.tourAction?.offerTour || /tour/i.test(lastMsg?.content ?? ''))) && (
-            <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-              <TourButton onClick={() => startTour('design')}>Brand & Design tour →</TourButton>
-              <TourButton onClick={() => startTour('web3')}>Web3 tour →</TourButton>
+            <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+              <TourButton onClick={() => startTour('design')}>Production Artifacts Tour</TourButton>
+              <TourButton onClick={() => startTour('web3')}>Web3 Engine Tour</TourButton>
             </div>
           )}
 
           {tourActive && !loading && (
-            <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
               {nextStepConfig ? (
-                <TourButton onClick={advanceTour}>{currentStepConfig?.nextLabel ?? 'Next Step →'}</TourButton>
+                <TourButton onClick={advanceTour}>{currentStepConfig?.nextLabel?.replace('→', '').trim() || 'Next Phase'}</TourButton>
               ) : (
-                <TourButton onClick={initiateContactFlow}>Get in touch →</TourButton>
+                <TourButton onClick={initiateContactFlow}>Sync Workspace</TourButton>
               )}
-              <TourButton secondary onClick={endTour}>Keep exploring</TourButton>
+              <TourButton secondary onClick={endTour}>Exit Journey</TourButton>
             </div>
           )}
         </div>
 
-        {/* Input area */}
-        <div style={{ padding: '0.75rem 1rem', borderTop: '1px solid var(--border)', display: 'flex', gap: '0.5rem', alignItems: 'flex-end', flexShrink: 0 }}>
+        {/* Console Input Line */}
+        <div style={{ padding: '0.75rem 1.25rem 1.25rem 1.25rem', borderTop: '1px solid rgba(255, 255, 255, 0.04)', display: 'flex', gap: '0.5rem', alignItems: 'flex-end', flexShrink: 0 }}>
           <textarea
             ref={inputRef}
             value={input}
@@ -472,93 +471,104 @@ export default function FloatingChat() {
             onKeyDown={handleKeyDown}
             placeholder={
               contactMode 
-                ? !contactName ? "Type your name..." : !contactEmail ? "Type your email address..." : "Type your message..."
-                : tourActive ? 'Ask a question or use the buttons above…' : 'Ask anything…'
+                ? !contactName ? "Specify identity..." : !contactEmail ? "Specify communications route..." : "Draft prompt payload..."
+                : "Ask anything..."
             }
             rows={1}
             style={{
               flex: 1,
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid var(--border)',
+              background: 'rgba(255,255,255,0.02)',
+              border: '1px solid rgba(255,255,255,0.06)',
+              borderRadius: '4px',
               color: 'var(--text)',
               fontFamily: 'var(--sans)',
-              fontSize: '0.8rem',
-              padding: '0.6rem 0.75rem',
+              fontSize: '0.78rem',
+              padding: '0.55rem 0.75rem',
               resize: 'none',
               outline: 'none',
               lineHeight: 1.5,
-              maxHeight: '80px',
+              maxHeight: '72px',
               overflowY: 'auto',
-              transition: 'border-color 0.15s',
+              transition: 'border-color 0.2s ease',
             }}
-            onFocus={e => (e.target.style.borderColor = 'var(--accent)')}
-            onBlur={e => (e.target.style.borderColor = 'var(--border)')}
+            onFocus={e => (e.target.style.borderColor = 'rgba(255,255,255,0.15)')}
+            onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.06)')}
           />
           <button
             onClick={() => sendMessage(input)}
             disabled={!input.trim() || loading}
-            aria-label="Send message"
+            aria-label="Submit intent payload"
             style={{
-              background: input.trim() && !loading ? 'var(--accent)' : 'var(--border)',
-              border: 'none',
-              color: input.trim() && !loading ? 'var(--bg)' : 'var(--muted)',
+              background: input.trim() && !loading ? 'rgba(255, 255, 255, 0.06)' : 'rgba(255, 255, 255, 0.01)',
+              border: '1px solid rgba(255, 255, 255, 0.06)',
+              borderRadius: '4px',
+              color: 'var(--text)',
+              opacity: input.trim() && !loading ? 1 : 0.25,
               fontFamily: 'var(--mono)',
-              fontSize: '0.7rem',
-              padding: '0.6rem 0.9rem',
+              fontSize: '0.75rem',
+              padding: '0.55rem 0.75rem',
               cursor: input.trim() && !loading ? 'pointer' : 'not-allowed',
-              transition: 'background 0.15s, color 0.15s',
+              transition: 'all 0.2s ease',
               flexShrink: 0,
             }}
+            onMouseEnter={e => { if(input.trim() && !loading) e.currentTarget.style.background = 'rgba(255,255,255,0.15)' }}
+            onMouseLeave={e => { if(input.trim() && !loading) e.currentTarget.style.background = 'rgba(255,255,255,0.06)' }}
           >
             →
           </button>
         </div>
       </div>
 
-      {/* Trigger Button */}
-      <div style={{ position: 'fixed', bottom: 'clamp(1rem, 3vw, 1.75rem)', right: 'clamp(1rem, 3vw, 2rem)', zIndex: 1000, opacity: mounted ? 1 : 0, transition: 'opacity 0.5s ease' }}>
-        {!open && (
-          <>
-            <span style={{ position: 'absolute', inset: 0, border: '2px solid var(--accent)', animation: 'chatPulse 2.5s ease-out 1.5s infinite', pointerEvents: 'none' }} />
-            <span style={{ position: 'absolute', inset: 0, border: '2px solid var(--accent)', animation: 'chatPulse 2.5s ease-out 2.2s infinite', pointerEvents: 'none' }} />
-          </>
-        )}
+      {/* Luxury System Dock Trigger Pin */}
+      <div style={{ position: 'fixed', bottom: 'clamp(1rem, 3vw, 1.75rem)', right: 'clamp(1rem, 3vw, 2.5rem)', zIndex: 1000, opacity: mounted ? 1 : 0, transition: 'opacity 0.5s ease' }}>
         <button
           onClick={() => setOpen(prev => !prev)}
-          aria-label={open ? 'Close portfolio assistant' : 'Open portfolio assistant'}
+          aria-label={open ? 'Close system layer' : 'Open system layer'}
           style={{
             position: 'relative',
-            background: open ? 'var(--text)' : 'var(--accent)',
-            border: 'none',
-            color: 'var(--bg)',
+            background: 'rgba(12, 12, 12, 0.9)',
+            border: open ? '1px solid rgba(255,255,255,0.15)' : '1px solid rgba(255,255,255,0.06)',
+            borderRadius: '4px',
+            color: 'var(--text)',
             fontFamily: 'var(--mono)',
-            fontSize: '0.6rem',
-            letterSpacing: '0.15em',
+            fontSize: '0.625rem',
+            letterSpacing: '0.1em',
             textTransform: 'uppercase',
-            padding: '0.75rem 1.25rem',
+            padding: '0.55rem 1rem',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem',
-            transition: 'background 0.2s, transform 0.15s',
-            boxShadow: '0 4px 24px rgba(0,0,0,0.35)',
+            gap: '0.6rem',
+            backdropFilter: 'blur(16px)',
+            transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+            boxShadow: '0 16px 32px -8px rgba(0,0,0,0.4)',
           }}
-          onMouseEnter={e => (e.currentTarget.style.transform = 'translateY(-2px)')}
-          onMouseLeave={e => (e.currentTarget.style.transform = 'translateY(0)')}
+          onMouseEnter={e => {
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'
+            e.currentTarget.style.transform = 'translateY(-1px)'
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.borderColor = open ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.06)'
+            e.currentTarget.style.transform = 'translateY(0)'
+          }}
         >
-          <span style={{ fontSize: '0.75rem' }}>{open ? '✕' : '◈'}</span>
+          {/* Subtle rare accent state indicator */}
+          <span style={{ 
+            width: '4px', 
+            height: '4px', 
+            borderRadius: '50%', 
+            background: open ? 'var(--text)' : 'var(--accent)', 
+            display: 'inline-block',
+            boxShadow: open ? 'none' : '0 0 8px var(--accent)'
+          }} />
           {open ? 'Close' : 'Ask Vera'}
         </button>
       </div>
 
       <style>{`
         @keyframes chatDot {
-          0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
-          40% { opacity: 1; transform: scale(1); }
-        }
-        @keyframes chatPulse {
-          0%   { transform: scale(1);   opacity: 0.7; }
-          100% { transform: scale(1.9); opacity: 0; }
+          0%, 80%, 100% { opacity: 0.2; transform: translateY(0px); }
+          40% { opacity: 1; transform: translateY(-1px); }
         }
       `}</style>
     </>
@@ -570,24 +580,31 @@ function TourButton({ children, onClick, secondary }: { children: React.ReactNod
     <button
       onClick={onClick}
       style={{
-        background: secondary ? 'none' : 'var(--accent)',
-        border: secondary ? '1px solid var(--border)' : 'none',
-        color: secondary ? 'var(--muted)' : 'var(--bg)',
+        background: secondary ? 'transparent' : 'rgba(255, 255, 255, 0.03)',
+        border: secondary ? '1px solid transparent' : '1px solid rgba(255, 255, 255, 0.06)',
+        borderRadius: '4px',
+        color: secondary ? 'var(--muted)' : 'var(--text)',
         fontFamily: 'var(--mono)',
         fontSize: '0.6rem',
-        letterSpacing: '0.12em',
+        letterSpacing: '0.05em',
         textTransform: 'uppercase',
-        padding: '0.5rem 0.9rem',
+        padding: '0.45rem 0.8rem',
         cursor: 'pointer',
-        transition: 'background 0.15s, color 0.15s',
+        transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
       }}
       onMouseEnter={e => {
-        if (secondary) { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--text)' }
-        else e.currentTarget.style.background = 'var(--text)'
+        if (secondary) { e.currentTarget.style.color = 'var(--text)' }
+        else {
+          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
+          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)'
+        }
       }}
       onMouseLeave={e => {
-        if (secondary) { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--muted)' }
-        else e.currentTarget.style.background = 'var(--accent)'
+        if (secondary) { e.currentTarget.style.color = 'var(--muted)' }
+        else {
+          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)'
+          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.06)'
+        }
       }}
     >
       {children}

@@ -1,3 +1,5 @@
+'use client'
+
 import ProjectCard from './ProjectCard'
 import HeroSection from './HeroSection'
 import CardGrid from './CardGrid'
@@ -33,7 +35,7 @@ const web3Projects = [
   },
   {
     index: '06',
-    year: '2019–',
+    year: '2026',
     title: 'GitHub',
     subtitle: 'Open-source immutable protocol repositories, state systems, and deployment infrastructure',
     tags: ['Solidity', 'Next.js', 'Smart Contracts', 'Web3'],
@@ -142,7 +144,42 @@ function SectionLabel({ label, count, accent = 'var(--accent)' }: { label: strin
 // ── LANDING PAGE MAIN COMPONENT ────────────────────────────────────────────────
 export default function LandingPage() {
   return (
-    <main>
+    <main 
+      style={{ 
+        position: 'relative', 
+        backgroundColor: '#050505', 
+        overflow: 'hidden',
+        minHeight: '100vh',
+      }}
+    >
+      {/* ── TOP HORIZON GRID MASK ── */}
+      {/* Fades out the background grid layout near the top to seamlessly frame the header elements */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: '240px',
+        background: 'linear-gradient(180deg, #050505 0%, rgba(5, 5, 5, 0.8) 40%, transparent 100%)',
+        pointerEvents: 'none',
+        zIndex: 3, 
+      }} />
+
+      {/* ── SUBSURFACE WHITE AMBIENT GLOW ── */}
+      {/* Soft, low-intensity white blur providing top depth without conflicting with active text elements */}
+      <div style={{
+        position: 'absolute',
+        top: '-150px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '1200px',
+        height: '400px',
+        background: 'radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.025) 0%, rgba(255, 255, 255, 0.005) 50%, transparent 100%)',
+        filter: 'blur(60px)',
+        pointerEvents: 'none',
+        zIndex: 1,
+      }} />
+
       <HeroSection />
 
       {/* ── WORK ──────────────────────────────────────────────────────── */}
@@ -152,6 +189,8 @@ export default function LandingPage() {
           padding: 'clamp(4rem, 8vw, 8rem) clamp(1.5rem, 5vw, 4rem)',
           maxWidth: '1200px',
           margin: '0 auto',
+          position: 'relative',
+          zIndex: 2,
         }}
       >
         <div style={{
@@ -190,7 +229,16 @@ export default function LandingPage() {
         {/* Product Track */}
         <div style={{ marginBottom: 'clamp(3rem, 6vw, 5rem)' }}>
           <SectionLabel label="Product Interfaces & Systems" count={productProjects.length} accent="var(--accent)" />
-          <div style={{ border: '1px solid var(--border)' }}>
+          <div style={{
+            backgroundColor: '#0A0A0A',
+            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+            borderLeft: '1px solid rgba(255, 255, 255, 0.04)',
+            borderRight: '1px solid rgba(0, 0, 0, 0.6)',
+            borderBottom: '1px solid rgba(0, 0, 0, 0.9)',
+            borderRadius: '16px',
+            boxShadow: '0 16px 32px -12px rgba(0, 0, 0, 0.75), inset 0 1px 1px rgba(255, 255, 255, 0.02)',
+            overflow: 'hidden'
+          }}>
             <ProjectCard {...productProjects[0]} />
           </div>
         </div>
@@ -213,6 +261,8 @@ export default function LandingPage() {
           gap: '4rem',
           maxWidth: '1200px',
           margin: '0 auto',
+          position: 'relative',
+          zIndex: 2,
         }}
       >
         <div>
@@ -282,6 +332,7 @@ export default function LandingPage() {
           borderTop: '1px solid var(--border)',
           position: 'relative',
           overflow: 'hidden',
+          zIndex: 2,
         }}
       >
         <div style={{

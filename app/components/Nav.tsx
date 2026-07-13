@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useExperiment } from './ExperimentProvider' // ◄── Pulls the cookie variant ('A' or 'B')
+import { useExperiment } from './ExperimentProvider'
 
 export default function Nav() {
   const { variant } = useExperiment()
@@ -9,14 +9,12 @@ export default function Nav() {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    // 1. Mobile responsive check
     const media = window.matchMedia('(max-width: 768px)')
     setIsMobile(media.matches)
     const listener = (e: MediaQueryListEvent) => setIsMobile(e.matches)
     media.addEventListener('change', listener)
 
-    // 2. Scroll depth check
-    const onScroll = () => setScrolled(window.scrollY > 40)
+    const onScroll = () => setScrolled(window.scrollY > 15)
     window.addEventListener('scroll', onScroll, { passive: true })
     
     return () => {
@@ -25,63 +23,125 @@ export default function Nav() {
     }
   }, [])
 
-  // ─── A/B VARIANT CONDITIONS ───────────────────────────────────────────
-  const isVariantA = variant === 'A' // Agentic Focus
-  const isVariantB = variant === 'B' // Contextual High-Contrast Nav Focus
-
-  // Variant B is permanently solid/blurred from line 1; Variant A waits for scroll.
+  const isVariantB = variant === 'B'
   const showActiveState = scrolled || isVariantB
 
   return (
-    <nav style={{
+    <div style={{
       position: 'fixed',
-      top: 0,
+      top: isMobile ? '0.5rem' : '1.75rem',
       left: 0,
       right: 0,
       zIndex: 100,
       display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      padding: isMobile ? '1rem 1.25rem' : '1.25rem 2.5rem',
-      
-      // Dynamic styles shifting based on variant allocation
-      borderBottom: showActiveState 
-        ? (isVariantB ? '1px solid var(--accent)' : '1px solid var(--border)') 
-        : '1px solid transparent',
-      background: showActiveState ? 'rgba(8,8,8,0.95)' : 'transparent',
-      backdropFilter: showActiveState ? 'blur(16px)' : 'none',
-      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+      justifyContent: 'center',
+      padding: isMobile ? '0 1rem' : '0 2rem',
+      pointerEvents: 'none'
     }}>
-      
-      {/* BRAND IDENTITY */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-        <span style={{
-          fontFamily: 'var(--mono)',
-          fontSize: '0.75rem',
-          letterSpacing: '0.15em',
-          color: 'var(--accent)',
-          textTransform: 'uppercase',
-        }}>
-          DR
-        </span>
+      <nav style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '100%',
+        maxWidth: isMobile ? '100%' : '1100px',
+        padding: isMobile ? '0.75rem 1.25rem' : '0.7rem 1.75rem',
+        pointerEvents: 'all',
         
-        {!isMobile && (
-          <span style={{ 
-            fontFamily: 'var(--mono)', 
-            fontSize: '0.65rem', 
-            color: 'var(--muted)', 
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase'
+        // ── EXAGGERATED PREMIUM NEUMORPHIC CHASSIS ──
+        // Blends a rich dark core with a crisp highlight rim and massive structural ambient absorption drop-shadows
+        backgroundColor: '#0A0A0A',
+        borderTop: '1px solid rgba(255, 255, 255, 0.12)', // Sharp light-facing bevel
+        borderLeft: '1px solid rgba(255, 255, 255, 0.07)',
+        borderRight: '1px solid rgba(0, 0, 0, 0.6)',
+        borderBottom: '1px solid rgba(0, 0, 0, 0.8)', // Shadow-facing baseline bleed
+        borderRadius: '40px',
+        backdropFilter: 'blur(30px)',
+        
+        // Complex stacked shadows: 1. Soft widespread absorption, 2. Hard physical occlusion, 3. Crisp inner shadow depth
+        boxShadow: `
+          0 24px 48px -12px rgba(0, 0, 0, 0.85),
+          0 8px 16px -4px rgba(0, 0, 0, 0.9),
+          inset 0 1px 1px rgba(255, 255, 255, 0.05)
+        `,
+        transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+        transform: showActiveState ? 'translateY(0)' : 'translateY(-4px)',
+      }}>
+        
+        {/* IDENTITY BLOCK */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+          <span style={{
+            fontFamily: 'var(--mono)',
+            fontSize: '0.7rem',
+            letterSpacing: '0.15em',
+            color: '#FFFFFF',
+            fontWeight: 700,
+            textTransform: 'uppercase',
           }}>
-            Medellín, CO — {new Date().getFullYear()}
+            DR
           </span>
-        )}
-      </div>
+          
+          {!isMobile && (
+            <span style={{ 
+              fontFamily: 'var(--mono)', 
+              fontSize: '0.55rem', 
+              color: 'var(--muted)', 
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              opacity: 0.3,
+              borderLeft: '1px solid rgba(255,255,255,0.08)',
+              paddingLeft: '1.25rem'
+            }}>
+              SYS.OP // 2026
+            </span>
+          )}
+        </div>
 
-      {/* INTERACTIONS AND LINKS */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '1rem' : '2rem' }}>
-        
-        {/* Dynamic Launch Button: Accentuated heavily in Variant A to pull chat engagement */}
+        {/* INTERACTION LINKS (MILLEDOUT SLAG CONTAINER) */}
+        <div style={{ 
+          display: 'flex', 
+          gap: isMobile ? '1.25rem' : '0.5rem',
+          position: isMobile ? 'static' : 'absolute',
+          left: isMobile ? 'auto' : '50%',
+          transform: isMobile ? 'none' : 'translateX(-50%)',
+          backgroundColor: 'rgba(0, 0, 0, 0.4)',
+          border: '1px solid rgba(0, 0, 0, 0.5)',
+          borderBottomColor: 'rgba(255, 255, 255, 0.03)',
+          borderRightColor: 'rgba(255, 255, 255, 0.02)',
+          padding: isMobile ? '0' : '0.25rem',
+          borderRadius: '20px',
+          boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.6)'
+        }}>
+          {['work', 'about'].map(item => (
+            <a
+              key={item}
+              href={`#${item}`}
+              style={{
+                fontFamily: 'var(--mono)',
+                fontSize: '0.625rem',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'var(--muted)',
+                padding: '0.35rem 1rem',
+                borderRadius: '16px',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.color = '#FFFFFF'
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)'
+                e.currentTarget.style.boxShadow = '0 1px 0 rgba(255,255,255,0.05), inset 0 1px 1px rgba(0,0,0,0.2)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.color = 'var(--muted)'
+                e.currentTarget.style.backgroundColor = 'transparent'
+                e.currentTarget.style.boxShadow = 'none'
+              }}
+            >
+              {item}
+            </a>
+          ))}
+        </div>
+
+        {/* NEUMORPHIC BUTTON EXTENSION */}
         <button
           onClick={() => {
             window.dispatchEvent(new CustomEvent('open-vera'))
@@ -91,58 +151,38 @@ export default function Nav() {
             }, 50)
           }}
           style={{
-            background: isVariantA ? 'var(--accent)' : 'transparent',
-            border: '1px solid var(--accent)',
-            borderRadius: '2px',
-            padding: '0.35rem 0.75rem',
+            background: 'linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
+            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+            borderLeft: '1px solid rgba(255, 255, 255, 0.05)',
+            borderRight: '1px solid rgba(0, 0, 0, 0.3)',
+            borderBottom: '1px solid rgba(0, 0, 0, 0.5)',
+            borderRadius: '20px',
+            padding: '0.45rem 1.1rem',
             fontFamily: 'var(--mono)',
             fontSize: '0.6rem',
             fontWeight: 600,
-            color: isVariantA ? 'var(--bg)' : 'var(--accent)',
-            letterSpacing: '0.1em',
+            color: '#FFFFFF',
+            letterSpacing: '0.05em',
             textTransform: 'uppercase',
             cursor: 'pointer',
-            boxShadow: isVariantA ? '0 0 15px rgba(200, 240, 74, 0.2)' : 'none',
-            transition: 'all 0.2s ease',
+            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.02)',
+            transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
             whiteSpace: 'nowrap'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = isVariantA ? 'var(--text)' : 'var(--accent)'
-            e.currentTarget.style.color = 'var(--bg)'
+            e.currentTarget.style.transform = 'translateY(-0.5px)'
+            e.currentTarget.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%)'
+            e.currentTarget.style.boxShadow = '0 6px 14px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.05)'
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = isVariantA ? 'var(--accent)' : 'rgba(200, 240, 74, 0.02)'
-            e.currentTarget.style.color = isVariantA ? 'var(--bg)' : 'var(--accent)'
+            e.currentTarget.style.transform = 'translateY(0)'
+            e.currentTarget.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)'
+            e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.02)'
           }}
         >
-          ✦ Launch Vera
+          Launch Vera
         </button>
-
-        {/* Anchor Navigation Links: Emphasized clearly in Variant B for explicit routes */}
-        <div style={{ display: 'flex', gap: isMobile ? '0.75rem' : '1.5rem' }}>
-          {['work', 'about'].map(item => (
-            <a
-              key={item}
-              href={`#${item}`}
-              style={{
-                fontFamily: 'var(--mono)',
-                fontSize: '0.7rem',
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                
-                // Variant B targets look prominent immediately; Variant A keeps them muted
-                color: isVariantB ? 'var(--text)' : 'var(--muted)',
-                fontWeight: isVariantB ? 600 : 400,
-                transition: 'color 0.2s ease',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
-              onMouseLeave={e => (e.currentTarget.style.color = isVariantB ? 'var(--text)' : 'var(--muted)')}
-            >
-              {item}
-            </a>
-          ))}
-        </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   )
 }

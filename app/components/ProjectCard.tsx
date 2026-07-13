@@ -17,6 +17,37 @@ interface ProjectCardProps {
   image?: string
 }
 
+// ── COMMON NEUMORPHIC CARD CHASSIS STYLES ────────────────────────────────────
+const getCardChassisStyles = (hovered: boolean, isMobile: boolean) => ({
+  display: 'flex',
+  flexDirection: 'column' as const,
+  position: 'relative' as const,
+  backgroundColor: '#0A0A0A',
+  padding: isMobile ? '1.5rem' : '2rem',
+  textDecoration: 'none',
+  overflow: 'hidden',
+  height: '100%',
+  
+  // Lighting setup mirroring the premium navigation system
+  borderTop: hovered && !isMobile ? '1px solid rgba(255, 255, 255, 0.16)' : '1px solid rgba(255, 255, 255, 0.08)',
+  borderLeft: hovered && !isMobile ? '1px solid rgba(255, 255, 255, 0.09)' : '1px solid rgba(255, 255, 255, 0.04)',
+  borderRight: '1px solid rgba(0, 0, 0, 0.6)',
+  borderBottom: '1px solid rgba(0, 0, 0, 0.9)',
+  borderRadius: '16px', // Bounded geometric corner radius
+  
+  boxShadow: hovered && !isMobile ? `
+    0 32px 64px -16px rgba(0, 0, 0, 0.9),
+    0 12px 24px -6px rgba(0, 0, 0, 0.95),
+    inset 0 1px 1px rgba(255, 255, 255, 0.04)
+  ` : `
+    0 16px 32px -12px rgba(0, 0, 0, 0.75),
+    0 4px 12px -3px rgba(0, 0, 0, 0.85),
+    inset 0 1px 1px rgba(255, 255, 255, 0.02)
+  `,
+  transform: hovered && !isMobile ? 'translateY(-2px)' : 'translateY(0)',
+  transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+})
+
 // ── WEB3 CARD ─────────────────────────────────────────────────────────────────
 function Web3Card({ index, title, subtitle, tags, description, link, linkLabel, year, accent = 'var(--accent)' }: ProjectCardProps) {
   const [hovered, setHovered] = useState(false)
@@ -38,29 +69,8 @@ function Web3Card({ index, title, subtitle, tags, description, link, linkLabel, 
       rel="noopener noreferrer"
       onMouseEnter={() => !isMobile && setHovered(true)}
       onMouseLeave={() => !isMobile && setHovered(false)}
-      style={{
-        display: 'block',
-        position: 'relative',
-        background: hovered && !isMobile ? 'var(--surface)' : 'transparent',
-        padding: isMobile ? '1.5rem' : '2rem',
-        transition: 'background 0.35s ease',
-        textDecoration: 'none',
-        overflow: 'hidden',
-        height: '100%',
-      }}
+      style={getCardChassisStyles(hovered, isMobile)}
     >
-      {!isMobile && (
-        <span style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: hovered ? '100%' : '0%',
-          height: '1px',
-          background: `linear-gradient(90deg, ${accent}, transparent)`,
-          transition: 'width 0.5s ease',
-        }} />
-      )}
-
       <div style={{
         fontFamily: 'var(--mono)',
         fontSize: '0.65rem',
@@ -78,7 +88,7 @@ function Web3Card({ index, title, subtitle, tags, description, link, linkLabel, 
         fontSize: isMobile ? 'clamp(1.3rem, 6vw, 1.8rem)' : 'clamp(1.6rem, 3vw, 2.2rem)',
         fontWeight: 300,
         lineHeight: 1.1,
-        color: 'var(--text)',
+        color: '#FFFFFF',
         marginBottom: '0.4rem',
         fontStyle: 'italic',
         letterSpacing: '-0.01em',
@@ -92,7 +102,7 @@ function Web3Card({ index, title, subtitle, tags, description, link, linkLabel, 
         color: 'var(--muted)',
         letterSpacing: '0.08em',
         textTransform: 'uppercase',
-        marginBottom: '1rem',
+        marginBottom: '1.25rem',
         lineHeight: 1.5,
       }}>
         {subtitle}
@@ -102,11 +112,12 @@ function Web3Card({ index, title, subtitle, tags, description, link, linkLabel, 
         fontSize: '0.875rem',
         color: 'var(--muted)',
         lineHeight: 1.7,
-        maxHeight: active ? '8rem' : '0',
+        maxHeight: active ? '12rem' : '0',
         overflow: 'hidden',
         opacity: active ? 1 : 0,
         transition: isMobile ? 'none' : 'max-height 0.4s ease, opacity 0.35s ease',
-        marginBottom: active ? '1.25rem' : '0',
+        marginBottom: active ? '1.5rem' : '0',
+        flex: 1,
       }}>
         {description}
       </p>
@@ -117,6 +128,7 @@ function Web3Card({ index, title, subtitle, tags, description, link, linkLabel, 
         justifyContent: 'space-between',
         flexWrap: 'wrap',
         gap: '0.75rem',
+        marginTop: 'auto'
       }}>
         <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
           {tags.map(tag => (
@@ -125,9 +137,13 @@ function Web3Card({ index, title, subtitle, tags, description, link, linkLabel, 
               fontSize: '0.58rem',
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              color: active ? accent : 'var(--muted)',
-              border: `1px solid ${active ? accent : 'var(--border)'}`,
-              padding: '0.2rem 0.45rem',
+              color: active ? '#FFFFFF' : 'var(--muted)',
+              backgroundColor: 'rgba(0, 0, 0, 0.3)',
+              border: '1px solid rgba(0, 0, 0, 0.4)',
+              borderBottomColor: 'rgba(255,255,255,0.03)',
+              borderRadius: '6px',
+              padding: '0.25rem 0.5rem',
+              boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.4)',
               transition: 'all 0.3s ease',
             }}>
               {tag}
@@ -188,58 +204,40 @@ function ProductCard({ index, title, subtitle, tags, description, link, linkLabe
       rel="noopener noreferrer"
       onMouseEnter={() => !isMobile && setHovered(true)}
       onMouseLeave={() => !isMobile && setHovered(false)}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'relative',
-        background: hovered && !isMobile ? 'var(--surface)' : 'transparent',
-        padding: isMobile ? '1.5rem' : '2rem',
-        transition: 'background 0.35s ease',
-        textDecoration: 'none',
-        overflow: 'hidden',
-        height: '100%',
-      }}
+      style={getCardChassisStyles(hovered, isMobile)}
     >
-      {!isMobile && (
-        <span style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: hovered ? '100%' : '0%',
-          height: '1px',
-          background: `linear-gradient(90deg, ${accent}, transparent)`,
-          transition: 'width 0.5s ease',
-        }} />
-      )}
-
-      {/* Mini dashboard preview */}
+      {/* Milled dashboard preview screen */}
       <div style={{
-        border: '1px solid var(--border)',
-        background: 'rgba(0,0,0,0.4)',
-        padding: '1rem',
+        backgroundColor: '#050505',
+        border: '1px solid rgba(0, 0, 0, 0.6)',
+        borderBottomColor: 'rgba(255, 255, 255, 0.04)',
+        borderRightColor: 'rgba(255, 255, 255, 0.02)',
+        borderRadius: '8px',
+        padding: '1.1rem',
         marginBottom: '1.5rem',
         fontFamily: 'var(--mono)',
         fontSize: '0.65rem',
         lineHeight: 1.8,
         position: 'relative',
         overflow: 'hidden',
+        boxShadow: 'inset 0 3px 6px rgba(0,0,0,0.85)'
       }}>
         <div style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(200,240,74,0.015) 2px, rgba(200,240,74,0.015) 4px)',
+          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(200,240,74,0.01) 2px, rgba(200,240,74,0.01) 4px)',
           pointerEvents: 'none',
         }} />
-        <div style={{ color: active ? accent : 'var(--muted)', marginBottom: '0.5rem', letterSpacing: '0.12em', transition: 'color 0.3s' }}>
+        <div style={{ color: active ? accent : 'var(--muted)', marginBottom: '0.5rem', letterSpacing: '0.12em', transition: 'color 0.3s', fontWeight: 600 }}>
           ▸ JOB SCANNER v1.0
         </div>
         {rows.map(r => (
           <div key={r.label} style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--muted)' }}>
-            <span style={{ color: active ? accent : 'var(--border-hi)', transition: 'color 0.3s' }}>{r.status} {r.label}</span>
-            <span style={{ color: 'var(--text)' }}>{r.value}</span>
+            <span style={{ color: active ? accent : 'rgba(255,255,255,0.3)', transition: 'color 0.3s' }}>{r.status} {r.label}</span>
+            <span style={{ color: '#FFFFFF', opacity: 0.9 }}>{r.value}</span>
           </div>
         ))}
-        <div style={{ color: 'var(--border-hi)', marginTop: '0.5rem', fontSize: '0.58rem' }}>
+        <div style={{ color: 'rgba(255,255,255,0.2)', marginTop: '0.5rem', fontSize: '0.58rem' }}>
           AIRTABLE · NEXT.JS · GROQ {'█'.repeat(8)}{'░'.repeat(2)} 82%
         </div>
       </div>
@@ -261,7 +259,7 @@ function ProductCard({ index, title, subtitle, tags, description, link, linkLabe
         fontSize: 'clamp(1.6rem, 3vw, 2.2rem)',
         fontWeight: 300,
         lineHeight: 1.1,
-        color: 'var(--text)',
+        color: '#FFFFFF',
         marginBottom: '0.4rem',
         fontStyle: 'italic',
         letterSpacing: '-0.01em',
@@ -285,11 +283,11 @@ function ProductCard({ index, title, subtitle, tags, description, link, linkLabe
         fontSize: '0.875rem',
         color: 'var(--muted)',
         lineHeight: 1.7,
-        maxHeight: active ? '8rem' : '0',
+        maxHeight: active ? '12rem' : '0',
         overflow: 'hidden',
         opacity: active ? 1 : 0,
         transition: isMobile ? 'none' : 'max-height 0.4s ease, opacity 0.35s ease',
-        marginBottom: active ? '1.25rem' : '0',
+        marginBottom: active ? '1.5rem' : '0',
         flex: 1,
       }}>
         {description}
@@ -301,6 +299,7 @@ function ProductCard({ index, title, subtitle, tags, description, link, linkLabe
         justifyContent: 'space-between',
         flexWrap: 'wrap',
         gap: '0.75rem',
+        marginTop: 'auto'
       }}>
         <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
           {tags.map(tag => (
@@ -309,9 +308,13 @@ function ProductCard({ index, title, subtitle, tags, description, link, linkLabe
               fontSize: '0.58rem',
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              color: active ? accent : 'var(--muted)',
-              border: `1px solid ${active ? accent : 'var(--border)'}`,
-              padding: '0.2rem 0.45rem',
+              color: active ? '#FFFFFF' : 'var(--muted)',
+              backgroundColor: 'rgba(0, 0, 0, 0.3)',
+              border: '1px solid rgba(0, 0, 0, 0.4)',
+              borderBottomColor: 'rgba(255,255,255,0.03)',
+              borderRadius: '6px',
+              padding: '0.25rem 0.5rem',
+              boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.4)',
               transition: 'all 0.3s ease',
             }}>
               {tag}
@@ -357,39 +360,20 @@ function BrandCard({ index, title, subtitle, tags, description, link, linkLabel,
       rel="noopener noreferrer"
       onMouseEnter={() => !isMobile && setHovered(true)}
       onMouseLeave={() => !isMobile && setHovered(false)}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'relative',
-        background: hovered && !isMobile ? 'rgba(255,200,80,0.03)' : 'transparent',
-        padding: isMobile ? '1.5rem' : '2rem',
-        transition: 'background 0.4s ease',
-        textDecoration: 'none',
-        overflow: 'hidden',
-        height: '100%',
-      }}
+      style={getCardChassisStyles(hovered, isMobile)}
     >
-      {!isMobile && (
-        <span style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: hovered ? '100%' : '0%',
-          height: '1px',
-          background: `linear-gradient(90deg, ${accent}, transparent)`,
-          transition: 'width 0.5s ease',
-        }} />
-      )}
-
-      {/* Image area */}
+      {/* Sunk Image Tray */}
       <div style={{
         width: '100%',
         aspectRatio: '4 / 3',
         marginBottom: '1.5rem',
         position: 'relative',
         overflow: 'hidden',
-        background: image ? 'transparent' : 'rgba(255,180,60,0.04)',
-        border: `1px solid ${active ? accent : 'var(--border)'}`,
+        backgroundColor: '#050505',
+        border: '1px solid rgba(0, 0, 0, 0.6)',
+        borderBottomColor: 'rgba(255, 255, 255, 0.04)',
+        borderRadius: '8px',
+        boxShadow: 'inset 0 2px 5px rgba(0,0,0,0.8)',
         transition: 'border-color 0.4s ease',
       }}>
         {image ? (
@@ -400,8 +384,9 @@ function BrandCard({ index, title, subtitle, tags, description, link, linkLabel,
             sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, 33vw"
             style={{
               objectFit: 'cover',
-              transform: hovered && !isMobile ? 'scale(1.04)' : 'scale(1)',
-              transition: 'transform 0.6s ease',
+              transform: hovered && !isMobile ? 'scale(1.03)' : 'scale(1)',
+              opacity: hovered ? 0.9 : 0.75,
+              transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease',
             }}
           />
         ) : (
@@ -409,7 +394,7 @@ function BrandCard({ index, title, subtitle, tags, description, link, linkLabel,
             <div style={{
               position: 'absolute',
               inset: 0,
-              backgroundImage: `radial-gradient(ellipse at 60% 40%, rgba(255,180,60,0.08) 0%, transparent 65%)`,
+              backgroundImage: `radial-gradient(ellipse at 60% 40%, rgba(255,180,60,0.05) 0%, transparent 65%)`,
               backgroundSize: 'cover',
             }} />
             <div style={{
@@ -427,7 +412,7 @@ function BrandCard({ index, title, subtitle, tags, description, link, linkLabel,
                 color: accent,
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                opacity: 0.5,
+                opacity: 0.4,
               }}>
                 drop image here
               </span>
@@ -437,7 +422,7 @@ function BrandCard({ index, title, subtitle, tags, description, link, linkLabel,
                 fontWeight: 300,
                 fontStyle: 'italic',
                 color: accent,
-                opacity: 0.2,
+                opacity: 0.15,
               }}>
                 {title}
               </span>
@@ -463,7 +448,7 @@ function BrandCard({ index, title, subtitle, tags, description, link, linkLabel,
         fontSize: 'clamp(1.4rem, 2.5vw, 1.9rem)',
         fontWeight: 300,
         lineHeight: 1.15,
-        color: 'var(--text)',
+        color: '#FFFFFF',
         marginBottom: '0.4rem',
         fontStyle: 'italic',
         letterSpacing: '-0.01em',
@@ -487,7 +472,7 @@ function BrandCard({ index, title, subtitle, tags, description, link, linkLabel,
         fontSize: '0.875rem',
         color: 'var(--muted)',
         lineHeight: 1.7,
-        maxHeight: active ? '8rem' : '0',
+        maxHeight: active ? '12rem' : '0',
         overflow: 'hidden',
         opacity: active ? 1 : 0,
         transition: isMobile ? 'none' : 'max-height 0.4s ease, opacity 0.35s ease',
@@ -512,9 +497,13 @@ function BrandCard({ index, title, subtitle, tags, description, link, linkLabel,
               fontSize: '0.58rem',
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              color: active ? accent : 'var(--muted)',
-              border: `1px solid ${active ? accent : 'var(--border)'}`,
-              padding: '0.2rem 0.45rem',
+              color: active ? '#FFFFFF' : 'var(--muted)',
+              backgroundColor: 'rgba(0, 0, 0, 0.3)',
+              border: '1px solid rgba(0, 0, 0, 0.4)',
+              borderBottomColor: 'rgba(255,255,255,0.03)',
+              borderRadius: '6px',
+              padding: '0.25rem 0.5rem',
+              boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.4)',
               transition: 'all 0.3s ease',
             }}>
               {tag}
