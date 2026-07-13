@@ -57,9 +57,10 @@ export default function Nav() {
         pointerEvents: 'all',
         
         // ── ADAPTIVE CHASSIS CONFIGURATION ──
-        backgroundColor: isLightPage ? 'rgba(247, 244, 238, 0.7)' : '#0A0A0A',
-        borderTop: isLightPage ? '1px solid rgba(255, 255, 255, 0.6)' : '1px solid rgba(255, 255, 255, 0.12)',
-        borderLeft: isLightPage ? '1px solid rgba(255, 255, 255, 0.4)' : '1px solid rgba(255, 255, 255, 0.07)',
+        // Fill lifted from #0A0A0A (2pts off --bg #080808, i.e. invisible) to a real step up.
+        backgroundColor: isLightPage ? 'rgba(247, 244, 238, 0.7)' : 'rgba(20, 20, 20, 0.92)',
+        borderTop: isLightPage ? '1px solid rgba(255, 255, 255, 0.6)' : '1px solid rgba(255, 255, 255, 0.16)',
+        borderLeft: isLightPage ? '1px solid rgba(255, 255, 255, 0.4)' : '1px solid rgba(255, 255, 255, 0.09)',
         borderRight: isLightPage ? '1px solid rgba(0, 0, 0, 0.04)' : '1px solid rgba(0, 0, 0, 0.6)',
         borderBottom: isLightPage ? '1px solid rgba(0, 0, 0, 0.08)' : '1px solid rgba(0, 0, 0, 0.8)',
         borderRadius: '40px',
@@ -75,7 +76,8 @@ export default function Nav() {
           : `
             0 24px 48px -12px rgba(0, 0, 0, 0.85),
             0 8px 16px -4px rgba(0, 0, 0, 0.9),
-            inset 0 1px 1px rgba(255, 255, 255, 0.05)
+            0 0 32px rgba(255, 255, 255, 0.03),
+            inset 0 1px 1px rgba(255, 255, 255, 0.08)
           `,
         transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         transform: showActiveState ? 'translateY(0)' : 'translateY(-4px)',

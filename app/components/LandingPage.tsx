@@ -166,20 +166,18 @@ export default function LandingPage() {
       }} />
 
       {/* ── SUBSURFACE WHITE AMBIENT GLOW ── */}
-      {/* Soft, low-intensity white blur giving top fold depth around your navigation capsule */}
-      <div style={{
-        position: 'absolute',
-        top: '-180px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: '1300px',
-        height: '450px',
-        background: 'radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.025) 0%, rgba(255, 255, 255, 0.005) 60%, transparent 100%)',
-        filter: 'blur(70px)',
-        pointerEvents: 'none',
-        zIndex: 1,
-      }} />
-
+        <div style={{
+          position: 'absolute',
+          top: '-180px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '1300px',
+          height: '450px',
+          background: 'radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.015) 60%, transparent 100%)',
+          filter: 'blur(70px)',
+          pointerEvents: 'none',
+          zIndex: 1,
+        }} />
       <HeroSection />
 
       {/* ── WORK ──────────────────────────────────────────────────────── */}
