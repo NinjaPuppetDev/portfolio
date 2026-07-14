@@ -10,6 +10,7 @@ export default function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null)
   const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   useEffect(() => { 
     setMounted(true) 
@@ -43,7 +44,7 @@ export default function HeroSection() {
           heroRef.current.style.setProperty('--mx', String(nx))
           heroRef.current.style.setProperty('--my', String(ny))
         }
-        raf = 0
+          raf = 0
       })
     }
     window.addEventListener('mousemove', onMouseMove, { passive: true })
@@ -75,7 +76,6 @@ export default function HeroSection() {
         backgroundSize: '100px 100px', 
         transform: 'translateY(var(--py, 0px))', 
         pointerEvents: 'none',
-        // THE FIX: Progressively hides the grid at the top so it doesn't clip the nav capsule
         WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.3) 10%, black 25%)',
         maskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.3) 10%, black 25%)',
       }} />
@@ -124,9 +124,10 @@ export default function HeroSection() {
 {/* ── TEXT & COPY CONTAINER ────────────────────────────────────────────── */}
       <div style={{ position: 'relative', zIndex: 3, width: '100%', maxWidth: '1400px' }}>
         
-        {/* Restrained Subtitle Indicator */}
+        {/* Active System Indicator Trigger */}
         <button 
           type="button"
+          aria-label="Activate Vera AI Assistant"
           onClick={(e) => {
             e.preventDefault()
             window.dispatchEvent(new CustomEvent('open-vera'))
@@ -135,24 +136,32 @@ export default function HeroSection() {
               if (inputEl) inputEl.focus()
             }, 60)
           }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
           style={{ 
             background: 'none',
             border: 'none',
-            padding: 0,
-            display: 'flex',
+            padding: '0.5rem 0', 
+            display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.5rem',
-            marginBottom: '2.5rem',
+            gap: '0.65rem',
+            marginBottom: '2rem',
             cursor: 'pointer',
-            textAlign: 'left'
+            textAlign: 'left',
+            outline: 'none',
+            opacity: isHovered ? 1 : 0.8,
+            transition: 'opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
           <span style={{
-            width: '4px',
-            height: '4px',
+            width: '6px',
+            height: '6px',
             borderRadius: '50%',
             backgroundColor: 'var(--accent)',
-            display: 'inline-block'
+            display: 'inline-block',
+            transform: isHovered ? 'scale(1.25)' : 'scale(1)',
+            boxShadow: isHovered ? '0 0 8px var(--accent)' : 'none',
+            transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
           }} />
           <p style={{ 
             fontFamily: 'var(--mono)', 
@@ -161,7 +170,7 @@ export default function HeroSection() {
             letterSpacing: '0.2em', 
             textTransform: 'uppercase',
             margin: 0,
-            opacity: 0.8
+            userSelect: 'none',
           }}>
             David Raigoza — Operating System Active
           </p>
