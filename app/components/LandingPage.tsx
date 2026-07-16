@@ -5,16 +5,18 @@ import HeroSection from './HeroSection'
 import CardGrid from './CardGrid'
 import ContactForm from './ContactForm'
 
-// ── PROJECT DATA ───────────────────────────────────────────────────────────────
+// ── PAS PROJECT DATA MAPS ───────────────────────────────────────────────────────
 const web3Projects = [
   {
     index: '01',
     year: '2026',
     title: 'QIE Neobank',
-    subtitle: 'Designing mass onboarding layers and non-custodial liquidity interfaces for decentralized banking',
+    // SUBTITLE: Agitates the onboarding barrier of Web3
+    subtitle: 'Solving the 99% bounce rate in decentralized banking with frictionless abstraction layers',
     tags: ['Product Design', 'UX Architecture', 'Solidity', 'Next.js', 'Figma'],
+    // DESCRIPTION: Framed as Problem ➔ Agitation ➔ Solution
     description:
-      'A full-stack DeFi banking ecosystem built to abstract protocol friction. Shortlisted out of 411 global submissions. Developed end-to-end UX architecture and matching smart contracts, mapping a seamless next-generation onboarding roadmap using account abstraction.',
+      'Web3 protocols bleed users during onboarding because non-custodial custody is intimidating. We designed a full-stack DeFi ecosystem that abstracts protocol friction—end-to-end UX architecture and matching smart contracts, mapping a seamless account-abstraction flow that was shortlisted out of 411 global submissions.',
     link: '/work/qie-neobank',
     linkLabel: 'View case study',
     accent: 'var(--accent)',
@@ -24,10 +26,12 @@ const web3Projects = [
     index: '02',
     year: '2026',
     title: 'Bruma Protocol',
-    subtitle: 'Translating complex oracle logic into intuitive, real-time derivative risk visualization interfaces',
+    // SUBTITLE: Agitates the complexity of reading volatile smart contract data
+    subtitle: 'Translating cryptic oracle payloads into human risk narratives during volatile settlement windows',
     tags: ['UX Design', 'State Management', 'Solidity', 'Chainlink Oracles'],
+    // DESCRIPTION: Framed as Problem ➔ Agitation ➔ Solution
     description:
-      'A trustless protocol and interface designed to trade environmental risk. Integrated automated contract states with contextual AI descriptions (via Groq API), translating raw blockchain telemetry into clear human narratives during highly volatile settlement windows.',
+      'Most derivative platforms fail because users cannot decipher real-time contract states when volatility spikes. We integrated automated smart-contract telemetry with contextual AI summaries (via Groq API), turning raw, complex blockchain data streams into clear, actionable risk visualization interfaces.',
     link: 'https://bruma-protocol.vercel.app/',
     linkLabel: 'View protocol',
     accent: 'var(--accent)',
@@ -36,11 +40,11 @@ const web3Projects = [
   {
     index: '06',
     year: '2026',
-    title: 'GitHub',
-    subtitle: 'Open-source immutable protocol repositories, state systems, and deployment infrastructure',
+    title: 'GitHub Core',
+    subtitle: 'Immutable protocol infrastructure and state systems built for raw operational transparency',
     tags: ['Solidity', 'Next.js', 'Smart Contracts', 'Web3'],
     description:
-      'Active repository where the work lives. Smart contracts, protocol interfaces, and the reactive telemetry backend driving this site — version-controlled from first commit to production.',
+      "We don't hide behind high-fidelity mockups. This is the active repository containing the production-grade smart contracts, protocol interfaces, and telemetry systems driving our shipped products—open for immediate architectural audit.",
     link: 'https://github.com/NinjaPuppetDev',
     linkLabel: 'View on GitHub',
     accent: 'var(--accent)',
@@ -53,10 +57,12 @@ const productProjects = [
     index: '03',
     year: '2026',
     title: 'ApplyIQ',
-    subtitle: 'Architecting a real-time data ingestion dashboard and serverless automation CRM',
+    // SUBTITLE: Agitates sluggish database bottlenecks and delayed interfaces
+    subtitle: 'Replacing sluggish database pipelines with sub-100ms real-time telemetry dashboards',
     tags: ['Product Architecture', 'Next.js', 'Supabase', 'Dashboard UI'],
+    // DESCRIPTION: Framed as Problem ➔ Agitation ➔ Solution
     description:
-      'Engineered an internal production tracking CRM, migrating the foundational layer from Airtable to Supabase to support sub-100ms interface reactivity. Built custom telemetry dashboards to track data streams, user funnels, and real-time scheduling hooks.',
+      'When internal data tables are backed by slow, rigid databases, operations stall. We migrated an enterprise tracking platform from Airtable to Supabase, optimizing the schema to support sub-100ms interface updates, and built custom, reactive telemetry dashboards to monitor live data funnels without operational lag.',
     link: 'https://applyiq-job-scanner.vercel.app/',
     linkLabel: 'View Job Scanner',
     accent: 'var(--accent)',
@@ -69,10 +75,11 @@ const brandProjects = [
     index: '04',
     year: '2011–2016',
     title: 'Pepe Matilda',
-    subtitle: 'Structuring premium e-commerce systems, physical-to-digital brand matrixes, and high-craft industrial pipelines',
+    // SUBTITLE: Agitates the fragmentation of premium brands ignoring physical-to-digital cohesion
+    subtitle: 'Unifying custom physical manufacturing pipelines with high-end e-commerce experiences',
     tags: ['Industrial Design', 'Lápiz de Acero', 'Brand Systems', 'E-commerce UI'],
     description:
-      "Built from 0 to 1: engineered custom physical-to-digital manufacturing pipelines, modeled luxury consumer products in 3D, and designed the comprehensive e-commerce layout. Awarded Colombia's national Lápiz de Acero (2013) and exhibited at MAMM.",
+      "Most premium physical brands fall flat because their digital presence lacks tactile craftsmanship. We engineered custom physical-to-digital manufacturing pipelines, modeled luxury consumer products in 3D, and designed a comprehensive digital interface. Awarded Colombia's national Lápiz de Acero (2013).",
     link: '/work/pepe-matilda',
     linkLabel: 'View project',
     accent: 'var(--amber)',
@@ -83,10 +90,11 @@ const brandProjects = [
     index: '05',
     year: '2024',
     title: 'NextStep',
-    subtitle: 'Developing a high-contrast parametric visual infrastructure and customization-first UX flow for physical manufacturing',
+    // SUBTITLE: Agitates generic web commerce UX
+    subtitle: 'Replacing generic e-commerce layouts with customization-first parametric workflows',
     tags: ['Figma', 'Blender', 'Brand Systems', 'UI Design'],
     description:
-      'Full brand and UI system for a 3D-printed custom footwear brand. Designed the visual identity, landing page, and email marketing — built around a high-contrast dark aesthetic with neon green accents, 3D-rendered product shots, and a customization-first UX flow.',
+      'Standard template checkout flows destroy conversion rates for bespoke, high-end products. For this custom 3D-printed footwear brand, we designed a parametric, visual-first configuration flow—utilizing Blender 3D rendering and a high-contrast dark visual framework to drive immediate user action.',
     link: '/work/next-step',
     linkLabel: 'View case study',
     accent: 'var(--amber)',
@@ -97,10 +105,10 @@ const brandProjects = [
     index: '06',
     year: '2024',
     title: 'Marigold Bloom',
-    subtitle: 'Engineering a cohesive experiential omnichannel identity and ritual-driven digital interface',
+    subtitle: 'Translating tactile botanical experiences into expressive, high-conversion digital spaces',
     tags: ['Figma', 'Blender', 'Brand Systems', 'UI Design'],
     description:
-      'End-to-end brand and UI system for a botanical skincare brand. Developed the visual identity, e-commerce landing page, and Instagram content system — warm earthy tones, serif typography, and a ritual-driven narrative translated consistently from web to social.',
+      'The biggest hurdle for clean cosmetics is establishing trust in a dry, transactional web store. We built a cohesive omnichannel identity and designed a ritual-driven digital interface, combining warm editorial design systems with a storytelling purchase path that mirrors the offline product experience.',
     link: '/work/marigold-bloom',
     linkLabel: 'View case study',
     accent: 'var(--amber)',
@@ -135,7 +143,7 @@ function SectionLabel({ label, count, accent = 'var(--accent)' }: { label: strin
         color: 'var(--border-hi)',
         letterSpacing: '0.1em',
       }}>
-        {String(count).padStart(2, '0')} projects
+        {String(count).padStart(2, '0')} proof points
       </span>
     </div>
   )
@@ -152,8 +160,7 @@ export default function LandingPage() {
         minHeight: '100vh',
       }}
     >
-      {/* ── SOLID GRADIENT MASK MATCHING GLOBAL BACKGROUND ── */}
-      {/* Uses var(--bg) (#080808) to dissolve any background layout grid lines from the hero section */}
+      {/* Solid gradient mask matching global background */}
       <div style={{
         position: 'absolute',
         top: 0,
@@ -162,25 +169,25 @@ export default function LandingPage() {
         height: '220px',
         background: 'linear-gradient(180deg, var(--bg) 0%, rgba(8, 8, 8, 0.7) 60%, transparent 100%)',
         pointerEvents: 'none',
-        zIndex: 3, // Sits cleanly under your global noise/scanlines but masks the hero grid template
+        zIndex: 3,
       }} />
 
-      {/* ── SUBSURFACE WHITE AMBIENT GLOW ── */}
-        <div style={{
-          position: 'absolute',
-          top: '-180px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '1300px',
-          height: '450px',
-          background: 'radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.015) 60%, transparent 100%)',
-          filter: 'blur(70px)',
-          pointerEvents: 'none',
-          zIndex: 1,
-        }} />
+      {/* Subsurface ambient glow */}
+      <div style={{
+        position: 'absolute',
+        top: '-180px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '1300px',
+        height: '450px',
+        background: 'radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.015) 60%, transparent 100%)',
+        filter: 'blur(70px)',
+        pointerEvents: 'none',
+        zIndex: 1,
+      }} />
       <HeroSection />
 
-      {/* ── WORK ──────────────────────────────────────────────────────── */}
+      {/* ── SELECTED SOLUTIONS (WORK) ─────────────────────────────────── */}
       <section
         id="work"
         style={{
@@ -206,7 +213,7 @@ export default function LandingPage() {
             fontStyle: 'italic',
             color: 'var(--text)',
           }}>
-            Selected Work
+            Selected Solutions
           </h2>
           <span style={{
             fontFamily: 'var(--mono)',
@@ -214,19 +221,19 @@ export default function LandingPage() {
             color: 'var(--muted)',
             letterSpacing: '0.15em',
           }}>
-            {String(web3Projects.length + productProjects.length + brandProjects.length).padStart(2, '0')} projects
+            {String(web3Projects.length + productProjects.length + brandProjects.length).padStart(2, '0')} case studies
           </span>
         </div>
 
         {/* Web3 Track */}
         <div style={{ marginBottom: 'clamp(3rem, 6vw, 5rem)' }}>
-          <SectionLabel label="Protocol & Web3 Architecture" count={web3Projects.length} accent="var(--accent)" />
+          <SectionLabel label="01 / Decentralized Protocols & Web3 Friction" count={web3Projects.length} accent="var(--accent)" />
           <CardGrid projects={web3Projects} cols={3} />
         </div>
 
         {/* Product Track */}
         <div style={{ marginBottom: 'clamp(3rem, 6vw, 5rem)' }}>
-          <SectionLabel label="Product Interfaces & Systems" count={productProjects.length} accent="var(--accent)" />
+          <SectionLabel label="02 / Latency, Speed & Systemic Interface Bottlenecks" count={productProjects.length} accent="var(--accent)" />
           <div style={{
             backgroundColor: '#0A0A0A',
             borderTop: '1px solid rgba(255, 255, 255, 0.08)',
@@ -243,12 +250,12 @@ export default function LandingPage() {
 
         {/* Brand Track */}
         <div style={{ marginBottom: 'clamp(3rem, 6vw, 5rem)' }}>
-          <SectionLabel label="Brand Storytelling & Craft" count={brandProjects.length} accent="var(--amber)" />
+          <SectionLabel label="03 / Visual Storytelling & Experience Engineering" count={brandProjects.length} accent="var(--amber)" />
           <CardGrid projects={brandProjects} cols={3} />
         </div>
       </section>
 
-      {/* ── ABOUT ─────────────────────────────────────────────────────── */}
+      {/* ── OPERATIONAL STRATEGY (ABOUT) ───────────────────────────────── */}
       <section
         id="about"
         style={{
@@ -272,7 +279,7 @@ export default function LandingPage() {
             textTransform: 'uppercase',
             marginBottom: '1.5rem',
           }}>
-            About
+            Strategy
           </p>
           <p style={{
             fontFamily: 'var(--serif)',
@@ -282,26 +289,26 @@ export default function LandingPage() {
             color: 'var(--text)',
             fontStyle: 'italic',
           }}>
-            "It's not only the technical that drives a project, it's also the emotional."
+            "Building technical infrastructure is empty if the user interface forces dropoff."
           </p>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.8 }}>
-            I am a product designer-engineer operating at the thin line where 
-            complex technology meets human story. My work ranges from physical high-craft 
-            manufacturing to deploying trustless smart contracts — leveraging an unconventional 
-            background to build interfaces that feel intuitive, seamless, and emotionally resonant.
+            We operate at the friction point where advanced technical architecture meets direct business conversion.
+            By designing and coding under one roof, we eliminate the traditional, broken handoff model between
+            external creative agencies and internal developer teams.
           </p>
           <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.8 }}>
-            I treat code, AI, and design systems not as separate skills, but as unified mechanisms 
-            for disruption. Whether optimizing sub-100ms dashboards on relational data pipelines, 
-            abstracting away the onboarding friction of Web3 protocols, or utilizing language models to 
-            turn raw user telemetry into expressive experiences, I build systems that tell a story.
+            Our approach treats UI performance, reactive state engines, and visual storytelling as unified mechanisms
+            engineered to decrease user churn. Whether designing complex on-chain transaction flows, deploying highly
+            optimized Supabase relational databases, or styling high-contrast parametric web structures, we build
+            products that speak clearly to humans.
           </p>
           <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.8 }}>
-            Currently open to high-agency product roles, design-engineering tracks, and spaces 
-            looking for someone who solves hard systemic problems by designing with both hands.
+            Currently working with founders and technical leaders who need a partner capable of owning the product
+            lifecycle from first sketch to live, production-grade code—no juniors, no handoff, one point of contact
+            from kickoff to launch.
           </p>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', paddingTop: '0.5rem' }}>
@@ -322,7 +329,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── CONTACT ───────────────────────────────────────────────────── */}
+      {/* ── CONVERSIONS (CONTACT) ─────────────────────────────────────── */}
       <section
         id="contact"
         style={{
@@ -347,13 +354,13 @@ export default function LandingPage() {
         <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))', gap: '4rem' }}>
           <div>
             <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
-              Contact
+              Inquiry
             </p>
             <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(2.5rem, 6vw, 5rem)', fontWeight: 300, fontStyle: 'italic', color: 'var(--text)', lineHeight: 1.05, marginBottom: '1.5rem' }}>
-              Let's build<br />something.
+              Let's build your<br />first launch.
             </h2>
             <p style={{ fontFamily: 'var(--sans)', fontSize: '0.875rem', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '36ch' }}>
-              Open to remote roles, freelance projects, and interesting conversations. Available EST hours.
+              Tell us where the launch is stuck—design, code, or the funnel between them. We'll tell you exactly what it takes to ship it.
             </p>
             <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em', marginTop: '1.5rem', opacity: 0.6 }}>
               raigoza.david.j@gmail.com

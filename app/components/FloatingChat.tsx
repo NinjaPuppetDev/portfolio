@@ -56,16 +56,18 @@ function detectNavIntent(text: string): { path: string; label: string } | null {
 
 const TOUR_RECOVERY = /\b(show|open|restart|see|start|re-?open).{0,20}tour\b/i
 
+// Swapped "I'm a recruiter" for client-facing quick replies — the buyer here
+// is a founder/technical leader, not a hiring manager screening a candidate.
 const SUGGESTIONS = [
-  "I'm a recruiter",
-  "I need a designer or developer",
+  'I need a product designed and built',
+  'I need a brand or design system',
   'Tell me about the Web3 work',
   'Just exploring',
 ]
 
 const GREETING: Message = {
   role: 'assistant',
-  content: "Hi — I'm Vera, an AI system architected into this ecosystem. I can unpack David's operational layout, break down specific technical systems, or guide you through selected production logs.",
+  content: "Hi — I'm Vera, an AI system architected into this ecosystem. I can unpack the studio's operational layout, break down specific technical systems, or guide you through selected production logs.",
 }
 
 function isExternal(path: string) {
@@ -377,7 +379,7 @@ export default function FloatingChat() {
               {contactMode ? 'System Context' : tourActive ? `Index · 0${tourStep} / 0${currentTourArray.length}` : 'Core Operating Interface'}
             </p>
             <p style={{ fontFamily: 'var(--sans)', fontSize: '0.8rem', color: 'var(--text)', fontWeight: 400, opacity: 0.9 }}>
-              {contactMode ? 'Direct Channel' : tourActive ? 'Guided System Sequence' : 'Vera / Portfolio Layer'}
+              {contactMode ? 'Direct Channel' : tourActive ? 'Guided System Sequence' : 'Vera / Studio Layer'}
             </p>
           </div>
           <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>

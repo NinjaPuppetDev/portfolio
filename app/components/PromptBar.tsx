@@ -42,16 +42,26 @@ export default function PromptBar({ mounted }: { mounted: boolean }) {
       transform: mounted ? 'translateY(0)' : 'translateY(16px)',
       transition: 'opacity 0.8s ease 1s, transform 0.8s ease 1s',
     }}>
+      {/* Input row — hairline underline only, no fill, no box */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '0',
-        border: `1px solid ${focused ? 'var(--accent)' : 'rgba(200,240,74,0.25)'}`,
-        transition: 'border-color 0.15s',
+        gap: '0.75rem',
         maxWidth: '640px',
-        background: 'rgba(200,240,74,0.06)',
+        borderBottom: `1px solid ${focused ? 'var(--accent)' : 'var(--border-hi)'}`,
+        transition: 'border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+        paddingBottom: '0.85rem',
       }}>
-        <span style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--accent)', padding: '0 1rem', flexShrink: 0, opacity: 0.8, userSelect: 'none' }}>◈</span>
+        <span style={{
+          width: '5px',
+          height: '5px',
+          borderRadius: '50%',
+          backgroundColor: 'var(--accent)',
+          flexShrink: 0,
+          opacity: focused ? 1 : 0.6,
+          boxShadow: focused ? '0 0 6px var(--accent)' : 'none',
+          transition: 'opacity 0.2s ease, box-shadow 0.2s ease',
+        }} />
         <input
           ref={inputRef}
           value={value}
@@ -60,28 +70,88 @@ export default function PromptBar({ mounted }: { mounted: boolean }) {
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           placeholder="Ask Vera anything, or navigate anywhere…"
-          style={{ flex: 1, background: 'none', border: 'none', outline: 'none', fontFamily: 'var(--mono)', fontSize: '0.8rem', color: 'var(--text)', padding: '0.9rem 0', letterSpacing: '0.02em' }}
+          style={{
+            flex: 1,
+            background: 'none',
+            border: 'none',
+            outline: 'none',
+            fontFamily: 'var(--mono)',
+            fontSize: '0.8rem',
+            color: 'var(--text)',
+            letterSpacing: '0.02em',
+            padding: 0,
+          }}
         />
         <button
           onClick={() => fire(value)}
           disabled={!value.trim()}
-          style={{ background: value.trim() ? 'var(--accent)' : 'transparent', border: 'none', borderLeft: `1px solid ${value.trim() ? 'var(--accent)' : 'var(--border)'}`, color: value.trim() ? 'var(--bg)' : 'var(--muted)', fontFamily: 'var(--mono)', fontSize: '0.7rem', letterSpacing: '0.1em', padding: '0.9rem 1.25rem', cursor: value.trim() ? 'pointer' : 'default', transition: 'background 0.15s, color 0.15s', flexShrink: 0 }}
+          aria-label="Send to Vera"
+          style={{
+            background: 'none',
+            border: 'none',
+            color: value.trim() ? 'var(--accent)' : 'var(--muted)',
+            fontFamily: 'var(--mono)',
+            fontSize: '0.85rem',
+            padding: 0,
+            cursor: value.trim() ? 'pointer' : 'default',
+            opacity: value.trim() ? 1 : 0.4,
+            transition: 'opacity 0.2s ease, color 0.2s ease',
+            flexShrink: 0,
+          }}
         >
           →
         </button>
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.75rem', maxWidth: '640px' }}>
-        {PROMPTS.map(p => (
-          <button
-            key={p}
-            onClick={() => fire(p)}
-            style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--muted)', fontFamily: 'var(--mono)', fontSize: '0.58rem', letterSpacing: '0.08em', padding: '0.3rem 0.75rem', cursor: 'pointer', transition: 'border-color 0.15s, color 0.15s', whiteSpace: 'nowrap' }}
-          >
-            {p}
-          </button>
+
+      {/* Quick prompts — inline mono list, no chips */}
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        gap: '0.6rem',
+        marginTop: '1rem',
+        maxWidth: '640px',
+      }}>
+        {PROMPTS.map((p, i) => (
+          <span key={p} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem' }}>
+            <button
+              onClick={() => fire(p)}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'var(--muted)',
+                fontFamily: 'var(--mono)',
+                fontSize: '0.62rem',
+                letterSpacing: '0.06em',
+                padding: 0,
+                cursor: 'pointer',
+                opacity: 0.7,
+                transition: 'opacity 0.15s ease, color 0.15s ease',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.color = 'var(--text)' }}
+              onMouseLeave={e => { e.currentTarget.style.opacity = '0.7'; e.currentTarget.style.color = 'var(--muted)' }}
+            >
+              {p}
+            </button>
+            {i < PROMPTS.length - 1 && (
+              <span style={{ color: 'var(--border-hi)', fontSize: '0.6rem' }}>/</span>
+            )}
+          </span>
         ))}
       </div>
-      {pill && <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--accent)', letterSpacing: '0.12em', marginTop: '0.5rem' }}>✓ Sent to Vera</p>}
+
+      {pill && (
+        <p style={{
+          fontFamily: 'var(--mono)',
+          fontSize: '0.6rem',
+          color: 'var(--accent)',
+          letterSpacing: '0.12em',
+          marginTop: '0.75rem',
+          opacity: 0.85,
+        }}>
+          Sent to Vera →
+        </p>
+      )}
     </div>
   )
 }
