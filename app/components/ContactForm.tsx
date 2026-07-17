@@ -220,7 +220,7 @@ export default function ContactForm() {
           }
         }}
       >
-        {contactStatus === 'loading' ? 'Transmitting...' : 'Submit Payload'}
+        {contactStatus === 'loading' ? 'Transmitting...' : 'Submit'}
       </button>
     </div>
   )
