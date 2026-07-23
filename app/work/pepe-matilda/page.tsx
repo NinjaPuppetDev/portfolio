@@ -4,56 +4,76 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-// ─── CONSTANTS — update these when ready ─────────────────────────────────────
-// Self-hosted walkthrough of the live Squarespace store (Contra challenge submission).
-// Drop the file at /public/work/pepe-matilda/pepe-matilda-squarespace-walkthrough.mp4
+// ─── CONSTANTS ───────────────────────────────────────────────────────────────
 const SQUARESPACE_VIDEO_URL = '/work/pepe-matilda/pepe-matilda-squarespace-walkthrough.mp4'
-const INSTAGRAM_URL         = 'https://www.instagram.com/pepe_matilda_?igsh=MXNvdDY1MzR5bmwyNg=='
 const FIGMA_URL             = 'https://www.figma.com/design/trenZxWmblUoBeGEJtZbG4/PepeMatilda?node-id=0-1&t=rWBl0OKgxzvjJfYO-1'
+
+const TRADEOFF_COMPARISON = [
+  {
+    dimension: 'Core Objective',
+    v1: 'Unconstrained editorial lore & high-craft brand narrative.',
+    v2: 'Operational efficiency, inventory velocity & conversion.',
+  },
+  {
+    dimension: 'Architecture & Engine',
+    v1: 'Custom prototype (Light, editorial serif layout, bespoke grids).',
+    v2: 'Production Squarespace Engine (Brutalist dark luxury, custom CSS/video injections).',
+  },
+  {
+    dimension: 'Operational Friction',
+    v1: 'High developer overhead per product drop; zero native e-com logic.',
+    v2: 'Zero-overhead client updates, automated inventory & native checkout.',
+  },
+  {
+    dimension: 'Conversion Strategy',
+    v1: 'Passive exploration, buried purchase pathways.',
+    v2: 'High-contrast 3D process visualizers right before add-to-cart.',
+  },
+]
 
 const PRESS = [
   {
     outlet: 'Lápiz de Acero',
     year: '2013',
-    note: "Official award recognition — Premio Lápiz de Acero, Colombia's leading industrial design award",
+    note: "Official award recognition — Premio Lápiz de Acero, Colombia's premier industrial design honor.",
   },
   {
     outlet: 'El Colombiano',
     year: '2013',
-    note: 'Print coverage — physical archive held',
+    note: 'National print archive coverage.',
   },
   {
     outlet: 'Universidad EAFIT',
     year: '2013',
-    note: 'Institutional recognition — documented in university communications',
+    note: 'Institutional recognition & design archive documentation.',
   },
 ]
 
 const PROCESS = [
   {
-    label: 'Material Architecture',
+    label: 'Material Architecture & Tolerances',
     description:
-      'Evaluated casting behavior, surface optimization, and manufacturing tolerances across alloy groups. Silver was selected to balance premium product tiering with optimal material performance.',
+      'Evaluated silver alloy casting shrinkages and surface finishing tolerances. Silver was engineered to balance luxury weight with high-precision structural integrity.',
   },
   {
-    label: '0-to-1 Pipeline Architecture',
+    label: 'Proprietary Microcasting Pipeline',
     description:
-      'Engineered a proprietary high-precision microcasting infrastructure from the ground up to bypass commercial manufacturing limits and unlock uncompromised geometric detail.',
+      'Bypassed off-the-shelf industrial manufacturing by engineering a custom 0-to-1 microcasting workflow, unlocking organic geometric detail previously impossible at scale.',
   },
   {
     label: 'Parametric Master Schemas',
     description:
-      'Established high-fidelity digital blueprints in Blender as an absolute single source of truth, transferring data directly to master molds to eliminate physical iteration cycles.',
+      'Established high-fidelity 3D CAD blueprints in Blender as an absolute single source of truth, outputting directly to master molds to kill physical iteration cycles.',
   },
   {
-    label: 'Omnichannel Brand Systems',
+    label: 'Omnichannel Brand System',
     description:
-      'Designed a multi-surface visual infrastructure—spanning physical luxury packaging, brand iconography, and digital e-commerce surfaces—to guarantee a cohesive brand experience.',
+      'Designed an integrated identity—spanning physical packaging vectors, custom logotype typography, and high-contrast digital e-commerce surfaces.',
   },
   {
-    label: 'Ecosystem Validation',
+    label: 'Cultural & Retail Placement',
     description:
-      'Strategically positioned the product ecosystem to secure institutional placement within Colombia’s premier cultural networks (MAMM and Museo de Antioquia).',
+      'Engineered brand positioning to secure placement in premier art and cultural networks (MAMM and Museo de Antioquia).',
   },
 ]
 
@@ -61,15 +81,11 @@ const PROCESS = [
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
-  name: 'Pepe Matilda',
+  name: 'Pepe Matilda — Case Study',
   description:
-    'Award-winning silver jewelry brand designed and built by David Raigoza. Winner of the Premio Lápiz de Acero 2013. Sold through MAMM and Museo de Antioquia, Medellín, Colombia.',
+    'Award-winning silver jewelry brand designed and built by David Raigoza. Winner of the Premio Lápiz de Acero 2013.',
   creator: { '@type': 'Person', name: 'David Raigoza', url: 'https://davidraigoza.design' },
   award: 'Premio Lápiz de Acero 2013',
-  dateCreated: '2011',
-  locationCreated: { '@type': 'Place', name: 'Medellín, Colombia' },
-  keywords:
-    'Pepe Matilda, David Raigoza, Premio Lápiz de Acero 2013, silver jewelry, microcasting, MAMM, Museo de Antioquia',
 }
 
 export default function PepeMatildaCaseStudy() {
@@ -80,7 +96,7 @@ export default function PepeMatildaCaseStudy() {
   const fadeIn = (delay = 0): React.CSSProperties => ({
     opacity: mounted ? 1 : 0,
     transform: mounted ? 'translateY(0)' : 'translateY(16px)',
-    transition: `opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s`,
+    transition: `opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s`,
   })
 
   return (
@@ -90,7 +106,19 @@ export default function PepeMatildaCaseStudy() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <main style={{ background: 'var(--bg)', color: 'var(--text)', minHeight: '100vh' }}>
+      <main style={{ background: 'var(--bg)', color: 'var(--text)', minHeight: '100vh', position: 'relative' }}>
+        
+        {/* Neutral Grid Overlay */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)`,
+            backgroundSize: '100px 100px',
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        />
 
         {/* ── BACK NAV ─────────────────────────────────────────────── */}
         <nav style={{
@@ -99,110 +127,256 @@ export default function PepeMatildaCaseStudy() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          position: 'relative',
+          zIndex: 2,
         }}>
           <Link
             href="/"
             style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', transition: 'color 0.2s ease' }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'var(--amber)')}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
             onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted)')}
           >
-            ← Back
+            ← Back to Work
           </Link>
           <span style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em' }}>
-            04 / 2011–2016
+            Case Study 04 / Physical Product to Digital Scale
           </span>
         </nav>
 
         {/* ── HERO ─────────────────────────────────────────────────── */}
         <section style={{
-          padding: 'clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 4rem)',
-          maxWidth: '1200px',
+          padding: 'clamp(5rem, 10vw, 8rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 4rem)',
+          maxWidth: '1300px',
           margin: '0 auto',
           position: 'relative',
-          overflow: 'hidden',
+          zIndex: 1,
         }}>
-          <div style={{
-            position: 'absolute', top: '10%', right: '10%',
-            width: '500px', height: '500px',
-            background: 'radial-gradient(circle, rgba(255,180,60,0.05) 0%, transparent 70%)',
-            pointerEvents: 'none', filter: 'blur(60px)',
-          }} />
+          <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '1.5rem', ...fadeIn(0.1) }}>
+            Industrial Design · Brand Identity · E-Commerce Architecture
+          </p>
 
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '1.5rem', ...fadeIn(0.1) }}>
-              Case Study · Jewelry Design · Medellín, 2011–2016
-            </p>
+          <h1 style={{
+            fontFamily: 'var(--serif)',
+            fontSize: 'clamp(3rem, 7vw, 6.5rem)',
+            fontWeight: 300,
+            lineHeight: 0.95,
+            letterSpacing: '-0.03em',
+            marginBottom: '2.5rem',
+            ...fadeIn(0.2)
+          }}>
+            Pepe Matilda.
+            <br />
+            <span style={{ fontStyle: 'italic', color: 'var(--text)', opacity: 0.9 }}>
+              From physical craft to digital scale.
+            </span>
+          </h1>
 
-            <h1 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(3rem, 8vw, 7rem)', fontWeight: 300, lineHeight: 0.95, letterSpacing: '-0.02em', marginBottom: '2rem', ...fadeIn(0.2) }}>
-              Pepe Matilda
-              <br />
-              <span style={{ fontStyle: 'italic', color: 'var(--amber)' }}>0 to award.</span>
-            </h1>
+          <p style={{ fontFamily: 'var(--sans)', fontSize: 'clamp(1.1rem, 1.6vw, 1.35rem)', color: 'var(--text)', maxWidth: '52ch', lineHeight: 1.5, fontWeight: 400, marginBottom: '2.5rem', ...fadeIn(0.3) }}>
+            Building an award-winning silver jewelry brand from scratch—custom 3D parametric engineering, a proprietary microcasting system, and an omnichannel storefront built to balance brand narrative with commercial velocity.
+          </p>
 
-            <p style={{ fontFamily: 'var(--sans)', fontSize: 'clamp(0.9rem, 1.5vw, 1.1rem)', color: 'var(--muted)', maxWidth: '52ch', lineHeight: 1.75, fontWeight: 300, marginBottom: '3rem', ...fadeIn(0.4) }}>
-              A silver jewelry brand built entirely from scratch — proprietary
-              microcasting system, 3D modelling, brand identity, and institutional
-              distribution. Winner of the Premio Lápiz de Acero 2013, Colombia's
-              most important industrial design award.
-            </p>
-
-            {/* CTA row */}
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', ...fadeIn(0.5) }}>
-              <a
-                href={INSTAGRAM_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--bg)', background: 'var(--amber)', padding: '0.75rem 2rem', textDecoration: 'none', transition: 'background 0.2s ease' }}
-                onMouseEnter={e => (e.currentTarget.style.background = 'var(--text)')}
-                onMouseLeave={e => (e.currentTarget.style.background = 'var(--amber)')}
-              >
-                View on Instagram →
-              </a>
-            </div>
+          <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'center', ...fadeIn(0.4) }}>
+            <a
+              href="#walkthrough"
+              style={{
+                fontFamily: 'var(--mono)',
+                fontSize: '0.7rem',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: 'var(--bg)',
+                background: 'var(--text)',
+                padding: '0.85rem 2rem',
+                textDecoration: 'none',
+                fontWeight: 600,
+                transition: 'opacity 0.2s ease',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+            >
+              Watch Build Walkthrough ↓
+            </a>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+              Premio Lápiz de Acero Winner
+            </span>
           </div>
         </section>
 
-        {/* ── STRATEGIC FRAMEWORK (PROBLEM / SOLUTION) ─────────────────── */}
+        {/* ── STRATEGIC FRAMEWORK ─────────────────────────────────── */}
         <section style={{
           borderTop: '1px solid var(--border)',
-          padding: '3rem clamp(1.5rem, 5vw, 4rem)',
-          maxWidth: '1200px',
+          padding: '4rem clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1300px',
           margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '2.5rem',
-          ...fadeIn(0.6)
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '3rem',
+          position: 'relative',
+          zIndex: 1,
         }}>
           <div>
-            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>01 / The Challenge</span>
-            <p style={{ fontSize: '0.9rem', color: 'var(--text)', marginTop: '0.5rem', fontWeight: 300, lineHeight: 1.6 }}>
-              Translating raw physical engineering, high-tolerance 3D geometric parameters, and organic structures into a luxury market layer that holds deep emotional value.
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>01 / The Business Agitation</span>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text)', marginTop: '0.75rem', fontWeight: 300, lineHeight: 1.65 }}>
+              Luxury physical goods often collapse online when translated into standard cookie-cutter e-commerce grids. Premium price tags require deep storytelling, yet dense storytelling increases buyer friction and hurts conversion.
             </p>
           </div>
           <div>
-            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>02 / The Strategy</span>
-            <p style={{ fontSize: '0.9rem', color: 'var(--muted)', marginTop: '0.5rem', fontWeight: 300, lineHeight: 1.6 }}>
-              Bypassing normal, restrictive industrial pipelines by creating custom micro-casting mechanisms, while stabilizing consumer trust via clean typography paired with explicit physical identity details.
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>02 / Technical Execution</span>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text)', marginTop: '0.75rem', fontWeight: 300, lineHeight: 1.65 }}>
+              Eliminated middleman manufacturing by designing proprietary microcasting hardware and parametric CAD master files in Blender. Every physical ring is a direct 1:1 translation of digital geometry.
             </p>
           </div>
           <div>
-            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>03 / The Execution</span>
-            <p style={{ fontSize: '0.9rem', color: 'var(--text)', marginTop: '0.5rem', fontWeight: 300, lineHeight: 1.6 }}>
-              A cohesive omnichannel blueprint ranging from physical luxury packaging vectors and institutional museum exhibitions down to modern, high-contrast grid layouts on e-commerce screens.
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>03 / Operational Scale</span>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text)', marginTop: '0.75rem', fontWeight: 300, lineHeight: 1.65 }}>
+              Shifted from a custom, developer-dependent static platform to a high-converting, zero-maintenance Squarespace engine—giving the brand instant inventory management without sacrificing luxury visual punch.
             </p>
           </div>
         </section>
 
-        {/* ── LOGO APPRECIATION SECTION ────────────────────────────── */}
+        {/* ── PLATFORM STRATEGY & TRADE-OFFS ──────────────────────── */}
         <section style={{
           borderTop: '1px solid var(--border)',
-          padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem)',
-          maxWidth: '1200px',
+          padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1300px',
           margin: '0 auto',
-          ...fadeIn(0.7)
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          <Label amber>Platform Architecture Strategy</Label>
+          <SectionTitle>The Trade-offs: Custom Vision vs. Production Scale</SectionTitle>
+
+          <p style={{ fontFamily: 'var(--sans)', fontSize: '1rem', color: 'var(--muted)', maxWidth: '64ch', lineHeight: 1.7, marginTop: '1rem', marginBottom: '3rem', fontWeight: 300 }}>
+            Every platform decision comes with friction. A custom static site allows total visual freedom, but creates operational debt. Rebuilding on a hosted engine removes maintenance, but forces you to engineer high-craft interactions inside rigid template parameters.
+          </p>
+
+          <div style={{ border: '1px solid var(--border)', overflow: 'hidden' }}>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1.2fr 2fr 2fr',
+              padding: '1.25rem 1.5rem',
+              background: 'rgba(255,255,255,0.02)',
+              borderBottom: '1px solid var(--border)',
+              fontFamily: 'var(--mono)',
+              fontSize: '0.65rem',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              color: 'var(--muted)',
+            }}>
+              <div>Dimension</div>
+              <div>V1 / Custom Concept (Figma)</div>
+              <div style={{ color: 'var(--amber)' }}>V2 / Production Build (Squarespace Engine)</div>
+            </div>
+
+            {TRADEOFF_COMPARISON.map((row, idx) => (
+              <div
+                key={row.dimension}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1.2fr 2fr 2fr',
+                  padding: '1.5rem',
+                  borderBottom: idx < TRADEOFF_COMPARISON.length - 1 ? '1px solid var(--border)' : 'none',
+                  fontSize: '0.875rem',
+                  lineHeight: '1.6',
+                  alignItems: 'start',
+                }}
+              >
+                <div style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', color: 'var(--text)' }}>
+                  {row.dimension}
+                </div>
+                <div style={{ color: 'var(--muted)', paddingRight: '1rem', fontWeight: 300 }}>
+                  {row.v1}
+                </div>
+                <div style={{ color: 'var(--text)', fontWeight: 400 }}>
+                  {row.v2}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── LIVE STOREFRONT WALKTHROUGH ─────────────────────────── */}
+        <section id="walkthrough" style={{
+          borderTop: '1px solid var(--border)',
+          padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1300px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '2rem', marginBottom: '2.5rem' }}>
+            <div>
+              <Label amber>V2 Storefront Walkthrough</Label>
+              <SectionTitle>High-Contrast Brutalist E-Commerce</SectionTitle>
+            </div>
+            <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.1em', maxWidth: '36ch', textAlign: 'right' }}>
+              ENGINEERED TO PRESERVE HIGH-CRAFT BRAND LORE WHILE LOWERING CONVERSION FRICTION.
+            </p>
+          </div>
+
+          <div style={{
+            position: 'relative',
+            width: '100%',
+            border: '1px solid var(--border)',
+            background: '#0a0a0a',
+            overflow: 'hidden',
+          }}>
+            <video
+              src={SQUARESPACE_VIDEO_URL}
+              controls
+              playsInline
+              style={{ width: '100%', height: 'auto', display: 'block' }}
+            />
+          </div>
+        </section>
+
+        {/* ── DIGITAL PROCESS VISUALIZER (WHY IT CONVERTS) ─────────── */}
+        <section style={{
+          borderTop: '1px solid var(--border)',
+          padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1300px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          <Label amber>Conversion Design Strategy</Label>
+          <SectionTitle>Justifying High Price Points via Process Transparency</SectionTitle>
+
+          <p style={{ fontFamily: 'var(--sans)', fontSize: '1rem', color: 'var(--muted)', maxWidth: '60ch', lineHeight: 1.7, marginTop: '1rem', marginBottom: '3rem', fontWeight: 300 }}>
+            Without process transparency, bespoke microcast jewelry looks like mass-produced metal. By placing an interactive 5-stage digital process pipeline right before the add-to-cart module, we turn raw manufacturing parameters into perceived value.
+          </p>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: '1.5rem',
+          }}>
+            {[
+              { step: '01', name: 'High-Res Scan', detail: '3D anatomical capture of organic forms.' },
+              { step: '02', name: 'Parametric Topology', detail: 'Converting raw scans into wearable geometry.' },
+              { step: '03', name: 'Wax Prototyping', detail: 'Validating real-world proportion and scale.' },
+              { step: '04', name: 'Metal Flow Simulation', detail: 'Predicting liquid silver alloy behavior.' },
+              { step: '05', name: 'Hand Polish & Finish', detail: 'Revealing high-contrast surface detail.' },
+            ].map(item => (
+              <div key={item.step} style={{ border: '1px solid var(--border)', padding: '1.5rem', background: 'rgba(255,255,255,0.01)' }}>
+                <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)' }}>{item.step}</span>
+                <h3 style={{ fontFamily: 'var(--sans)', fontSize: '1rem', fontWeight: 500, margin: '0.5rem 0', color: 'var(--text)' }}>{item.name}</h3>
+                <p style={{ fontSize: '0.8rem', color: 'var(--muted)', lineHeight: 1.5, fontWeight: 300 }}>{item.detail}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── IDENTITY & BRAND SYSTEM ──────────────────────────────── */}
+        <section style={{
+          borderTop: '1px solid var(--border)',
+          padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1300px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
         }}>
           <Label amber>Identity Architecture</Label>
-          <SectionTitle>Logo Dissection</SectionTitle>
+          <SectionTitle>Interlocking Logotype & Spatial Layering</SectionTitle>
 
           <div style={{
             display: 'grid',
@@ -211,7 +385,6 @@ export default function PepeMatildaCaseStudy() {
             marginTop: '3rem',
             alignItems: 'center'
           }}>
-            {/* Logo Wrapper */}
             <div style={{
               border: '1px solid var(--border)',
               padding: '3rem 2rem',
@@ -224,7 +397,7 @@ export default function PepeMatildaCaseStudy() {
               <div style={{ width: '100%', maxWidth: '280px', filter: 'invert(var(--dark-mode-invert, 0))' }}>
                 <Image
                   src="/work/pepe-matilda/LogoPepeMatilda.png"
-                  alt="LogoPepeMatilda.png"
+                  alt="Pepe Matilda Interlocking Logotype"
                   width={400}
                   height={400}
                   style={{ width: '100%', height: 'auto', display: 'block' }}
@@ -232,300 +405,103 @@ export default function PepeMatildaCaseStudy() {
               </div>
             </div>
 
-            {/* Design Analysis Text */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
               <div>
                 <h3 style={{ fontFamily: 'var(--mono)', fontSize: '0.7rem', color: 'var(--amber)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
                   Anatomy & Typographic Play
                 </h3>
-                <p style={{ fontFamily: 'var(--sans)', fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.7, fontWeight: 300 }}>
-                  The structural core of the identity balances the organic fluidity of the animal form with structured serif terminal elements. The dominant, highly stylized interlocking letters (<span style={{ color: 'var(--text)', fontWeight: 400 }}>P</span> and <span style={{ color: 'var(--text)', fontWeight: 400 }}>M</span>) utilize high-contrast variable strokes that mirror the varying physical thicknesses required during liquid silver metal flow cycles.
+                <p style={{ fontFamily: 'var(--sans)', fontSize: '0.95rem', color: 'var(--muted)', lineHeight: 1.7, fontWeight: 300 }}>
+                  The structural core of the identity balances organic fluidity with structured serif terminal elements. The interlocking <span style={{ color: 'var(--text)', fontWeight: 500 }}>P</span> and <span style={{ color: 'var(--text)', fontWeight: 500 }}>M</span> monogram utilizes high-contrast variable strokes that mirror liquid metal flow during microcasting cycles.
                 </p>
               </div>
 
               <div>
                 <h3 style={{ fontFamily: 'var(--mono)', fontSize: '0.7rem', color: 'var(--amber)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-                  The Spatial Boundary
+                  Spatial Boundary Framing
                 </h3>
-                <p style={{ fontFamily: 'var(--sans)', fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.7, fontWeight: 300 }}>
-                  By framing the minimalist hippo line silhouette partially behind the primary logotype boundary, the composition mirrors the tactile depth of physical carving. This architectural layering sets up expectations for an intricate product ecosystem that is deeply inspired by natural geometries.
+                <p style={{ fontFamily: 'var(--sans)', fontSize: '0.95rem', color: 'var(--muted)', lineHeight: 1.7, fontWeight: 300 }}>
+                  By framing the minimal hippo silhouette partially behind the primary logotype boundary, the composition mirrors physical depth and relief carving, anchoring the brand in natural sculpture.
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ── AWARD BANNER ─────────────────────────────────────────── */}
-        <section style={{
-          borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)',
-          padding: 'clamp(2rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem)',
-          background: 'rgba(255,180,60,0.03)',
-        }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
-            <span style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 300, fontStyle: 'italic', color: 'var(--amber)', lineHeight: 1 }}>▴</span>
-            <div>
-              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
-                Premio Lápiz de Acero 2013
-              </p>
-              <p style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(1.2rem, 2.5vw, 1.8rem)', fontWeight: 300, fontStyle: 'italic', color: 'var(--text)', lineHeight: 1.2 }}>
-                Colombia's most important industrial design award
-              </p>
-            </div>
-            <div style={{ marginLeft: 'auto', fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em', textAlign: 'right', lineHeight: 1.8 }}>
-              <div>Exhibited at MAMM</div>
-              <div>Museo de Antioquia</div>
-              <div>Medellín, Colombia</div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── NORTH STAR ───────────────────────────────────────────── */}
+        {/* ── HISTORICAL PROTOTYPE COMPARISON (V1) ───────────────── */}
         <section style={{
           borderTop: '1px solid var(--border)',
-          padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem)',
-          maxWidth: '1200px',
+          padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1300px',
           margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
         }}>
-          <Label amber>North Star</Label>
-
-          <p style={{
-            fontFamily: 'var(--serif)',
-            fontSize: 'clamp(1.6rem, 3.2vw, 2.4rem)',
-            fontWeight: 300,
-            fontStyle: 'italic',
-            color: 'var(--text)',
-            lineHeight: 1.35,
-            maxWidth: '38ch',
-            marginTop: '1rem',
-          }}>
-            To bridge narrative storytelling and e-commerce utility —
-            turning passive browsing into an engaging, interactive world
-            where <span style={{ color: 'var(--amber)' }}>exploring</span> the
-            brand feels just as rewarding as <span style={{ color: 'var(--amber)' }}>buying</span> from it.
-          </p>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            gap: '2rem',
-            marginTop: '3rem',
-          }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
             <div>
-              <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-                Storytelling
-              </span>
-              <p style={{ fontSize: '0.875rem', color: 'var(--muted)', marginTop: '0.5rem', fontWeight: 300, lineHeight: 1.7 }}>
-                The rebuild keeps the brand's material and craft narrative front and center — not buried behind a product grid.
-              </p>
+              <Label>V1 Archival Concept (2016)</Label>
+              <SectionTitle>The Original Editorial Layout</SectionTitle>
             </div>
-            <div>
-              <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-                Utility
-              </span>
-              <p style={{ fontSize: '0.875rem', color: 'var(--muted)', marginTop: '0.5rem', fontWeight: 300, lineHeight: 1.7 }}>
-                Every narrative beat still resolves into a clear path to purchase — nothing decorative gets in the way of conversion.
-              </p>
-            </div>
-            <div>
-              <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-                Focus
-              </span>
-              <p style={{ fontSize: '0.875rem', color: 'var(--muted)', marginTop: '0.5rem', fontWeight: 300, lineHeight: 1.7 }}>
-                No competing CTAs, no noise — the layout is built to hold attention on one thing at a time.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* ── LIVE STOREFRONT WALKTHROUGH (Squarespace) ────────────── */}
-        <section style={{
-          borderTop: '1px solid var(--border)',
-          padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem)',
-          maxWidth: '1200px',
-          margin: '0 auto',
-        }}>
-          <Label amber>The upgrade</Label>
-          <SectionTitle>Live storefront, rebuilt on Squarespace</SectionTitle>
-
-          <p style={{
-            fontFamily: 'var(--sans)',
-            fontSize: '0.9rem',
-            color: 'var(--muted)',
-            maxWidth: '56ch',
-            lineHeight: 1.75,
-            marginTop: '1rem',
-            marginBottom: '2.5rem',
-          }}>
-            The brand identity was carried into a fully rebuilt, e-commerce-ready
-            storefront — walkthrough below, submitted for a Contra design challenge.
-          </p>
-
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}>
-            <div style={{
-              position: 'relative',
-              width: '100%',
-              maxWidth: '960px',
-              border: '1px solid var(--border)',
-              background: '#0a0a0a',
-              overflow: 'hidden',
-            }}>
-              <video
-                src={SQUARESPACE_VIDEO_URL}
-                controls
-                playsInline
-                style={{ width: '100%', height: 'auto', display: 'block' }}
-              />
-            </div>
-          </div>
-          <p style={{ fontFamily: 'var(--mono)', fontSize: '0.58rem', color: 'var(--muted)', letterSpacing: '0.08em', marginTop: '0.75rem', opacity: 0.6, textAlign: 'center' }}>
-            Squarespace submission — full storefront walkthrough, desktop and mobile
-          </p>
-        </section>
-
-        {/* ── V1: ORIGINAL FIGMA PROTOTYPE (historical) ─────────────── */}
-        <section style={{
-          borderTop: '1px solid var(--border)',
-          padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem)',
-          maxWidth: '1200px',
-          margin: '0 auto',
-        }}>
-          <Label>V1 · Figma prototype, 2016</Label>
-          <SectionTitle>Where it started</SectionTitle>
-
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}>
-            <div style={{
-              marginTop: '2.5rem',
-              border: '1px solid var(--border)',
-              overflow: 'hidden',
-              position: 'relative',
-              opacity: 0.85,
-              width: '100%',
-              maxWidth: '560px',
-            }}>
-              <span style={{
-                position: 'absolute',
-                top: '0.75rem',
-                left: '0.75rem',
-                fontFamily: 'var(--mono)',
-                fontSize: '0.55rem',
-                color: 'var(--muted)',
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                background: 'rgba(0,0,0,0.55)',
-                padding: '0.3rem 0.6rem',
-                border: '1px solid var(--border)',
-                zIndex: 1,
-              }}>
-                Superseded
-              </span>
-              <Image
-                src="/work/pepe-matilda/PepeMatildaLandingPage.png"
-                alt="Pepe Matilda landing page — original Figma prototype, full page mockup"
-                width={1200}
-                height={1800}
-                style={{ width: '100%', height: 'auto', display: 'block' }}
-              />
-            </div>
-          </div>
-          <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.08em', marginTop: '0.75rem', opacity: 0.6, textAlign: 'center' }}>
-            Static prototype, superseded by the live build above.
-          </p>
-        </section>
-
-        {/* ── SOCIAL MEDIA / BRAND DOC SCREENSHOT ──────────────────── */}
-        <section style={{
-          borderTop: '1px solid var(--border)',
-          padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem)',
-          maxWidth: '1200px',
-          margin: '0 auto',
-        }}>
-          <Label amber>Brand system</Label>
-          <SectionTitle>Social media & identity</SectionTitle>
-
-          <p style={{
-            fontFamily: 'var(--sans)',
-            fontSize: '0.9rem',
-            color: 'var(--muted)',
-            maxWidth: '56ch',
-            lineHeight: 1.75,
-            marginTop: '1rem',
-            marginBottom: '1.5rem',
-          }}>
-            Consistent, elegant content designed to connect with nature and celebrate
-            craftsmanship — brand mission, visual direction, and Instagram presence,
-            all in one system.
-          </p>
-
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}>
-            <div style={{
-              border: '1px solid var(--border)',
-              overflow: 'hidden',
-              position: 'relative',
-              width: '100%',
-              maxWidth: '560px',
-            }}>
-              <span style={{
-                position: 'absolute',
-                top: '0.75rem',
-                left: '0.75rem',
-                fontFamily: 'var(--mono)',
-                fontSize: '0.55rem',
-                color: 'var(--muted)',
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                background: 'rgba(0,0,0,0.55)',
-                padding: '0.3rem 0.6rem',
-                border: '1px solid var(--border)',
-                zIndex: 1,
-              }}>
-                Reference
-              </span>
-              <Image
-                src="/work/pepe-matilda/PepeMatildaSocialMedia.png"
-                alt="Pepe Matilda brand system — social media presence, brand mission, visual direction, Instagram mockups"
-                width={1200}
-                height={1800}
-                style={{ width: '100%', height: 'auto', display: 'block' }}
-              />
-            </div>
-          </div>
-
-          {/* Figma link — the one file still being actively refined */}
-          <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
-            <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.05em', opacity: 0.7 }}>
-              Identity system designed in Figma — currently being refreshed to match the live build.
-            </p>
             <a
               href={FIGMA_URL}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', opacity: 0.85, transition: 'opacity 0.2s ease', whiteSpace: 'nowrap' }}
-              onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = '1')}
-              onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = '0.85')}
+              style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}
             >
-              Open in Figma →
+              Open Figma Master File →
             </a>
+          </div>
+
+          <p style={{ fontFamily: 'var(--sans)', fontSize: '0.95rem', color: 'var(--muted)', maxWidth: '56ch', lineHeight: 1.7, marginBottom: '2.5rem', fontWeight: 300 }}>
+            Originally conceptualized as a light-mode editorial showcase. While visually striking, it required custom development for every inventory update—a key lesson that informed our shift to modular design systems.
+          </p>
+
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div style={{
+              border: '1px solid var(--border)',
+              overflow: 'hidden',
+              position: 'relative',
+              width: '100%',
+              maxWidth: '600px',
+              opacity: 0.85,
+            }}>
+              <span style={{
+                position: 'absolute',
+                top: '0.75rem',
+                left: '0.75rem',
+                fontFamily: 'var(--mono)',
+                fontSize: '0.55rem',
+                color: 'var(--muted)',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                background: 'rgba(0,0,0,0.8)',
+                padding: '0.3rem 0.6rem',
+                border: '1px solid var(--border)',
+                zIndex: 1,
+              }}>
+                Superseded V1 Prototype
+              </span>
+              <Image
+                src="/work/pepe-matilda/PepeMatildaLandingPage.png"
+                alt="Original Figma prototype"
+                width={1200}
+                height={1800}
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </div>
           </div>
         </section>
 
-        {/* ── PROCESS ──────────────────────────────────────────────── */}
+        {/* ── PROCESS & METHODOLOGY ───────────────────────────────── */}
         <section style={{
           borderTop: '1px solid var(--border)',
-          padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem)',
-          maxWidth: '1200px',
+          padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1300px',
           margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
         }}>
-          <Label amber>How it was built</Label>
-          <SectionTitle>Process</SectionTitle>
+          <Label amber>Full-Stack Execution</Label>
+          <SectionTitle>How We Built It</SectionTitle>
 
           <div style={{ border: '1px solid var(--border)', marginTop: '2.5rem', overflow: 'hidden' }}>
             {PROCESS.map((step, i) => (
@@ -533,19 +509,19 @@ export default function PepeMatildaCaseStudy() {
                 display: 'grid',
                 gridTemplateColumns: '1fr 2fr',
                 gap: '2rem',
-                padding: '1.75rem 2rem',
+                padding: '2rem',
                 borderBottom: i < PROCESS.length - 1 ? '1px solid var(--border)' : 'none',
                 alignItems: 'start',
               }}>
                 <div>
-                  <span style={{ fontFamily: 'var(--mono)', fontSize: '0.58rem', color: 'var(--amber)', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem', opacity: 0.6 }}>
-                    {String(i + 1).padStart(2, '0')}
+                  <span style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--amber)', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>
+                    0{i + 1}
                   </span>
-                  <p style={{ fontFamily: 'var(--serif)', fontSize: '1rem', fontStyle: 'italic', color: 'var(--text)', lineHeight: 1.3 }}>
+                  <p style={{ fontFamily: 'var(--serif)', fontSize: '1.1rem', color: 'var(--text)', lineHeight: 1.3 }}>
                     {step.label}
                   </p>
                 </div>
-                <p style={{ fontSize: '0.875rem', color: 'var(--muted)', lineHeight: 1.75 }}>
+                <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.7, fontWeight: 300 }}>
                   {step.description}
                 </p>
               </div>
@@ -553,74 +529,70 @@ export default function PepeMatildaCaseStudy() {
           </div>
         </section>
 
-        {/* ── PRESS & RECOGNITION ──────────────────────────────────── */}
+        {/* ── RECOGNITION ─────────────────────────────────────────── */}
         <section style={{
           borderTop: '1px solid var(--border)',
-          padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem)',
-          maxWidth: '1200px',
+          padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1300px',
           margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
         }}>
-          <Label amber>Press & recognition</Label>
-          <SectionTitle>Covered by</SectionTitle>
+          <Label amber>Institutional Impact</Label>
+          <SectionTitle>Recognition & Archives</SectionTitle>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '0', border: '1px solid var(--border)', marginTop: '2.5rem', overflow: 'hidden' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0', border: '1px solid var(--border)', marginTop: '2.5rem', overflow: 'hidden' }}>
             {PRESS.map((p, i) => (
               <div key={p.outlet} style={{ padding: '2rem', borderRight: i < PRESS.length - 1 ? '1px solid var(--border)' : 'none' }}>
-                <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--amber)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+                <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
                   {p.year}
                 </p>
-                <p style={{ fontFamily: 'var(--serif)', fontSize: '1.2rem', fontStyle: 'italic', color: 'var(--text)', marginBottom: '0.6rem' }}>
+                <p style={{ fontFamily: 'var(--serif)', fontSize: '1.3rem', fontStyle: 'italic', color: 'var(--text)', marginBottom: '0.6rem' }}>
                   {p.outlet}
                 </p>
-                <p style={{ fontSize: '0.8rem', color: 'var(--muted)', lineHeight: 1.6 }}>
+                <p style={{ fontSize: '0.85rem', color: 'var(--muted)', lineHeight: 1.6, fontWeight: 300 }}>
                   {p.note}
                 </p>
               </div>
             ))}
           </div>
-
-          <p style={{ fontFamily: 'var(--mono)', fontSize: '0.58rem', color: 'var(--muted)', letterSpacing: '0.08em', marginTop: '1rem', opacity: 0.5, lineHeight: 1.6 }}>
-            Original press links from 2013 are no longer active. Physical archive held.
-          </p>
         </section>
 
         {/* ── BOTTOM CTA ───────────────────────────────────────────── */}
         <section style={{
           borderTop: '1px solid var(--border)',
-          padding: 'clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem)',
+          padding: 'clamp(5rem, 10vw, 8rem) clamp(1.5rem, 5vw, 4rem)',
           textAlign: 'center',
           position: 'relative',
           overflow: 'hidden',
+          zIndex: 1,
         }}>
-          <div style={{
-            position: 'absolute', bottom: '-80px', left: '50%', transform: 'translateX(-50%)',
-            width: '500px', height: '300px',
-            background: 'radial-gradient(ellipse, rgba(255,180,60,0.06) 0%, transparent 70%)',
-            pointerEvents: 'none',
-          }} />
-
           <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
-            The brand is live
+            Ready to scale your product?
           </p>
 
-          <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 300, fontStyle: 'italic', color: 'var(--text)', marginBottom: '2.5rem', lineHeight: 1.1 }}>
-            Follow the journey<br />
-            <span style={{ color: 'var(--muted)', fontSize: '0.5em', fontStyle: 'normal', fontFamily: 'var(--mono)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-              @pepe_matilda_
-            </span>
+          <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 300, color: 'var(--text)', marginBottom: '2.5rem', lineHeight: 1.05 }}>
+            One Team. Zero Handoffs. Full Stack.
           </h2>
 
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--bg)', background: 'var(--amber)', padding: '1rem 2.5rem', textDecoration: 'none', transition: 'background 0.2s ease' }}
-              onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--text)')}
-              onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.background = 'var(--amber)')}
+            <Link
+              href="/#contact"
+              style={{
+                fontFamily: 'var(--mono)',
+                fontSize: '0.75rem',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: 'var(--bg)',
+                background: 'var(--text)',
+                padding: '1rem 2.5rem',
+                textDecoration: 'none',
+                fontWeight: 600,
+                transition: 'opacity 0.2s ease',
+              }}
             >
-              Follow on Instagram →
-            </a>
+              Start a Project →
+            </Link>
           </div>
         </section>
 
@@ -633,12 +605,14 @@ export default function PepeMatildaCaseStudy() {
           alignItems: 'center',
           flexWrap: 'wrap',
           gap: '1rem',
+          position: 'relative',
+          zIndex: 1,
         }}>
           <Link href="/" style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em', textDecoration: 'none' }}>
-            ← All work
+            ← Back to All Case Studies
           </Link>
           <span style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em' }}>
-            © {new Date().getFullYear()} David Raigoza
+            © {new Date().getFullYear()} David Raigoza Studio
           </span>
         </footer>
       </main>
@@ -646,7 +620,7 @@ export default function PepeMatildaCaseStudy() {
   )
 }
 
-// ─── SHARED COMPONENTS ────────────────────────────────────────────────────────
+// ─── SHARED HELPER COMPONENTS ──────────────────────────────────────────────
 function Label({ children, amber }: { children: React.ReactNode; amber?: boolean }) {
   return (
     <p style={{
@@ -666,11 +640,11 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
     <h2 style={{
       fontFamily: 'var(--serif)',
-      fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
+      fontSize: 'clamp(2rem, 4vw, 3rem)',
       fontWeight: 300,
-      fontStyle: 'italic',
       color: 'var(--text)',
       lineHeight: 1.1,
+      letterSpacing: '-0.02em',
     }}>
       {children}
     </h2>
