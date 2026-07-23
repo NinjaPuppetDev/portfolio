@@ -5,9 +5,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 // ─── CONSTANTS — update these when ready ─────────────────────────────────────
-const CANVA_VIDEO_URL = 'https://drive.google.com/file/d/1yo5wHSdJA9m7wE5c5LYJhhoA7ML6RI2x/preview'
-const INSTAGRAM_URL   = 'https://www.instagram.com/pepe_matilda_?igsh=MXNvdDY1MzR5bmwyNg=='
-const FIGMA_URL       = 'https://www.figma.com/design/trenZxWmblUoBeGEJtZbG4/PepeMatilda?node-id=0-1&t=rWBl0OKgxzvjJfYO-1'
+// Self-hosted walkthrough of the live Squarespace store (Contra challenge submission).
+// Drop the file at /public/work/pepe-matilda/pepe-matilda-squarespace-walkthrough.mp4
+const SQUARESPACE_VIDEO_URL = '/work/pepe-matilda/pepe-matilda-squarespace-walkthrough.mp4'
+const INSTAGRAM_URL         = 'https://www.instagram.com/pepe_matilda_?igsh=MXNvdDY1MzR5bmwyNg=='
+const FIGMA_URL             = 'https://www.figma.com/design/trenZxWmblUoBeGEJtZbG4/PepeMatilda?node-id=0-1&t=rWBl0OKgxzvjJfYO-1'
 
 const PRESS = [
   {
@@ -156,17 +158,6 @@ export default function PepeMatildaCaseStudy() {
               >
                 View on Instagram →
               </a>
-
-              <a
-                href={FIGMA_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ fontFamily: 'var(--mono)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--amber)', border: '1px solid var(--amber)', padding: '0.75rem 2rem', textDecoration: 'none', transition: 'all 0.2s ease' }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'var(--amber)'; e.currentTarget.style.color = 'var(--bg)' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--amber)' }}
-              >
-                Open in Figma →
-              </a>
             </div>
           </div>
         </section>
@@ -288,84 +279,163 @@ export default function PepeMatildaCaseStudy() {
           </div>
         </section>
 
-        {/* ── BRAND VIDEO ──────────────────────────────────────────── */}
-        <section style={{
-          padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem)',
-          maxWidth: '1200px',
-          margin: '0 auto',
-        }}>
-          <Label amber>The work in motion</Label>
-          <SectionTitle>Brand film</SectionTitle>
-
-          {/* Vertical video container — Canva exports ~9:16 */}
-          <div style={{
-            marginTop: '2.5rem',
-            display: 'flex',
-            justifyContent: 'center',
-          }}>
-            <div style={{
-              position: 'relative',
-              width: '100%',
-              maxWidth: '380px',          // keeps vertical video from stretching full-width
-              paddingBottom: 'min(177.78%, 680px)', // 9:16 capped at 680px tall
-              height: 0,
-              overflow: 'hidden',
-              border: '1px solid var(--border)',
-              background: '#0a0a0a',
-            }}>
-              <iframe
-                src={CANVA_VIDEO_URL}
-                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
-                allow="autoplay; fullscreen"
-                allowFullScreen
-                title="Pepe Matilda — brand film"
-              />
-            </div>
-          </div>
-          <p style={{ fontFamily: 'var(--mono)', fontSize: '0.58rem', color: 'var(--muted)', letterSpacing: '0.08em', marginTop: '0.75rem', opacity: 0.6, textAlign: 'center' }}>
-            Brand film — process, material, and identity
-          </p>
-        </section>
-
-        {/* ── LANDING PAGE SCREENSHOT ───────────────────────────────── */}
+        {/* ── NORTH STAR ───────────────────────────────────────────── */}
         <section style={{
           borderTop: '1px solid var(--border)',
           padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem)',
           maxWidth: '1200px',
           margin: '0 auto',
         }}>
-          <Label amber>Web design</Label>
-          <SectionTitle>Landing page</SectionTitle>
+          <Label amber>North Star</Label>
+
+          <p style={{
+            fontFamily: 'var(--serif)',
+            fontSize: 'clamp(1.6rem, 3.2vw, 2.4rem)',
+            fontWeight: 300,
+            fontStyle: 'italic',
+            color: 'var(--text)',
+            lineHeight: 1.35,
+            maxWidth: '38ch',
+            marginTop: '1rem',
+          }}>
+            To bridge narrative storytelling and e-commerce utility —
+            turning passive browsing into an engaging, interactive world
+            where <span style={{ color: 'var(--amber)' }}>exploring</span> the
+            brand feels just as rewarding as <span style={{ color: 'var(--amber)' }}>buying</span> from it.
+          </p>
 
           <div style={{
-            marginTop: '2.5rem',
-            border: '1px solid var(--border)',
-            overflow: 'hidden',
-            position: 'relative',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gap: '2rem',
+            marginTop: '3rem',
           }}>
-            <Image
-              src="/work/pepe-matilda/PepeMatildaLandingPage.png"
-              alt="Pepe Matilda landing page — Silver Jewelry Inspired by Nature, full page mockup"
-              width={1200}
-              height={1800}
-              style={{ width: '100%', height: 'auto', display: 'block' }}
-              priority
-            />
+            <div>
+              <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+                Storytelling
+              </span>
+              <p style={{ fontSize: '0.875rem', color: 'var(--muted)', marginTop: '0.5rem', fontWeight: 300, lineHeight: 1.7 }}>
+                The rebuild keeps the brand's material and craft narrative front and center — not buried behind a product grid.
+              </p>
+            </div>
+            <div>
+              <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+                Utility
+              </span>
+              <p style={{ fontSize: '0.875rem', color: 'var(--muted)', marginTop: '0.5rem', fontWeight: 300, lineHeight: 1.7 }}>
+                Every narrative beat still resolves into a clear path to purchase — nothing decorative gets in the way of conversion.
+              </p>
+            </div>
+            <div>
+              <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+                Focus
+              </span>
+              <p style={{ fontSize: '0.875rem', color: 'var(--muted)', marginTop: '0.5rem', fontWeight: 300, lineHeight: 1.7 }}>
+                No competing CTAs, no noise — the layout is built to hold attention on one thing at a time.
+              </p>
+            </div>
           </div>
+        </section>
 
-          {/* Figma link under screenshot */}
-          <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'flex-end' }}>
-            <a
-              href={FIGMA_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', opacity: 0.7, transition: 'opacity 0.2s ease' }}
-              onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = '1')}
-              onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = '0.7')}
-            >
-              Open in Figma →
-            </a>
+        {/* ── LIVE STOREFRONT WALKTHROUGH (Squarespace) ────────────── */}
+        <section style={{
+          borderTop: '1px solid var(--border)',
+          padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1200px',
+          margin: '0 auto',
+        }}>
+          <Label amber>The upgrade</Label>
+          <SectionTitle>Live storefront, rebuilt on Squarespace</SectionTitle>
+
+          <p style={{
+            fontFamily: 'var(--sans)',
+            fontSize: '0.9rem',
+            color: 'var(--muted)',
+            maxWidth: '56ch',
+            lineHeight: 1.75,
+            marginTop: '1rem',
+            marginBottom: '2.5rem',
+          }}>
+            The brand identity was carried into a fully rebuilt, e-commerce-ready
+            storefront — walkthrough below, submitted for a Contra design challenge.
+          </p>
+
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}>
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: '960px',
+              border: '1px solid var(--border)',
+              background: '#0a0a0a',
+              overflow: 'hidden',
+            }}>
+              <video
+                src={SQUARESPACE_VIDEO_URL}
+                controls
+                playsInline
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </div>
           </div>
+          <p style={{ fontFamily: 'var(--mono)', fontSize: '0.58rem', color: 'var(--muted)', letterSpacing: '0.08em', marginTop: '0.75rem', opacity: 0.6, textAlign: 'center' }}>
+            Squarespace submission — full storefront walkthrough, desktop and mobile
+          </p>
+        </section>
+
+        {/* ── V1: ORIGINAL FIGMA PROTOTYPE (historical) ─────────────── */}
+        <section style={{
+          borderTop: '1px solid var(--border)',
+          padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1200px',
+          margin: '0 auto',
+        }}>
+          <Label>V1 · Figma prototype, 2016</Label>
+          <SectionTitle>Where it started</SectionTitle>
+
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}>
+            <div style={{
+              marginTop: '2.5rem',
+              border: '1px solid var(--border)',
+              overflow: 'hidden',
+              position: 'relative',
+              opacity: 0.85,
+              width: '100%',
+              maxWidth: '560px',
+            }}>
+              <span style={{
+                position: 'absolute',
+                top: '0.75rem',
+                left: '0.75rem',
+                fontFamily: 'var(--mono)',
+                fontSize: '0.55rem',
+                color: 'var(--muted)',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                background: 'rgba(0,0,0,0.55)',
+                padding: '0.3rem 0.6rem',
+                border: '1px solid var(--border)',
+                zIndex: 1,
+              }}>
+                Superseded
+              </span>
+              <Image
+                src="/work/pepe-matilda/PepeMatildaLandingPage.png"
+                alt="Pepe Matilda landing page — original Figma prototype, full page mockup"
+                width={1200}
+                height={1800}
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </div>
+          </div>
+          <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.08em', marginTop: '0.75rem', opacity: 0.6, textAlign: 'center' }}>
+            Static prototype, superseded by the live build above.
+          </p>
         </section>
 
         {/* ── SOCIAL MEDIA / BRAND DOC SCREENSHOT ──────────────────── */}
@@ -385,7 +455,7 @@ export default function PepeMatildaCaseStudy() {
             maxWidth: '56ch',
             lineHeight: 1.75,
             marginTop: '1rem',
-            marginBottom: '2.5rem',
+            marginBottom: '1.5rem',
           }}>
             Consistent, elegant content designed to connect with nature and celebrate
             craftsmanship — brand mission, visual direction, and Instagram presence,
@@ -393,16 +463,57 @@ export default function PepeMatildaCaseStudy() {
           </p>
 
           <div style={{
-            border: '1px solid var(--border)',
-            overflow: 'hidden',
+            display: 'flex',
+            justifyContent: 'center',
           }}>
-            <Image
-              src="/work/pepe-matilda/PepeMatildaSocialMedia.png"
-              alt="Pepe Matilda brand system — social media presence, brand mission, visual direction, Instagram mockups"
-              width={1200}
-              height={1800}
-              style={{ width: '100%', height: 'auto', display: 'block' }}
-            />
+            <div style={{
+              border: '1px solid var(--border)',
+              overflow: 'hidden',
+              position: 'relative',
+              width: '100%',
+              maxWidth: '560px',
+            }}>
+              <span style={{
+                position: 'absolute',
+                top: '0.75rem',
+                left: '0.75rem',
+                fontFamily: 'var(--mono)',
+                fontSize: '0.55rem',
+                color: 'var(--muted)',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                background: 'rgba(0,0,0,0.55)',
+                padding: '0.3rem 0.6rem',
+                border: '1px solid var(--border)',
+                zIndex: 1,
+              }}>
+                Reference
+              </span>
+              <Image
+                src="/work/pepe-matilda/PepeMatildaSocialMedia.png"
+                alt="Pepe Matilda brand system — social media presence, brand mission, visual direction, Instagram mockups"
+                width={1200}
+                height={1800}
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </div>
+          </div>
+
+          {/* Figma link — the one file still being actively refined */}
+          <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+            <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.05em', opacity: 0.7 }}>
+              Identity system designed in Figma — currently being refreshed to match the live build.
+            </p>
+            <a
+              href={FIGMA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--amber)', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', opacity: 0.85, transition: 'opacity 0.2s ease', whiteSpace: 'nowrap' }}
+              onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = '1')}
+              onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = '0.85')}
+            >
+              Open in Figma →
+            </a>
           </div>
         </section>
 
