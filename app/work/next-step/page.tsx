@@ -94,32 +94,6 @@ export default function NextStepCaseStudy() {
 
       <main style={{ background: NS.bg, color: NS.text, minHeight: '100vh' }}>
 
-        {/* ── NAV ──────────────────────────────────────────────────── */}
-        <nav style={{
-          padding: '1.5rem clamp(1.5rem, 5vw, 4rem)',
-          borderBottom: `1px solid ${NS.border}`,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          position: 'sticky',
-          top: 0,
-          zIndex: 50,
-          background: 'rgba(0,0,0,0.85)',
-          backdropFilter: 'blur(12px)',
-        }}>
-          <Link
-            href="/"
-            style={{ fontFamily: NS.mono, fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', transition: 'color 0.2s' }}
-            onMouseEnter={e => (e.currentTarget.style.color = NS.green)}
-            onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}
-          >
-            ← Back
-          </Link>
-          <span style={{ fontFamily: NS.mono, fontSize: '0.6rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em' }}>
-            05 / 2024
-          </span>
-        </nav>
-
         {/* ── HERO ─────────────────────────────────────────────────── */}
         <section style={{
           padding: 'clamp(5rem, 10vw, 8rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem)',

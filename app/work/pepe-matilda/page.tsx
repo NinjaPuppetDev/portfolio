@@ -120,28 +120,6 @@ export default function PepeMatildaCaseStudy() {
           }}
         />
 
-        {/* ── BACK NAV ─────────────────────────────────────────────── */}
-        <nav style={{
-          padding: '1.5rem clamp(1.5rem, 5vw, 4rem)',
-          borderBottom: '1px solid var(--border)',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          position: 'relative',
-          zIndex: 2,
-        }}>
-          <Link
-            href="/"
-            style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', transition: 'color 0.2s ease' }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted)')}
-          >
-            ← Back to Work
-          </Link>
-          <span style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em' }}>
-            Case Study 04 / Physical Product to Digital Scale
-          </span>
-        </nav>
 
         {/* ── HERO ─────────────────────────────────────────────────── */}
         <section style={{

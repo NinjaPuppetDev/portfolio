@@ -81,31 +81,6 @@ export default function MarigoldBloomCaseStudy() {
 
       <main style={{ background: MG.bg, color: MG.text, minHeight: '100vh' }}>
 
-        {/* ── NAV ──────────────────────────────────────────────────── */}
-        <nav style={{
-          padding: '1.5rem clamp(1.5rem, 5vw, 4rem)',
-          borderBottom: `1px solid ${MG.border}`,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          position: 'sticky',
-          top: 0,
-          zIndex: 50,
-          background: 'rgba(245,239,230,0.88)',
-          backdropFilter: 'blur(12px)',
-        }}>
-          <Link
-            href="/"
-            style={{ fontFamily: MG.mono, fontSize: '0.65rem', color: MG.muted, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', transition: 'color 0.2s' }}
-            onMouseEnter={e => (e.currentTarget.style.color = MG.rust)}
-            onMouseLeave={e => (e.currentTarget.style.color = MG.muted)}
-          >
-            ← Back
-          </Link>
-          <span style={{ fontFamily: MG.mono, fontSize: '0.6rem', color: MG.muted, letterSpacing: '0.1em', opacity: 0.6 }}>
-            06 / 2024
-          </span>
-        </nav>
 
         {/* ── HERO ─────────────────────────────────────────────────── */}
         <section style={{

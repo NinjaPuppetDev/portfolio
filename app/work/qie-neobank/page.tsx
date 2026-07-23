@@ -43,40 +43,6 @@ export default function QIENeobankCaseStudy() {
   return (
     <main style={{ background: 'var(--bg)', color: 'var(--text)', minHeight: '100vh' }}>
 
-      {/* ── BACK NAV ─────────────────────────────────────────────────── */}
-      <nav style={{
-        padding: '1.5rem clamp(1.5rem, 5vw, 4rem)',
-        borderBottom: '1px solid var(--border)',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}>
-        <Link href="/" style={{
-          fontFamily: 'var(--mono)',
-          fontSize: '0.65rem',
-          color: 'var(--muted)',
-          letterSpacing: '0.15em',
-          textTransform: 'uppercase',
-          textDecoration: 'none',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.5rem',
-          transition: 'color 0.2s ease',
-        }}
-          onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
-          onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted)')}
-        >
-          ← Back
-        </Link>
-        <span style={{
-          fontFamily: 'var(--mono)',
-          fontSize: '0.6rem',
-          color: 'var(--muted)',
-          letterSpacing: '0.1em',
-        }}>
-          01 / 2026
-        </span>
-      </nav>
 
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <section style={{
