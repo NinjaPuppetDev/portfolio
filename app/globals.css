@@ -26,6 +26,7 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  height: 100%;
 }
 
 body {
@@ -37,6 +38,7 @@ body {
   -webkit-font-smoothing: antialiased;
   cursor: none;
   overflow-x: hidden;
+  min-height: 100%; /* Ensures root height remains locked */
 }
 
 /* Custom cursor */
