@@ -7,6 +7,9 @@ import {
   SiFigma,
   SiGoogle,
   SiSquarespace,
+  SiSolidity,
+  SiStripe,
+  SiVitest,
 } from 'react-icons/si'
 import type { IconType } from 'react-icons'
 
@@ -17,8 +20,11 @@ interface StackItem {
 
 const stack: StackItem[] = [
   { name: 'Next.js', Icon: SiNextdotjs },
+  { name: 'Stripe', Icon: SiStripe },
+  { name: 'Solidity', Icon: SiSolidity },
   { name: 'Supabase', Icon: SiSupabase },
   { name: 'Firebase', Icon: SiFirebase },
+  { name: 'Vitest', Icon: SiVitest },
   { name: 'Figma', Icon: SiFigma },
   { name: 'Google Stitch', Icon: SiGoogle },
   { name: 'Squarespace', Icon: SiSquarespace },
@@ -69,7 +75,7 @@ export default function TechStackBanner() {
           style={{
             display: 'flex',
             width: 'max-content',
-            animation: 'stack-marquee 25s linear infinite',
+            animation: 'stack-marquee 30s linear infinite',
             willChange: 'transform',
           }}
         >
@@ -82,22 +88,10 @@ export default function TechStackBanner() {
                 gap: '0.5rem',
                 whiteSpace: 'nowrap',
                 opacity: 0.75,
-                marginRight: '3rem', // Replaced parent gap with consistent right margin
+                marginRight: '3rem',
               }}
             >
-              {Icon ? (
-                <Icon size={14} color="var(--muted)" />
-              ) : (
-                <span
-                  style={{
-                    width: '5px',
-                    height: '5px',
-                    borderRadius: '50%',
-                    backgroundColor: 'var(--muted)',
-                    display: 'inline-block',
-                  }}
-                />
-              )}
+              {Icon && <Icon size={14} color="var(--muted)" />}
               <span
                 style={{
                   fontFamily: 'var(--mono)',

@@ -4,12 +4,79 @@ import { useState } from 'react'
 import Link from 'next/link'
 import type { Essay } from '../../lib/essays'
 
-// Deliberately not styled like ProjectCard. This is a byline, not a sales
-// pitch — no tags, no "proof points" framing, no neumorphic chassis. It
-// should read as writing, not collateral.
-export default function EssayCard({ essay }: { essay: Essay }) {
+interface EssayCardProps {
+  essay: Essay
+  variant?: 'featured' | 'compact'
+}
+
+export default function EssayCard({ essay, variant = 'featured' }: EssayCardProps) {
   const [hovered, setHovered] = useState(false)
 
+  // COMPACT VARIANT: Single-line row for archive/older essays
+  if (variant === 'compact') {
+    return (
+      <Link
+        href={`/writing/${essay.slug}`}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          display: 'flex',
+          alignItems: 'baseline',
+          justifyContent: 'space-between',
+          gap: '1rem',
+          textDecoration: 'none',
+          padding: '0.65rem 0',
+          transition: 'opacity 0.2s ease',
+          opacity: hovered ? 1 : 0.75,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: 'var(--sans)',
+            fontSize: '0.9rem',
+            fontWeight: 300,
+            color: hovered ? '#FFFFFF' : 'var(--text)',
+            transition: 'color 0.2s ease',
+          }}
+        >
+          {essay.title}
+        </span>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <span
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: '0.6rem',
+              color: 'var(--muted)',
+              letterSpacing: '0.08em',
+            }}
+          >
+            {essay.displayDate}
+          </span>
+          <span
+            style={{
+              fontFamily: 'var(--mono)',
+              fontSize: '0.6rem',
+              color: 'var(--accent)',
+              opacity: hovered ? 1 : 0.5,
+              transform: hovered ? 'translateX(2px)' : 'translateX(0)',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            →
+          </span>
+        </div>
+      </Link>
+    )
+  }
+
+  // FEATURED VARIANT: Full editorial Hero for your latest weekly essay
   return (
     <Link
       href={`/writing/${essay.slug}`}
@@ -18,9 +85,9 @@ export default function EssayCard({ essay }: { essay: Essay }) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.5rem',
+        gap: '0.75rem',
         textDecoration: 'none',
-        padding: '1.5rem 0',
+        padding: '1.5rem 0 2rem',
         borderBottom: '1px solid var(--border)',
       }}
     >
@@ -35,7 +102,7 @@ export default function EssayCard({ essay }: { essay: Essay }) {
         <h3
           style={{
             fontFamily: 'var(--serif)',
-            fontSize: 'clamp(1.15rem, 2.2vw, 1.5rem)',
+            fontSize: 'clamp(1.25rem, 2.4vw, 1.65rem)',
             fontWeight: 300,
             fontStyle: 'italic',
             color: hovered ? '#FFFFFF' : 'var(--text)',
@@ -63,11 +130,11 @@ export default function EssayCard({ essay }: { essay: Essay }) {
       <p
         style={{
           fontFamily: 'var(--sans)',
-          fontSize: '0.85rem',
+          fontSize: '0.9rem',
           color: 'var(--muted)',
           lineHeight: 1.6,
           margin: 0,
-          maxWidth: '56ch',
+          maxWidth: '58ch',
         }}
       >
         {essay.dek}
@@ -83,7 +150,7 @@ export default function EssayCard({ essay }: { essay: Essay }) {
           opacity: hovered ? 1 : 0.5,
           transform: hovered ? 'translateX(0)' : 'translateX(-4px)',
           transition: 'all 0.25s ease',
-          marginTop: '0.15rem',
+          marginTop: '0.25rem',
         }}
       >
         Read →

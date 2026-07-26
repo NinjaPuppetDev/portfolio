@@ -11,6 +11,14 @@ import { essays } from '../../lib/essays'
 export default function EssaySection() {
   if (essays.length === 0) return null
 
+  // Sort essays descending by date (latest first)
+  const sortedEssays = [...essays].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  )
+
+  const featuredEssay = sortedEssays[0]
+  const archiveEssays = sortedEssays.slice(1, 4) // Displays up to 3 older essays in compact view
+
   return (
     <section
       id="writing"
@@ -61,10 +69,28 @@ export default function EssaySection() {
         </Link>
       </div>
 
-      <div>
-        {essays.slice(0, 3).map(essay => (
-          <EssayCard key={essay.slug} essay={essay} />
-        ))}
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        {/* Featured Latest Essay */}
+        {featuredEssay && (
+          <EssayCard essay={featuredEssay} variant="featured" />
+        )}
+
+        {/* Older Archive Essays (Compact Rows) */}
+        {archiveEssays.length > 0 && (
+          <div
+            style={{
+              paddingTop: '1rem',
+              marginTop: '0.5rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.25rem',
+            }}
+          >
+            {archiveEssays.map(essay => (
+              <EssayCard key={essay.slug} essay={essay} variant="compact" />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )

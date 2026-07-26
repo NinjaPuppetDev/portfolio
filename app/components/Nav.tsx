@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useExperiment } from './ExperimentProvider'
 
@@ -57,7 +58,6 @@ export default function Nav() {
         pointerEvents: 'all',
         
         // ── ADAPTIVE CHASSIS CONFIGURATION ──
-        // Fill lifted from #0A0A0A (2pts off --bg #080808, i.e. invisible) to a real step up.
         backgroundColor: isLightPage ? 'rgba(247, 244, 238, 0.7)' : 'rgba(20, 20, 20, 0.92)',
         borderTop: isLightPage ? '1px solid rgba(255, 255, 255, 0.6)' : '1px solid rgba(255, 255, 255, 0.16)',
         borderLeft: isLightPage ? '1px solid rgba(255, 255, 255, 0.4)' : '1px solid rgba(255, 255, 255, 0.09)',
@@ -85,17 +85,27 @@ export default function Nav() {
         
         {/* IDENTITY BLOCK */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-          <span style={{
-            fontFamily: 'var(--mono)',
-            fontSize: '0.7rem',
-            letterSpacing: '0.15em',
-            color: textPrimary,
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            transition: 'color 0.3s ease',
-          }}>
-            DR
-          </span>
+          <Link
+            href="/"
+            style={{
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+            }}
+          >
+            <span style={{
+              fontFamily: 'var(--mono)',
+              fontSize: '0.7rem',
+              letterSpacing: '0.15em',
+              color: textPrimary,
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              transition: 'color 0.3s ease',
+              cursor: 'pointer',
+            }}>
+              DR
+            </span>
+          </Link>
           
           {!isMobile && (
             <span style={{ 
@@ -131,9 +141,9 @@ export default function Nav() {
           transition: 'all 0.3s ease',
         }}>
           {['work', 'about'].map(item => (
-            <a
+            <Link
               key={item}
-              href={`#${item}`}
+              href={`/#${item}`}
               style={{
                 fontFamily: 'var(--mono)',
                 fontSize: '0.625rem',
@@ -142,6 +152,7 @@ export default function Nav() {
                 color: textMuted,
                 padding: '0.35rem 1rem',
                 borderRadius: '16px',
+                textDecoration: 'none',
                 transition: 'all 0.2s ease',
               }}
               onMouseEnter={e => {
@@ -158,7 +169,7 @@ export default function Nav() {
               }}
             >
               {item}
-            </a>
+            </Link>
           ))}
         </div>
 
