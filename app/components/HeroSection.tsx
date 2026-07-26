@@ -60,21 +60,22 @@ export default function HeroSection() {
 
   return (
     <section
-      ref={heroRef}
-      id="hero"
-      style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        padding: isMobile
-          ? '8rem 1.5rem 4rem 1.5rem'
-          : 'clamp(8rem, 12vw, 12rem) clamp(2rem, 6vw, 6rem) clamp(4rem, 8vw, 6rem)',
-        position: 'relative',
-        overflow: 'hidden',
-        backgroundColor: 'var(--bg)',
-      }}
-    >
+        ref={heroRef}
+        id="hero"
+        style={{
+          minHeight: isMobile ? '100vh' : 'calc(100vh - 60px)',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          padding: isMobile
+            ? '7rem 1.5rem 2rem 1.5rem'
+            /* Increased bottom padding from 1.5rem to clamp(3.5rem, 6vh, 5.5rem) */
+            : 'clamp(5rem, 8vh, 7rem) clamp(2rem, 6vw, 6rem) clamp(3.5rem, 6vh, 5.5rem)',
+          position: 'relative',
+          overflow: 'hidden',
+          backgroundColor: 'var(--bg)',
+        }}
+      >
       {/* Premium Neutral Grid Overlay with top fade mask */}
       <div
         style={{
@@ -154,7 +155,7 @@ export default function HeroSection() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '0.65rem',
-            marginBottom: '2rem',
+            marginBottom: '1.5rem',
             cursor: 'pointer',
             textAlign: 'left',
             outline: 'none',
@@ -198,7 +199,7 @@ export default function HeroSection() {
             lineHeight: 1.0,
             letterSpacing: '-0.03em',
             color: 'var(--text)',
-            marginBottom: '2.5rem',
+            marginBottom: '1.75rem',
           }}
         >
           {mounted ? <GlitchWord word="Idea to Production." /> : 'Idea to Production.'}
@@ -212,7 +213,7 @@ export default function HeroSection() {
           </span>
         </h1>
 
-        {/* Honest Value Proposition */}
+        {/* Value Proposition */}
         <p
           style={{
             fontFamily: 'var(--sans)',
@@ -221,58 +222,15 @@ export default function HeroSection() {
             maxWidth: '52ch',
             lineHeight: 1.45,
             fontWeight: 400,
-            marginBottom: '2.5rem',
+            margin: 0,
           }}
         >
-          Make entire products with a team of one. I take your ideas straight from Figma prototypes into production Next.js code. Over 15 years bridging product design and frontend architecture, giving you direct execution with zero handoff friction so you can focus on building your business.
+          Make entire products with a team of one. I take your ideas and prototypes straight into production. You get direct execution with zero handoff friction, no project managers, no lost context, and no translation layer, so you can launch faster and focus on building your business.
         </p>
-
-        <p
-          style={{
-            fontFamily: 'var(--mono)',
-            fontSize: '0.65rem',
-            color: 'var(--muted)',
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            opacity: 0.7,
-            marginBottom: '3rem',
-          }}
-        >
-          Product design and working code. Moving at founder speed.
-        </p>
-
-        {/* Credentials & High-Impact Metrics */}
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '4rem', flexWrap: 'wrap', justifyContent: 'space-between', maxWidth: '1000px' }}>
-          <p
-            style={{
-              fontFamily: 'var(--sans)',
-              fontSize: '0.9rem',
-              color: 'var(--muted)',
-              maxWidth: '52ch',
-              lineHeight: 1.65,
-              fontWeight: 300,
-            }}
-          >
-            <strong>Over 15 years spanning physical product design, 3D prototyping, and frontend code.</strong> I translate high-level strategy into rapid, high-converting interfaces and live software. You get direct access to a senior partner who builds real software instead of static mockups.
-          </p>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', paddingTop: '0.25rem' }}>
-            {[
-              ['Communication Overhead', '0% (Direct Access)'],
-              ['Delivery Speed', 'Days, Not Months'],
-              ['Execution Model', 'Design + Frontend Code'],
-            ].map(([label, value]) => (
-              <div key={label} style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.08em', display: 'flex', gap: '2rem', opacity: 0.85 }}>
-                <span>{label}</span>
-                <span style={{ color: 'var(--accent)', marginLeft: 'auto' }}>{value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
 
       {/* Structured Action Dock */}
-      <div style={{ marginTop: '4rem', width: '100%', zIndex: 4, maxWidth: '600px' }}>
+      <div style={{ marginTop: '2.5rem', width: '100%', zIndex: 4, maxWidth: '600px' }}>
         <PromptBar mounted={mounted} />
       </div>
     </section>
