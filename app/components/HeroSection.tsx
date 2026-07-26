@@ -63,7 +63,7 @@ export default function HeroSection() {
         ref={heroRef}
         id="hero"
         style={{
-          minHeight: isMobile ? '100vh' : 'calc(100vh - 60px)',
+          minHeight: isMobile ? '100dvh' : 'calc(100dvh - 60px)',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'flex-end',
