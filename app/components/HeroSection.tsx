@@ -185,7 +185,7 @@ export default function HeroSection() {
               userSelect: 'none',
             }}
           >
-            David Raigoza. Product Designer and Frontend Engineer.
+            David Raigoza. Product Designer Engineer.
           </p>
         </button>
 
