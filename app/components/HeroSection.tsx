@@ -51,12 +51,6 @@ export default function HeroSection() {
     return () => window.removeEventListener('mousemove', onMouseMove)
   }, [isMobile])
 
-  // Soft, edgeless mask for the Vera video. A radial core keeps her face and
-  // shoulders solid, while directional linear layers pull the fade in tighter
-  // toward the text side and the bottom of the frame. mask-composite: intersect
-  // means a pixel only survives if every layer agrees — that's what kills the
-  // old rectangular video boundary. (Kept for local/dev — production still
-  // ships the square version for now.)
   const veraMask = isMobile
     ? 'radial-gradient(ellipse 62% 58% at 50% 45%, black 35%, transparent 88%)'
     : `radial-gradient(ellipse 78% 72% at 58% 42%, black 42%, transparent 92%),
@@ -95,7 +89,7 @@ export default function HeroSection() {
         }}
       />
 
-      {/* Balanced Editorial Portrait — video is masked directly, no boxed overlay */}
+      {/* Balanced Editorial Portrait */}
       <div
         style={{
           position: 'absolute',
@@ -131,16 +125,13 @@ export default function HeroSection() {
             maskComposite: isMobile ? 'add' : 'intersect, intersect, intersect',
           }}
         >
-          {/* Apple Safari & iOS Device Native Support */}
           <source src="/images/vera/vera-hero.mov" type="video/mp4; codecs=hvc1" />
-
-          {/* Google Chrome, Edge, Firefox, and Android Native Support */}
           <source src="/images/vera/vera-hero.webm" type="video/webm" />
           <source src="/images/vera/vera-hero.mp4" type="video/mp4" />
         </video>
       </div>
 
-      {/* ── TEXT & COPY CONTAINER ────────────────────────────────────────────── */}
+      {/* TEXT & COPY CONTAINER */}
       <div style={{ position: 'relative', zIndex: 3, width: '100%', maxWidth: '1400px' }}>
         {/* Active System Indicator Trigger */}
         <button
@@ -194,11 +185,11 @@ export default function HeroSection() {
               userSelect: 'none',
             }}
           >
-            David Raigoza — Studio in Build Mode
+            David Raigoza. Product Designer and Frontend Engineer.
           </p>
         </button>
 
-        {/* Assertive Editorial Typography */}
+        {/* Headline */}
         <h1
           style={{
             fontFamily: 'var(--serif)',
@@ -207,33 +198,33 @@ export default function HeroSection() {
             lineHeight: 1.0,
             letterSpacing: '-0.03em',
             color: 'var(--text)',
-            marginBottom: '3rem',
+            marginBottom: '2.5rem',
           }}
         >
-          {mounted ? <GlitchWord word="One Team." /> : 'One Team.'}
+          {mounted ? <GlitchWord word="Idea to Production." /> : 'Idea to Production.'}
           <br />
           <span style={{ fontStyle: 'italic', color: 'var(--text)', opacity: 0.9 }}>
-            {mounted ? <GlitchWord word="Zero Handoffs." /> : 'Zero Handoffs.'}
+            {mounted ? <GlitchWord word="One partner, zero handoffs." /> : 'One partner, zero handoffs.'}
           </span>
           <br />
           <span style={{ color: 'var(--muted)', opacity: 0.6 }}>
-            {mounted ? <GlitchWord word="Full Stack." /> : 'Full Stack.'}
+            {mounted ? <GlitchWord word="In days. Not months." /> : 'In days. Not months.'}
           </span>
         </h1>
 
-        {/* Active Value Proposition (The Agitation & Solution) */}
+        {/* Honest Value Proposition */}
         <p
           style={{
             fontFamily: 'var(--sans)',
-            fontSize: isMobile ? '1.15rem' : 'clamp(1.2rem, 1.8vw, 1.5rem)',
+            fontSize: isMobile ? '1.1rem' : 'clamp(1.15rem, 1.7vw, 1.4rem)',
             color: 'var(--text)',
-            maxWidth: '48ch',
-            lineHeight: 1.4,
+            maxWidth: '52ch',
+            lineHeight: 1.45,
             fontWeight: 400,
-            marginBottom: '1rem',
+            marginBottom: '2.5rem',
           }}
         >
-          Most founders lose months stitching together a designer, a developer, and a marketer who've never spoken to each other. We're the team that replaces all three—product design, production code, and the funnel that turns visitors into customers, built by people who've shipped it before.
+          Make entire products with a team of one. I take your ideas straight from Figma prototypes into production Next.js code. Over 15 years bridging product design and frontend architecture, giving you direct execution with zero handoff friction so you can focus on building your business.
         </p>
 
         <p
@@ -244,13 +235,13 @@ export default function HeroSection() {
             letterSpacing: '0.1em',
             textTransform: 'uppercase',
             opacity: 0.7,
-            marginBottom: '3.5rem',
+            marginBottom: '3rem',
           }}
         >
-          Design, code, and growth—under one roof, moving at founder speed.
+          Product design and working code. Moving at founder speed.
         </p>
 
-        {/* Detailed Operational Column & Credentials */}
+        {/* Credentials & High-Impact Metrics */}
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '4rem', flexWrap: 'wrap', justifyContent: 'space-between', maxWidth: '1000px' }}>
           <p
             style={{
@@ -262,18 +253,18 @@ export default function HeroSection() {
               fontWeight: 300,
             }}
           >
-            <strong>A senior product design and engineering team, 15+ years in.</strong> We translate high-level strategy and complex technical requirements into rapid, high-conversion user interfaces. From deep Figma prototypes straight into production-grade Next.js systems—we build actual software, not static mockups.
+            <strong>Over 15 years spanning physical product design, 3D prototyping, and frontend code.</strong> I translate high-level strategy into rapid, high-converting interfaces and live software. You get direct access to a senior partner who builds real software instead of static mockups.
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', paddingTop: '0.25rem' }}>
             {[
-              ['Live products shipped', '03'],
-              ['Stack we run on', 'Next.js · Supabase · Stripe'],
-              ['No juniors · No handoff', ''],
-            ].map(([label, year]) => (
-              <div key={label} style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.08em', display: 'flex', gap: '1.5rem', opacity: 0.75 }}>
+              ['Communication Overhead', '0% (Direct Access)'],
+              ['Delivery Speed', 'Days, Not Months'],
+              ['Execution Model', 'Design + Frontend Code'],
+            ].map(([label, value]) => (
+              <div key={label} style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.08em', display: 'flex', gap: '2rem', opacity: 0.85 }}>
                 <span>{label}</span>
-                {year && <span style={{ color: 'var(--muted)', opacity: 0.5, marginLeft: 'auto' }}>{year}</span>}
+                <span style={{ color: 'var(--accent)', marginLeft: 'auto' }}>{value}</span>
               </div>
             ))}
           </div>

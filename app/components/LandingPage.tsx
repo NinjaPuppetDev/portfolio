@@ -4,6 +4,8 @@ import ProjectCard from './ProjectCard'
 import HeroSection from './HeroSection'
 import CardGrid from './CardGrid'
 import ContactForm from './ContactForm'
+import EssaySection from './EssaySection'
+import TechStackBanner from './TechStachBanner'
 
 // ── PAS PROJECT DATA MAPS ───────────────────────────────────────────────────────
 const web3Projects = [
@@ -186,6 +188,7 @@ export default function LandingPage() {
         zIndex: 1,
       }} />
       <HeroSection />
+      <TechStackBanner />
 
       {/* ── SELECTED SOLUTIONS (WORK) ─────────────────────────────────── */}
       <section
@@ -370,6 +373,9 @@ export default function LandingPage() {
           <ContactForm />
         </div>
       </section>
+
+      <EssaySection />
+
     </main>
   )
 }
