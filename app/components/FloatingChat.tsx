@@ -17,7 +17,16 @@ interface TourAction {
   offerTour?: boolean
 }
 
+type TourType = 'design' | 'web3' | 'product'
+
 // ─── TOUR CONFIGURATION META ──────────────────────────────────────────────────
+// Product tour is the primary buyer path — leads with the AI/SaaS proof points
+// (Virtual Portfolio Hub, ApplyIQ) rather than brand or Web3 work.
+const PRODUCT_TOUR = [
+  { step: 1, path: '/work/virtual-portfolio-hub', nextLabel: 'Next: ApplyIQ →' },
+  { step: 2, path: '/work/applyiq', nextLabel: 'Get in touch →', finalStop: true },
+]
+
 const DESIGN_TOUR = [
   { step: 1, path: '/work/pepe-matilda', nextLabel: 'Next: NextStep →' },
   { step: 2, path: '/work/next-step', nextLabel: 'Next: Marigold Bloom →' },
@@ -29,6 +38,12 @@ const WEB3_TOUR = [
   { step: 2, path: 'https://bruma-protocol.vercel.app/', nextLabel: 'Get in touch →', finalStop: true },
 ]
 
+function tourArrayFor(type: TourType | null) {
+  if (type === 'design') return DESIGN_TOUR
+  if (type === 'web3') return WEB3_TOUR
+  return PRODUCT_TOUR
+}
+
 // ─── CLIENT-SIDE NAVIGATION INTENT MAP ───────────────────────────────────────
 const NAV_INTENTS: { patterns: RegExp[]; path: string; label: string }[] = [
   { patterns: [/\bhome(page)?\b/i, /\bstart\b/i, /\bback to (the )?top\b/i], path: '/', label: 'Taking you home.' },
@@ -38,7 +53,8 @@ const NAV_INTENTS: { patterns: RegExp[]; path: string; label: string }[] = [
   { patterns: [/\bqie\b/i, /\bneobank\b/i], path: '/work/qie-neobank', label: 'Opening QIE Neobank.' },
   { patterns: [/\bbruma\b/i], path: 'https://bruma-protocol.vercel.app/', label: 'Opening Bruma Protocol.' },
   { patterns: [/\bgithub\b/i, /\brepo\b/i], path: 'https://github.com/NinjaPuppetDev', label: 'Opening GitHub.' },
-  { patterns: [/\bjob\s*scanner\b/i], path: 'https://raigoza-job-scanner.vercel.app/', label: 'Opening the Job Scanner.' },
+  { patterns: [/\bvirtual\s*portfolio\b/i, /\bportfolio\s*hub\b/i], path: '/work/virtual-portfolio-hub', label: 'Opening the Virtual Portfolio Hub.' },
+  { patterns: [/\bapply\s*iq\b/i, /\bsiftparity\b/i, /\bjob\s*scanner\b/i], path: '/work/applyiq', label: 'Opening ApplyIQ.' },
   { patterns: [/\bcontact\b/i, /\bget in touch\b/i, /\breach out\b/i], path: '#contact', label: 'Opening contact flow.' },
 ]
 
@@ -55,6 +71,7 @@ function detectNavIntent(text: string): { path: string; label: string } | null {
 }
 
 const TOUR_RECOVERY = /\b(show|open|restart|see|start|re-?open).{0,20}tour\b/i
+const TOUR_OFFER_PATTERN = /product tour|ai tour|saas tour|design tour|web3 tour|brand tour|protocol tour/i
 
 // Swapped "I'm a recruiter" for client-facing quick replies — the buyer here
 // is a founder/technical leader, not a hiring manager screening a candidate.
@@ -94,7 +111,7 @@ export default function FloatingChat() {
   const [mounted, setMounted] = useState(false)
 
   const [tourActive, setTourActive] = useState(false)
-  const [tourType, setTourType] = useState<'design' | 'web3' | null>(null)
+  const [tourType, setTourType] = useState<TourType | null>(null)
   const [tourStep, setTourStep] = useState(0)
 
   const [contactMode, setContactMode] = useState(false)
@@ -131,7 +148,7 @@ export default function FloatingChat() {
     if (open) setTimeout(() => inputRef.current?.focus(), 150)
   }, [open, contactMode])
 
-  const sendMessage = async (text: string, overrideTourType?: 'design' | 'web3', overrideTourStep?: number) => {
+  const sendMessage = async (text: string, overrideTourType?: TourType, overrideTourStep?: number) => {
     const trimmed = text.trim()
     if (!trimmed && overrideTourStep === undefined) return
     if (loading) return
@@ -214,7 +231,7 @@ export default function FloatingChat() {
       let actionPayload: TourAction | undefined = undefined
       if (activeType && activeStep > 0) {
         actionPayload = { tourStep: activeStep }
-      } else if (offerTourFromApi || /design tour|web3 tour|brand tour|protocol tour/i.test(content)) {
+      } else if (offerTourFromApi || TOUR_OFFER_PATTERN.test(content)) {
         actionPayload = { offerTour: true }
       }
 
@@ -298,8 +315,8 @@ export default function FloatingChat() {
     }
   }
 
-  const startTour = (type: 'design' | 'web3') => {
-    const tour = type === 'design' ? DESIGN_TOUR : WEB3_TOUR
+  const startTour = (type: TourType) => {
+    const tour = tourArrayFor(type)
     setTourActive(true)
     setTourType(type)
     setTourStep(1)
@@ -311,7 +328,7 @@ export default function FloatingChat() {
   const advanceTour = () => {
     if (!tourType) return
 
-    const tour = tourType === 'design' ? DESIGN_TOUR : WEB3_TOUR
+    const tour = tourArrayFor(tourType)
     const nextStep = tourStep + 1
     const stop = tour[nextStep - 1]
 
@@ -342,7 +359,7 @@ export default function FloatingChat() {
 
   if (!mounted) return null
 
-  const currentTourArray = tourType === 'design' ? DESIGN_TOUR : WEB3_TOUR
+  const currentTourArray = tourArrayFor(tourType)
   const currentStepConfig = currentTourArray[tourStep - 1]
   const nextStepConfig = currentTourArray[tourStep]
   const lastMsg = messages[messages.length - 1]
@@ -445,8 +462,9 @@ export default function FloatingChat() {
 
         {/* Action Controls Deck */}
         <div style={{ padding: '0px 1.25rem 0.75rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.35rem', flexShrink: 0 }}>
-          {(!tourActive && !contactMode && (lastMsg?.tourAction?.offerTour || /tour/i.test(lastMsg?.content ?? ''))) && (
+          {(!tourActive && !contactMode && (lastMsg?.tourAction?.offerTour || TOUR_OFFER_PATTERN.test(lastMsg?.content ?? ''))) && (
             <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+              <TourButton onClick={() => startTour('product')}>Product & AI Tour</TourButton>
               <TourButton onClick={() => startTour('design')}>Production Artifacts Tour</TourButton>
               <TourButton onClick={() => startTour('web3')}>Web3 Engine Tour</TourButton>
             </div>

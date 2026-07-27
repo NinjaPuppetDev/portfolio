@@ -19,11 +19,11 @@ const productProjects = [
     tags: ['Next.js', 'Google AI', 'Tailwind CSS', 'UX Architecture'],
     description:
       'Award-winning platform created during an AI bootcamp competition. Built to demonstrate high-velocity full-stack design engineering by combining conversational AI agents with dynamic project filtering and contextual telemetry.',
-    link: 'https://aistudio.google.com/apps/a6a43dcb-0f83-4b02-aed2-169360546c3a?fullscreenApplet=true',
+    link: 'work/virtual-portfolio-hub',
     linkLabel: 'View case study',
     accent: 'var(--accent)',
     variant: 'product' as const,
-    image: '/work/portfolio-hub/hub-preview.png', // Add your image path here
+    image: '/work/virtual-portfolio-hub/hub-preview.png', // Add your image path here
   },
   {
     index: '02',
@@ -33,7 +33,7 @@ const productProjects = [
     tags: ['Product Architecture', 'Next.js', 'Supabase', 'Dashboard UI'],
     description:
       'When internal data tables are backed by slow, rigid databases, operations stall. We migrated an enterprise tracking platform from Airtable to Supabase, optimizing the relational schema to support sub-100ms interface updates and real-time telemetry.',
-    link: 'https://applyiq-job-scanner.vercel.app/',
+    link: 'work/applyiq',
     linkLabel: 'View live app',
     accent: 'var(--accent)',
     variant: 'product' as const,

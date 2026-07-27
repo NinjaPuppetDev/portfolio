@@ -2,7 +2,7 @@ import { ALL_PROJECTS } from '../../data/projects'
 import { notFound } from 'next/navigation'
 
 interface Props {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 // 1. Tell Next.js exactly what routes exist at build time for 100% SEO indexability
@@ -11,9 +11,10 @@ export async function generateStaticParams() {
 }
 
 // 2. Render normal, static, crawlable semantic HTML
-export default function WorkPage({ params }: Props) {
-  const project = ALL_PROJECTS[params.slug]
-  
+export default async function WorkPage({ params }: Props) {
+  const { slug } = await params
+  const project = ALL_PROJECTS[slug]
+
   if (!project) notFound()
 
   return (

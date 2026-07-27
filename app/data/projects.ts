@@ -9,13 +9,22 @@ export interface ProjectDetail {
 }
 
 export const ALL_PROJECTS: Record<string, ProjectDetail> = {
+  'virtual-portfolio-hub': {
+    slug: 'virtual-portfolio-hub',
+    title: 'Virtual Portfolio Hub',
+    subtitle: 'Replacing static portfolio templates with real-time conversational intelligence',
+    fullDescription: 'Award-winning platform created during an AI bootcamp competition. Built to demonstrate high-velocity full-stack design engineering by combining conversational AI agents with dynamic project filtering and contextual telemetry.',
+    tags: ['Next.js', 'Google AI', 'Tailwind CSS', 'UX Architecture'],
+    metrics: ['Award-winning AI bootcamp competition entry', 'Conversational agent + dynamic project filtering', 'Contextual telemetry layer'],
+    technicalBreakdown: 'Built with Next.js and Tailwind CSS, integrating Google AI agents directly into the portfolio navigation layer. Replaces static case-study browsing with a conversational interface that routes visitors dynamically based on stated intent.'
+  },
   'qie-neobank': {
     slug: 'qie-neobank',
     title: 'QIE Neobank',
     subtitle: 'Engineering a non-custodial decentralized liquidity layer and on-chain credit scoring architecture',
     fullDescription: 'A production-grade full-stack decentralized application built for the QIE Blockchain Hackathon. The platform functions as a non-custodial liquidity deployment layer that leverages advanced tokenized vault mechanics[cite: 2].',
     tags: ['Solidity', 'ERC-4626', 'Soulbound NFT', 'DeFi', 'Next.js', 'Figma'],
-    metrics: ['6 deployed smart contracts to mainnet[cite: 2]', '300-850 credit scoring scoring engine[cite: 2]', 'Four loan tiers up to $50k at 8% APR[cite: 2]'],
+    metrics: ['6 deployed smart contracts to mainnet[cite: 2]', '300-850 credit scoring scoring engine[cite: 2]', 'Four loan tiers up to $50k at 8% APR[cite: 2]', 'Shortlisted out of 411 global submissions'],
     technicalBreakdown: 'Smart contracts engineered using Solidity 0.8.24 and OpenZeppelin 5[cite: 2]. Built a custom behavioral credit score engine derived from 5 distinct on-chain telemetry parameters with a built-in 7-day aging logical barrier to mathematically eliminate score manipulation loops[cite: 2]. Frontend uses Next.js, Tailwind CSS, RainbowKit, Wagmi, and Viem[cite: 2].'
   },
   'bruma-protocol': {
@@ -27,14 +36,23 @@ export const ALL_PROJECTS: Record<string, ProjectDetail> = {
     metrics: ['Chainlink Hackathon Project[cite: 2]', 'Trustless oracle data integration[cite: 2]'],
     technicalBreakdown: 'Developed the underlying smart contract protocol logic and modular decentralized app architecture[cite: 2]. Uses dedicated Chainlink decentral oracles to feed automated real-world precipitation analytics directly on-chain, eliminating intermediate counterparty verification risks and handling program automated settlements cleanly[cite: 2].'
   },
-  'ApplyIQ': {
-    slug: 'ApplyIQ',
-    title: 'ApplyIQ',
-    subtitle: 'Building a real-time data ingestion telemetry dashboard and serverless CRM pipeline',
-    fullDescription: 'A highly functional personal CRM application designed to track operational outreach, interview phases, and application funnel telemetry in near real-time[cite: 2].',
-    tags: ['Next.js', 'Supabase', 'Groq AI', 'No-code', 'Dashboard'],
-    metrics: ['Real-time telemetry ingestion[cite: 2]', 'Automated pipeline tracking[cite: 2]'],
-    technicalBreakdown: 'Built using Airtable as an decoupled relational data backend layer, seamlessly piped directly into a responsive Next.js analytics interface[cite: 2]. Leverages custom data mapping hooks and automation rules to model funnel status, metrics, and application state transitions fluidly[cite: 2].'
+  'github-core': {
+    slug: 'github-core',
+    title: 'GitHub Core',
+    subtitle: 'Immutable protocol infrastructure and state systems built for raw operational transparency',
+    fullDescription: "The active repository containing the production-grade smart contracts, protocol interfaces, and telemetry systems driving shipped products — open for immediate architectural audit. No high-fidelity mockups standing in for real code.",
+    tags: ['Solidity', 'Next.js', 'Smart Contracts', 'Web3'],
+    metrics: ['Open, auditable production repository', 'Live protocol interfaces and telemetry systems'],
+    technicalBreakdown: 'Direct source access for technical evaluators and diligence — Solidity contracts, Next.js interfaces, and telemetry systems as actually deployed, not staged demos.'
+  },
+  'applyiq': {
+    slug: 'applyiq',
+    title: 'ApplyIQ (SiftParity)',
+    subtitle: 'Replacing sluggish database pipelines with sub-100ms real-time telemetry dashboards',
+    fullDescription: 'A highly functional personal CRM application designed to track operational outreach, interview phases, and application funnel telemetry in near real-time[cite: 2]. Migrated from Airtable to Supabase to support sub-100ms interface updates.',
+    tags: ['Next.js', 'Supabase', 'Groq AI', 'Dashboard'],
+    metrics: ['Real-time telemetry ingestion[cite: 2]', 'Automated pipeline tracking[cite: 2]', 'Sub-100ms interface updates'],
+    technicalBreakdown: 'Migrated from an Airtable relational backend to Supabase, optimizing schema design to support sub-100ms real-time interface updates. Leverages custom data mapping hooks and automation rules to model funnel status, metrics, and application state transitions fluidly[cite: 2].'
   },
   'pepe-matilda': {
     slug: 'pepe-matilda',
