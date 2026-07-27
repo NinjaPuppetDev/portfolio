@@ -259,8 +259,23 @@ export default function LandingPage() {
             maxWidth: '75ch',
             fontWeight: 300,
           }}>
-            Engineered to help founders test fast, learn what clients actually want, and iterate without headaches. 
-            We replace heavy agency timelines and AWS surprise bills with lean Next.js + Supabase architectures, sub-100ms UI performance, and AI-driven automated test suites.
+            Every project in this portfolio asks the same question.
+
+            How quickly can an idea become something another human can understand?
+
+            Sometimes that answer becomes a SaaS platform.
+
+            Sometimes it's a blockchain protocol.
+
+            Sometimes it's a jewelry brand.
+
+            The technology changes.
+
+            The problem doesn't.
+
+            Reduce the distance between intention and understanding.
+
+            Everything below is an experiment toward that goal.
           </p>
         </div>
 
@@ -269,7 +284,21 @@ export default function LandingPage() {
           <div style={{ marginBottom: '1.75rem' }}>
             <SectionLabel label="01 / Rapid Validation & AI-Driven SaaS Engines" count={productProjects.length} accent="var(--accent)" />
             <p style={{ fontSize: '0.95rem', color: 'var(--muted)', marginTop: '-0.75rem', marginBottom: '2rem', maxWidth: '70ch', lineHeight: 1.65 }}>
-              Launch in days, not months. We combine Next.js and Supabase into lean, predictable stacks, leveraging AI agents to build comprehensive test suites and telemetry before your first customer onboards.
+              Companies don't hire because they like résumés.
+
+              They hire because every new employee is a bet.
+
+              As hiring becomes more expensive and specialized, that bet becomes harder to justify. Credentials reveal where someone has been. They rarely reveal what someone can build today.
+
+              That's the problem this chapter explores.
+
+              How do we reduce uncertainty for both companies and candidates before either side commits?
+
+              The answer happened to become a conversational portfolio platform built with Next.js, Supabase, Firebase, Google Studio, and AI agents.
+
+              The stack isn't the story.
+
+              Reducing uncertainty is.
             </p>
           </div>
           <CardGrid projects={productProjects} cols={2} />
@@ -280,7 +309,23 @@ export default function LandingPage() {
           <div style={{ marginBottom: '1.75rem' }}>
             <SectionLabel label="02 / Friction-Free Onboarding & Protocol Telemetry" count={web3Projects.length} accent="var(--accent)" />
             <p style={{ fontSize: '0.95rem', color: 'var(--muted)', marginTop: '-0.75rem', marginBottom: '2rem', maxWidth: '70ch', lineHeight: 1.65 }}>
-              Eliminating onboarding dropoff. We translate complex smart-contract payloads into clean, human-readable risk interfaces so non-crypto users actually convert and stay.
+              Every financial system asks the same question:
+
+              How do strangers trust each other?
+
+              Banks answered it with institutions.
+
+              Blockchains answer it with code.
+
+              Neither approach is sufficient on its own.
+
+              Traditional finance spent centuries learning how to communicate risk. Decentralized finance introduced entirely new financial primitives, but often exposed them through interfaces only protocol engineers could understand.
+
+              The opportunity isn't choosing one system over the other.
+
+              It's translating the strengths of both into products ordinary people can actually use.
+
+              The projects below explore that conversation.
             </p>
           </div>
           <CardGrid projects={web3Projects} cols={3} />
@@ -291,7 +336,25 @@ export default function LandingPage() {
           <div style={{ marginBottom: '1.75rem' }}>
             <SectionLabel label="03 / High-Conversion Web Architecture & Systems" count={brandProjects.length} accent="var(--amber)" />
             <p style={{ fontSize: '0.95rem', color: 'var(--muted)', marginTop: '-0.75rem', marginBottom: '2rem', maxWidth: '70ch', lineHeight: 1.65 }}>
-              Zero heavy asset bloat or sluggish templates. We build fast, responsive digital spaces designed to capture immediate user feedback, test messaging, and turn visitors into active customers.
+              Every brand begins with a story.
+
+              I've never met a founder who started by talking about typography or checkout flows.
+
+              They talk about where the name came from.
+
+              Why they started.
+
+              The object they couldn't find.
+
+              The frustration they wanted to solve.
+
+              Years later, that story becomes a logo, a product, a website, and eventually a business.
+
+              The challenge isn't building another storefront.
+
+              It's making sure the conversation survives every translation.
+
+              The projects below explore how digital experiences can preserve the character of physical products instead of reducing them to transactions.
             </p>
           </div>
           <CardGrid projects={brandProjects} cols={3} />
@@ -336,13 +399,22 @@ export default function LandingPage() {
               color: 'var(--text)',
               fontStyle: 'italic',
             }}>
-              "Complex backend power is useless if the interface forces user dropoff."
+              "Every product is a conversation between an idea and the people it hopes to reach."
             </h2>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <p style={{ fontSize: '1.05rem', color: 'var(--text)', lineHeight: 1.7, fontWeight: 300 }}>
-              I operate at the intersection of high-fidelity product design and full-stack frontend architecture. By owning both the Figma design systems and the production Next.js codebase, I eliminate the broken agency-to-developer handoff entirely.
+              I know you're here because you have an idea.
+              Maybe you don't have the time to build it. Maybe you don't have the team. Or maybe you're still figuring out what it should become.
+
+              That's where I come in.
+
+              I help turn ideas into products people can actually use. Together we'll decide what to build, how to build it, and how to reach the people it's meant for.
+
+              But launching isn't the end of the conversation.
+
+              I build products that observe how people use them, revealing patterns, friction, and opportunities so the next decision is informed by behavior instead of guesswork.
             </p>
           </div>
         </div>
@@ -361,13 +433,13 @@ export default function LandingPage() {
             backgroundColor: 'rgba(255, 255, 255, 0.01)',
           }}>
             <span style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--accent)', letterSpacing: '0.15em' }}>
-              01 // ZERO-HANDOFF
+              01 // Preserve the idea
             </span>
             <h3 style={{ fontSize: '1.1rem', fontWeight: 400, color: 'var(--text)', margin: '1rem 0 0.75rem' }}>
-              Figma to Production
+              Ideas change every time they're translated.
             </h3>
             <p style={{ fontSize: '0.85rem', color: 'var(--muted)', lineHeight: 1.7 }}>
-              One contact. One architect. Direct translation of complex UI components, interactive states, and parametric 3D models into clean Next.js/React code.
+            I remove as many translations as possible by designing and building the product as one continuous process.  
             </p>
           </div>
 
@@ -378,13 +450,15 @@ export default function LandingPage() {
             backgroundColor: 'rgba(255, 255, 255, 0.01)',
           }}>
             <span style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--accent)', letterSpacing: '0.15em' }}>
-              02 // SPEED & TELEMETRY
+              02 // Learn from reality
             </span>
             <h3 style={{ fontSize: '1.1rem', fontWeight: 400, color: 'var(--text)', margin: '1rem 0 0.75rem' }}>
-              Sub-100ms Dashboards
+              Launching answers nothing.
             </h3>
             <p style={{ fontSize: '0.85rem', color: 'var(--muted)', lineHeight: 1.7 }}>
-              Optimized relational schemas (Supabase), reactive state logic, and conversational AI agents designed to handle live data streams with zero UI lag.
+              Watching how people actually use a product is where design begins.
+
+              Every system I build is instrumented to help founders see what users are trying to tell them.
             </p>
           </div>
 
@@ -395,44 +469,22 @@ export default function LandingPage() {
             backgroundColor: 'rgba(255, 255, 255, 0.01)',
           }}>
             <span style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--accent)', letterSpacing: '0.15em' }}>
-              03 // DOMAIN AGNOSTIC
+              03 // Technology follows the problem
             </span>
             <h3 style={{ fontSize: '1.1rem', fontWeight: 400, color: 'var(--text)', margin: '1rem 0 0.75rem' }}>
-              SaaS, Web3 & E-Com
+              I don't start with frameworks.
             </h3>
             <p style={{ fontSize: '0.85rem', color: 'var(--muted)', lineHeight: 1.7 }}>
-              From abstracting crypto onboarding friction to designing high-conversion parametric e-commerce flows for physical luxury goods.
+              I start with constraints.
+
+              The stack changes.
+
+              The questions usually don't.
             </p>
           </div>
         </div>
 
-        {/* Stack Chips */}
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          gap: '0.6rem',
-          paddingTop: '2rem',
-          borderTop: '1px solid var(--border)',
-        }}>
-          <span style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', marginRight: '1rem', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-            Capabilities ::
-          </span>
-          {['Product Design', 'Design Systems', 'Next.js', 'Solidity', 'Supabase', 'Figma', 'Blender / 3D', 'Agentic UX', 'Telemetry Architecture'].map(s => (
-            <span key={s} style={{
-              fontFamily: 'var(--mono)',
-              fontSize: '0.6rem',
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              border: '1px solid var(--border-hi)',
-              color: 'var(--text)',
-              padding: '0.3rem 0.75rem',
-              backgroundColor: 'rgba(255, 255, 255, 0.02)',
-            }}>
-              {s}
-            </span>
-          ))}
-        </div>
+     
       </section>
 
       {/* ── CONVERSIONS (CONTACT) ─────────────────────────────────────── */}
@@ -463,10 +515,23 @@ export default function LandingPage() {
               Inquiry
             </p>
             <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(2.5rem, 6vw, 5rem)', fontWeight: 300, fontStyle: 'italic', color: 'var(--text)', lineHeight: 1.05, marginBottom: '1.5rem' }}>
-              Let's build your<br />first launch.
+              Let's continue<br />the conversation.
             </h2>
             <p style={{ fontFamily: 'var(--sans)', fontSize: '0.875rem', color: 'var(--muted)', lineHeight: 1.75, maxWidth: '36ch' }}>
-              Tell us where the launch is stuck—design, code, or the funnel between them. We'll tell you exactly what it takes to ship it.
+              Every product begins as an idea.
+
+              The difficult part isn't building it.
+              It's understanding what it wants to become.
+
+              Whether you're exploring a new venture, improving an existing product, or trying to make sense of a complex problem, I'd be happy to think it through with you.
+
+              Sometimes the outcome is a website.
+
+              Sometimes it's a prototype.
+
+              Sometimes it's realizing you don't need to build what you thought you needed.
+
+              Every conversation starts somewhere.
             </p>
             <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em', marginTop: '1.5rem', opacity: 0.6 }}>
               raigoza.david.j@gmail.com

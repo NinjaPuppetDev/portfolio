@@ -225,8 +225,8 @@ export default function HeroSection() {
             margin: 0,
           }}
         >
-          Make entire products with a team of one. I take your ideas and prototypes straight into production. You get direct execution with zero handoff friction, no project managers, no lost context, and no translation layer, so you can launch faster and focus on building your business.
-        </p>
+      Every product begins as a conversation. 
+      Somewhere between the first sketch and the first customer, that conversation gets translated into specifications, tickets, meetings, revisions, and handoffs. Every translation changes the idea. I built my practice to remove those translations.     </p>
       </div>
 
       {/* Structured Action Dock */}
