@@ -4,48 +4,50 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 // ─── CONSTANTS ───────────────────────────────────────────────────────────────
-// Drop the walkthrough video in this path once you have it.
 const WALKTHROUGH_VIDEO_URL = '/work/virtual-portfolio-hub/vph-walkthrough.mp4'
 const LIVE_APP_URL = 'https://aistudio.google.com/apps/a6a43dcb-0f83-4b02-aed2-169360546c3a?fullscreenApplet=true'
 
-const FEATURES = [
-  { step: '01', name: 'Conversational Routing', detail: 'Replaces static case-study browsing with an agent that routes visitors by stated intent.' },
-  { step: '02', name: 'Dynamic Project Filtering', detail: 'Case studies surface based on the conversation, not a fixed menu.' },
-  { step: '03', name: 'Contextual Telemetry', detail: 'The agent hydrates project detail from a live data layer, not hardcoded copy.' },
-  { step: '04', name: 'Hallucination Guardrails', detail: 'Strict scoping — the agent only speaks to what exists in the data layer, nothing invented.' },
-  { step: '05', name: 'Bilingual Detection', detail: 'Detects visitor language automatically and responds in kind, no toggle required.' },
+const ARCHITECTURE_ITEMS = [
+  {
+    title: 'AI-Assisted Authoring',
+    detail: 'Transforms rough project notes into structured submissions aligned with the evaluation rubric.',
+  },
+  {
+    title: 'Human-in-the-Loop Editing',
+    detail: 'Every AI-generated section remains editable before publication.',
+  },
+  {
+    title: 'Dual Interface Architecture',
+    detail: 'Separate experiences were designed for participants and reviewers, each optimized for their specific workflow.',
+  },
+  {
+    title: 'Deadline Management',
+    detail: 'Submission windows are controlled centrally, automatically preventing modifications after the review cutoff.',
+  },
+  {
+    title: 'AI Recommendation Engine',
+    detail: 'Provides reviewers with an initial assessment while leaving scoring decisions entirely in human hands.',
+  },
 ]
 
-const PROCESS = [
-  {
-    label: 'System Prompt Architecture',
-    description: 'Designed a strict-scope system prompt with explicit hallucination prevention — the agent only speaks to what exists in the underlying project data, and redirects everything else to direct contact.',
-  },
-  {
-    label: 'Dynamic Data Hydration',
-    description: 'Project details are compiled programmatically from a single structured data source at request time, so the agent and the visible case studies never drift out of sync.',
-  },
-  {
-    label: 'Guided Tour State Machine',
-    description: 'Built a step-tracking system so the agent can walk a visitor through a sequence of projects in order, injecting per-step context without losing track of where the conversation is.',
-  },
-  {
-    label: 'Bilingual Conversational Layer',
-    description: 'Language detection runs per-message, allowing visitors to switch between English and Spanish mid-conversation without breaking context.',
-  },
+const IMPACT_POINTS = [
+  'Participants spend less time formatting documentation.',
+  'Reviewers receive standardized submissions.',
+  'Bootcamp organizers maintain consistent evaluation criteria.',
+  'Human judgment remains the final authority.',
 ]
 
 // ─── JSON-LD ──────────────────────────────────────────────────────────────────
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
-  name: 'Virtual Portfolio Hub — Case Study',
+  name: 'Career Portfolio Hub — AI-Assisted Submission & Evaluation Platform',
   description:
-    'Award-winning conversational portfolio platform designed and built by David Raigoza during an AI bootcamp competition.',
+    'A full-stack platform that helps bootcamp participants transform rough project notes into structured portfolio submissions while giving reviewers a standardized workspace.',
   creator: { '@type': 'Person', name: 'David Raigoza', url: 'https://davidraigoza.design' },
 }
 
-export default function VirtualPortfolioHubCaseStudy() {
+export default function CareerPortfolioHubCaseStudy() {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => { setMounted(true) }, [])
@@ -85,7 +87,7 @@ export default function VirtualPortfolioHubCaseStudy() {
           zIndex: 1,
         }}>
           <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '1.5rem', ...fadeIn(0.1) }}>
-            AI Agents · Conversational UX · Full-Stack Product
+            Full-Stack Platform · Gemini AI Integration · Evaluation Systems
           </p>
 
           <h1 style={{
@@ -97,15 +99,15 @@ export default function VirtualPortfolioHubCaseStudy() {
             marginBottom: '2.5rem',
             ...fadeIn(0.2)
           }}>
-            Virtual Portfolio Hub.
+            Career Portfolio Hub.
             <br />
             <span style={{ fontStyle: 'italic', color: 'var(--text)', opacity: 0.9 }}>
-              Replacing static templates with a conversation.
+              AI-Assisted Submission & Evaluation Platform
             </span>
           </h1>
 
-          <p style={{ fontFamily: 'var(--sans)', fontSize: 'clamp(1.1rem, 1.6vw, 1.35rem)', color: 'var(--text)', maxWidth: '52ch', lineHeight: 1.5, fontWeight: 400, marginBottom: '2.5rem', ...fadeIn(0.3) }}>
-            An award-winning platform built during an AI bootcamp competition — combining conversational AI agents with dynamic project filtering and contextual telemetry, so visitors get routed to what they actually need instead of scrolling a static menu.
+          <p style={{ fontFamily: 'var(--sans)', fontSize: 'clamp(1.1rem, 1.6vw, 1.35rem)', color: 'var(--text)', maxWidth: '58ch', lineHeight: 1.5, fontWeight: 400, marginBottom: '2.5rem', ...fadeIn(0.3) }}>
+            A full-stack platform that helps bootcamp participants transform rough project notes into structured portfolio submissions while giving reviewers a standardized workspace for evaluating projects against a shared rubric.
           </p>
 
           <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'center', ...fadeIn(0.4) }}>
@@ -139,34 +141,37 @@ export default function VirtualPortfolioHubCaseStudy() {
           </div>
         </section>
 
-        {/* ── STRATEGIC FRAMEWORK ─────────────────────────────────── */}
+        {/* ── CHALLENGE & SOLUTION ───────────────────────────────── */}
         <section style={{
           borderTop: '1px solid var(--border)',
           padding: '4rem clamp(1.5rem, 5vw, 4rem)',
           maxWidth: '1300px',
           margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
           gap: '3rem',
           position: 'relative',
           zIndex: 1,
         }}>
           <div>
-            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>01 / The Business Agitation</span>
-            <p style={{ fontSize: '0.95rem', color: 'var(--text)', marginTop: '0.75rem', fontWeight: 300, lineHeight: 1.65 }}>
-              Static portfolios force every visitor through the same linear scroll, regardless of what they actually came looking for — a recruiter, a technical evaluator, and a founder all want to see something different first.
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>01 / The Challenge</span>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.5rem', margin: '0.5rem 0 1rem', fontWeight: 300 }}>Bootcamp evaluations are fragmented.</h3>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.65 }}>
+              Participants typically prepare their projects in documents, emails, and chat messages before manually assembling a final submission. Reviewers then receive inconsistent formats, making evaluation slower and more subjective.
+            </p>
+            <p style={{ fontSize: '0.95rem', color: 'var(--muted)', marginTop: '0.75rem', fontWeight: 300, lineHeight: 1.65, fontStyle: 'italic' }}>
+              The challenge was to design a workflow that standardized both submission and evaluation without replacing human judgment.
             </p>
           </div>
+
           <div>
-            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>02 / Technical Execution</span>
-            <p style={{ fontSize: '0.95rem', color: 'var(--text)', marginTop: '0.75rem', fontWeight: 300, lineHeight: 1.65 }}>
-              Built a conversational agent directly into the navigation layer, hydrated from a live project data source, with strict hallucination guardrails so it never invents work that doesn't exist.
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>02 / The Solution</span>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.5rem', margin: '0.5rem 0 1rem', fontWeight: 300 }}>AI assists both sides of the process.</h3>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.65 }}>
+              Participants begin with rough notes rather than polished documentation. The platform uses Gemini to transform those notes into structured project summaries aligned with the bootcamp's evaluation rubric. Participants remain in control, reviewing and editing the generated content before publishing.
             </p>
-          </div>
-          <div>
-            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>03 / Operational Scale</span>
             <p style={{ fontSize: '0.95rem', color: 'var(--text)', marginTop: '0.75rem', fontWeight: 300, lineHeight: 1.65 }}>
-              A single system prompt and data layer now powers routing, guided tours, and bilingual support — adding a new case study means adding one data entry, not rebuilding navigation logic.
+              On the reviewer side, evaluators receive standardized submissions, AI-generated assessment suggestions, and dedicated scoring tools while retaining full authority over the final decision.
             </p>
           </div>
         </section>
@@ -183,10 +188,10 @@ export default function VirtualPortfolioHubCaseStudy() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '2rem', marginBottom: '2.5rem' }}>
             <div>
               <Label>Live Walkthrough</Label>
-              <SectionTitle>Conversational Routing In Action</SectionTitle>
+              <SectionTitle>Platform Demonstration</SectionTitle>
             </div>
             <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.1em', maxWidth: '36ch', textAlign: 'right' }}>
-              BUILT DURING AN AI BOOTCAMP COMPETITION TO DEMONSTRATE HIGH-VELOCITY FULL-STACK DESIGN ENGINEERING.
+              BUILT TO DEMONSTRATE HUMAN-IN-THE-LOOP AI WORKFLOWS AND STANDARDIZED EVALUATIONS.
             </p>
           </div>
 
@@ -196,6 +201,7 @@ export default function VirtualPortfolioHubCaseStudy() {
             border: '1px solid var(--border)',
             background: '#0a0a0a',
             overflow: 'hidden',
+            borderRadius: '4px',
           }}>
             <video
               src={WALKTHROUGH_VIDEO_URL}
@@ -206,7 +212,64 @@ export default function VirtualPortfolioHubCaseStudy() {
           </div>
         </section>
 
-        {/* ── FEATURE BREAKDOWN ────────────────────────────────────── */}
+        {/* ── WORKFLOW ─────────────────────────────── */}
+        <section id="workflow" style={{
+          borderTop: '1px solid var(--border)',
+          padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1300px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          <Label>Dual-Sided Experience</Label>
+          <SectionTitle>Product Workflow</SectionTitle>
+
+          {/* Student Workspace Block */}
+          <div style={{ marginTop: '3rem', marginBottom: '5rem' }}>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.8rem', color: 'var(--text)', fontWeight: 300, marginBottom: '1rem' }}>
+              Student Workspace
+            </h3>
+            <p style={{ fontSize: '0.95rem', color: 'var(--muted)', marginBottom: '1.5rem', fontWeight: 300 }}>
+              The participant workspace allows students to enter rough notes, generate structured portfolio content with AI, manually edit every section, publish the submission, and continue making revisions until the evaluation deadline. Once closed, editing is automatically disabled to preserve evaluation integrity.
+            </p>
+            <div style={{
+              border: '1px solid var(--border)',
+              background: '#0a0a0a',
+              overflow: 'hidden',
+              borderRadius: '4px',
+            }}>
+              <img
+                src="/work/virtual-portfolio-hub/studentworkspace.png"
+                alt="Student Submission Center Workspace"
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </div>
+          </div>
+
+          {/* Reviewer Workspace Block */}
+          <div>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.8rem', color: 'var(--text)', fontWeight: 300, marginBottom: '1rem' }}>
+              Reviewer Workspace
+            </h3>
+            <p style={{ fontSize: '0.95rem', color: 'var(--muted)', marginBottom: '1.5rem', fontWeight: 300 }}>
+              Reviewers access a dedicated evaluation interface with standardized project summaries, AI-generated baseline recommendations, seven rubric scoring categories, reviewer notes, award nomination workflows, and submission locking after final approval.
+            </p>
+            <div style={{
+              border: '1px solid var(--border)',
+              background: '#0a0a0a',
+              overflow: 'hidden',
+              borderRadius: '4px',
+            }}>
+              <img
+                src="/work/virtual-portfolio-hub/reviewerworkspace.png"
+                alt="Reviewer Evaluation Workspace"
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* ── ARCHITECTURE ───────────────────────────────────────── */}
         <section style={{
           borderTop: '1px solid var(--border)',
           padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
@@ -215,29 +278,29 @@ export default function VirtualPortfolioHubCaseStudy() {
           position: 'relative',
           zIndex: 1,
         }}>
-          <Label>What It Actually Does</Label>
-          <SectionTitle>From Static Menu to Live Routing</SectionTitle>
+          <Label>System Design</Label>
+          <SectionTitle>Architecture</SectionTitle>
 
           <p style={{ fontFamily: 'var(--sans)', fontSize: '1rem', color: 'var(--muted)', maxWidth: '60ch', lineHeight: 1.7, marginTop: '1rem', marginBottom: '3rem', fontWeight: 300 }}>
-            Every piece of the agent's behavior is scoped and data-driven — nothing is a scripted demo path pretending to be intelligent.
+            Designed around complete product execution rather than static prompt engineering.
           </p>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
             gap: '1.5rem',
           }}>
-            {FEATURES.map(item => (
-              <div key={item.step} style={{ border: '1px solid var(--border)', padding: '1.5rem', background: 'rgba(255,255,255,0.01)' }}>
-                <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)' }}>{item.step}</span>
-                <h3 style={{ fontFamily: 'var(--sans)', fontSize: '1rem', fontWeight: 500, margin: '0.5rem 0', color: 'var(--text)' }}>{item.name}</h3>
+            {ARCHITECTURE_ITEMS.map((item, idx) => (
+              <div key={item.title} style={{ border: '1px solid var(--border)', padding: '1.5rem', background: 'rgba(255,255,255,0.01)' }}>
+                <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)' }}>0{idx + 1}</span>
+                <h3 style={{ fontFamily: 'var(--sans)', fontSize: '1rem', fontWeight: 500, margin: '0.5rem 0', color: 'var(--text)' }}>{item.title}</h3>
                 <p style={{ fontSize: '0.8rem', color: 'var(--muted)', lineHeight: 1.5, fontWeight: 300 }}>{item.detail}</p>
               </div>
             ))}
           </div>
         </section>
 
-        {/* ── PROCESS & METHODOLOGY ───────────────────────────────── */}
+        {/* ── IMPACT ─────────────────────────────────────────────── */}
         <section style={{
           borderTop: '1px solid var(--border)',
           padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
@@ -246,30 +309,24 @@ export default function VirtualPortfolioHubCaseStudy() {
           position: 'relative',
           zIndex: 1,
         }}>
-          <Label>Full-Stack Execution</Label>
-          <SectionTitle>How We Built It</SectionTitle>
+          <Label>Outcomes</Label>
+          <SectionTitle>Measurable Impact</SectionTitle>
 
-          <div style={{ border: '1px solid var(--border)', marginTop: '2.5rem', overflow: 'hidden' }}>
-            {PROCESS.map((step, i) => (
-              <div key={step.label} style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 2fr',
-                gap: '2rem',
-                padding: '2rem',
-                borderBottom: i < PROCESS.length - 1 ? '1px solid var(--border)' : 'none',
-                alignItems: 'start',
+          <p style={{ fontFamily: 'var(--serif)', fontSize: '1.25rem', color: 'var(--text)', maxWidth: '60ch', lineHeight: 1.5, marginTop: '1.5rem', marginBottom: '2.5rem', fontWeight: 300 }}>
+            The platform demonstrates how AI can augment structured review processes without automating decision making.
+          </p>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
+            {IMPACT_POINTS.map((point, index) => (
+              <div key={index} style={{
+                border: '1px solid var(--border)',
+                padding: '1.75rem',
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '1rem'
               }}>
-                <div>
-                  <span style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--accent)', letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>
-                    0{i + 1}
-                  </span>
-                  <p style={{ fontFamily: 'var(--serif)', fontSize: '1.1rem', color: 'var(--text)', lineHeight: 1.3 }}>
-                    {step.label}
-                  </p>
-                </div>
-                <p style={{ fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.7, fontWeight: 300 }}>
-                  {step.description}
-                </p>
+                <span style={{ fontFamily: 'var(--mono)', color: 'var(--accent)', fontSize: '0.9rem' }}>✓</span>
+                <p style={{ fontSize: '0.95rem', color: 'var(--text)', lineHeight: 1.5, fontWeight: 300 }}>{point}</p>
               </div>
             ))}
           </div>

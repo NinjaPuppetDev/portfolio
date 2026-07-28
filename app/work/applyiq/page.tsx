@@ -4,34 +4,66 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 // ─── CONSTANTS ───────────────────────────────────────────────────────────────
-// Drop the walkthrough video in this path once you have it.
 const WALKTHROUGH_VIDEO_URL = '/work/applyiq/applyiq-walkthrough.mp4'
 const LIVE_APP_URL = 'https://applyiq-job-scanner.vercel.app/'
 
-const FEATURES = [
-  { step: '01', name: 'Real-Time Telemetry', detail: 'Application funnel state updates propagate to the dashboard in near real-time.' },
-  { step: '02', name: 'Schema Migration', detail: 'Moved off a rigid Airtable backend onto a relational Supabase schema built for speed.' },
-  { step: '03', name: 'Sub-100ms Updates', detail: 'Interface reflects state changes fast enough to feel instant during active use.' },
-  { step: '04', name: 'Automated Pipeline Tracking', detail: 'Custom automation rules move records through funnel stages without manual re-entry.' },
-  { step: '05', name: 'Dashboard UI', detail: 'A responsive analytics interface built specifically around outreach and interview tracking.' },
+const TECH_STACK = [
+  'Next.js',
+  'TypeScript',
+  'Supabase',
+  'OpenAI',
+  'Stripe',
+  'Vitest',
+  'Playwright',
 ]
 
-const PROCESS = [
+const WHAT_IT_DOES = [
   {
-    label: 'Relational Schema Design',
-    description: 'Modeled the funnel data as a proper relational schema in Supabase, replacing the flat, loosely-typed structure inherited from Airtable.',
+    title: 'AI Resume Matching',
+    detail: 'Compares candidate experience against individual job descriptions and generates structured compatibility feedback.',
   },
   {
-    label: 'Real-Time Sync Layer',
-    description: 'Wired the dashboard directly to Supabase\'s real-time subscriptions so interface updates land in well under 100ms without manual refresh.',
+    title: 'Application Dashboard',
+    detail: 'Tracks submitted applications, interview stages, offers, and response rates from a single interface.',
   },
   {
-    label: 'Funnel Automation Rules',
-    description: 'Built custom data mapping hooks and automation rules to move applications through stages — applied, interviewing, offer, closed — based on triggered events rather than manual status changes.',
+    title: 'Candidate Insights',
+    detail: 'Highlights strengths, identifies experience gaps, and explains why a candidate received a particular score.',
   },
   {
-    label: 'Dashboard UI Engineering',
-    description: 'Designed and built the analytics interface in Next.js, prioritizing at-a-glance funnel health over dense tabular data.',
+    title: 'Usage Limits',
+    detail: 'Enforces monthly scan quotas for free users while supporting premium subscription tiers.',
+  },
+  {
+    title: 'Subscription Management',
+    detail: 'Stripe integration handles upgrades, billing, and recurring subscriptions without custom payment infrastructure.',
+  },
+]
+
+const HOW_WE_BUILT_IT = [
+  {
+    label: 'AI Matching Pipeline',
+    description: 'Designed a structured evaluation pipeline that compares résumés against job descriptions and produces explainable scoring rather than opaque recommendations.',
+  },
+  {
+    label: 'Authentication & Rate Limiting',
+    description: 'Implemented user authentication and backend rate limiting to enforce monthly usage quotas across subscription tiers.',
+  },
+  {
+    label: 'Subscription Infrastructure',
+    description: 'Integrated Stripe for recurring billing, plan upgrades, and premium feature access.',
+  },
+  {
+    label: 'Dashboard Architecture',
+    description: 'Built a responsive analytics dashboard for tracking application progress, interview stages, and response metrics.',
+  },
+  {
+    label: 'Database Architecture',
+    description: 'Modeled users, applications, scans, subscriptions, and match results in Supabase using a relational schema optimized for real-time updates.',
+  },
+  {
+    label: 'Quality Assurance',
+    description: 'Validated core application flows using Vitest for unit testing and Playwright for end-to-end testing.',
   },
 ]
 
@@ -39,9 +71,9 @@ const PROCESS = [
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
-  name: 'ApplyIQ (SiftParity) — Case Study',
+  name: 'ApplyIQ — AI Candidate Matching & SaaS Platform',
   description:
-    'Real-time job application telemetry dashboard designed and built by David Raigoza, migrated from Airtable to Supabase.',
+    'A full-stack SaaS platform combining AI resume analysis, application tracking, and Stripe subscription management into a unified workspace.',
   creator: { '@type': 'Person', name: 'David Raigoza', url: 'https://davidraigoza.design' },
 }
 
@@ -85,7 +117,7 @@ export default function ApplyIQCaseStudy() {
           zIndex: 1,
         }}>
           <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '1.5rem', ...fadeIn(0.1) }}>
-            Product Architecture · Supabase · Dashboard UI
+            AI Candidate Matching · SaaS Platform · Full-Stack Engineering
           </p>
 
           <h1 style={{
@@ -100,13 +132,30 @@ export default function ApplyIQCaseStudy() {
             ApplyIQ.
             <br />
             <span style={{ fontStyle: 'italic', color: 'var(--text)', opacity: 0.9 }}>
-              Real-time telemetry, not rigid spreadsheets.
+              Helping candidates understand fit before they apply.
             </span>
           </h1>
 
-          <p style={{ fontFamily: 'var(--sans)', fontSize: 'clamp(1.1rem, 1.6vw, 1.35rem)', color: 'var(--text)', maxWidth: '52ch', lineHeight: 1.5, fontWeight: 400, marginBottom: '2.5rem', ...fadeIn(0.3) }}>
-            When internal data tables are backed by slow, rigid databases, operations stall. We migrated an enterprise tracking platform from Airtable to Supabase, optimizing the relational schema to support sub-100ms interface updates and real-time telemetry.
+          <p style={{ fontFamily: 'var(--sans)', fontSize: 'clamp(1.1rem, 1.6vw, 1.35rem)', color: 'var(--text)', maxWidth: '58ch', lineHeight: 1.5, fontWeight: 400, marginBottom: '2rem', ...fadeIn(0.3) }}>
+            ApplyIQ combines AI-powered resume analysis, application tracking, and subscription management into a single platform that helps job seekers focus their effort on opportunities where they have the highest likelihood of success.
           </p>
+
+          {/* Surface Tech Stack Pill Strip */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '2.5rem', ...fadeIn(0.35) }}>
+            {TECH_STACK.map(tech => (
+              <span key={tech} style={{
+                fontFamily: 'var(--mono)',
+                fontSize: '0.65rem',
+                color: 'var(--text)',
+                border: '1px solid var(--border)',
+                padding: '0.35rem 0.75rem',
+                borderRadius: '2px',
+                background: 'rgba(255,255,255,0.02)',
+              }}>
+                {tech}
+              </span>
+            ))}
+          </div>
 
           <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'center', ...fadeIn(0.4) }}>
             <a
@@ -134,12 +183,12 @@ export default function ApplyIQCaseStudy() {
               rel="noopener noreferrer"
               style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}
             >
-              Open Live App →
+              Open Live Application →
             </a>
           </div>
         </section>
 
-        {/* ── STRATEGIC FRAMEWORK ─────────────────────────────────── */}
+        {/* ── CORE STRATEGY & BUSINESS MODEL ─────────────────────── */}
         <section style={{
           borderTop: '1px solid var(--border)',
           padding: '4rem clamp(1.5rem, 5vw, 4rem)',
@@ -152,21 +201,35 @@ export default function ApplyIQCaseStudy() {
           zIndex: 1,
         }}>
           <div>
-            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>01 / The Business Agitation</span>
-            <p style={{ fontSize: '0.95rem', color: 'var(--text)', marginTop: '0.75rem', fontWeight: 300, lineHeight: 1.65 }}>
-              Companies don't hire because they like résumés — every new hire is a bet, and slow, rigid data pipelines make it harder to see clearly what's actually happening across an application funnel.
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>01 / The Problem</span>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.5rem', margin: '0.5rem 0 1rem', fontWeight: 300 }}>Applying blindly wastes everyone's time.</h3>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.65 }}>
+              Job seekers often submit dozens of applications without understanding how well their experience matches the role. Recruiters receive large volumes of poorly matched applications, while candidates spend hours applying to positions they were unlikely to secure.
+            </p>
+            <p style={{ fontSize: '0.95rem', color: 'var(--muted)', marginTop: '0.75rem', fontWeight: 300, lineHeight: 1.65, fontStyle: 'italic' }}>
+              The challenge was to provide meaningful feedback before an application is submitted.
             </p>
           </div>
+
           <div>
-            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>02 / Technical Execution</span>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>02 / The Solution</span>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.5rem', margin: '0.5rem 0 1rem', fontWeight: 300 }}>AI evaluates candidate fit before they apply.</h3>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.65 }}>
+              Candidates upload a résumé together with a job description. The platform analyzes experience, skills, and role alignment to generate an overall compatibility score, highlight strengths, identify gaps, and explain the reasoning behind the recommendation.
+            </p>
             <p style={{ fontSize: '0.95rem', color: 'var(--text)', marginTop: '0.75rem', fontWeight: 300, lineHeight: 1.65 }}>
-              Migrated the backend from Airtable to Supabase, redesigning the relational schema specifically to support sub-100ms real-time interface updates.
+              Rather than replacing human judgment, the system helps candidates make more informed application decisions.
             </p>
           </div>
+
           <div>
-            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>03 / Operational Scale</span>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>03 / Business Model</span>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.5rem', margin: '0.5rem 0 1rem', fontWeight: 300 }}>SaaS architecture from day one.</h3>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.65 }}>
+              The platform includes a usage-based subscription model. Free users can analyze up to five job opportunities per month.
+            </p>
             <p style={{ fontSize: '0.95rem', color: 'var(--text)', marginTop: '0.75rem', fontWeight: 300, lineHeight: 1.65 }}>
-              Automation rules now move records through funnel stages on their own, so the dashboard reflects reality without manual status updates.
+              Additional scans unlock through Stripe-powered subscription plans, while backend rate limiting enforces usage quotas automatically.
             </p>
           </div>
         </section>
@@ -183,10 +246,10 @@ export default function ApplyIQCaseStudy() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '2rem', marginBottom: '2.5rem' }}>
             <div>
               <Label>Live Walkthrough</Label>
-              <SectionTitle>Real-Time Telemetry In Action</SectionTitle>
+              <SectionTitle>From Resume to Match Score</SectionTitle>
             </div>
             <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.1em', maxWidth: '36ch', textAlign: 'right' }}>
-              MIGRATED FROM AIRTABLE TO SUPABASE TO SUPPORT SUB-100MS INTERFACE UPDATES.
+              EXPLAINABLE AI SCORING MATCHED WITH REAL-TIME SAAS TELEMETRY.
             </p>
           </div>
 
@@ -196,6 +259,7 @@ export default function ApplyIQCaseStudy() {
             border: '1px solid var(--border)',
             background: '#0a0a0a',
             overflow: 'hidden',
+            borderRadius: '4px',
           }}>
             <video
               src={WALKTHROUGH_VIDEO_URL}
@@ -206,7 +270,7 @@ export default function ApplyIQCaseStudy() {
           </div>
         </section>
 
-        {/* ── FEATURE BREAKDOWN ────────────────────────────────────── */}
+        {/* ── PRODUCT UI SCREENSHOTS ─────────────────────────────────── */}
         <section style={{
           borderTop: '1px solid var(--border)',
           padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
@@ -215,29 +279,83 @@ export default function ApplyIQCaseStudy() {
           position: 'relative',
           zIndex: 1,
         }}>
-          <Label>What It Actually Does</Label>
-          <SectionTitle>From Static Tables to Live Signal</SectionTitle>
+          <Label>Product Interface</Label>
+          <SectionTitle>Candidate Insights & Dashboard</SectionTitle>
 
-          <p style={{ fontFamily: 'var(--sans)', fontSize: '1rem', color: 'var(--muted)', maxWidth: '60ch', lineHeight: 1.7, marginTop: '1rem', marginBottom: '3rem', fontWeight: 300 }}>
-            The stack isn't the story — reducing the lag between what's actually happening and what the dashboard shows is.
-          </p>
+          {/* AI Match Overlay Screenshot */}
+          <div style={{ marginTop: '3rem', marginBottom: '5rem' }}>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.8rem', color: 'var(--text)', fontWeight: 300, marginBottom: '1rem' }}>
+              AI Match & Gap Analysis
+            </h3>
+            <p style={{ fontSize: '0.95rem', color: 'var(--muted)', marginBottom: '1.5rem', fontWeight: 300 }}>
+              Generates a granular compatibility rubric detailing skills match, experience relevance, screening quality, and explicit gap callouts to inform candidate decisions.
+            </p>
+            <div style={{
+              border: '1px solid var(--border)',
+              background: '#0a0a0a',
+              overflow: 'hidden',
+              borderRadius: '4px',
+            }}>
+              <img
+                src="/work/applyiq/candidate-match.png"
+                alt="ApplyIQ Candidate Score and Gap Analysis Modal"
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </div>
+          </div>
+
+          {/* Analytics Dashboard Screenshot */}
+          <div>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.8rem', color: 'var(--text)', fontWeight: 300, marginBottom: '1rem' }}>
+              Application Funnel Dashboard
+            </h3>
+            <p style={{ fontSize: '0.95rem', color: 'var(--muted)', marginBottom: '1.5rem', fontWeight: 300 }}>
+              Tracks ongoing pipeline metrics, active applications, volume charts over time, and response rates from a clean central view.
+            </p>
+            <div style={{
+              border: '1px solid var(--border)',
+              background: '#0a0a0a',
+              overflow: 'hidden',
+              borderRadius: '4px',
+            }}>
+              <img
+                src="/work/applyiq/dashboard.png"
+                alt="ApplyIQ Job Search Overview Dashboard"
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* ── WHAT IT ACTUALLY DOES ────────────────────────────────── */}
+        <section style={{
+          borderTop: '1px solid var(--border)',
+          padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1300px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          <Label>System Capabilities</Label>
+          <SectionTitle>What It Actually Does</SectionTitle>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
             gap: '1.5rem',
+            marginTop: '3rem',
           }}>
-            {FEATURES.map(item => (
-              <div key={item.step} style={{ border: '1px solid var(--border)', padding: '1.5rem', background: 'rgba(255,255,255,0.01)' }}>
-                <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)' }}>{item.step}</span>
-                <h3 style={{ fontFamily: 'var(--sans)', fontSize: '1rem', fontWeight: 500, margin: '0.5rem 0', color: 'var(--text)' }}>{item.name}</h3>
-                <p style={{ fontSize: '0.8rem', color: 'var(--muted)', lineHeight: 1.5, fontWeight: 300 }}>{item.detail}</p>
+            {WHAT_IT_DOES.map((item, idx) => (
+              <div key={item.title} style={{ border: '1px solid var(--border)', padding: '1.5rem', background: 'rgba(255,255,255,0.01)' }}>
+                <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)' }}>0{idx + 1}</span>
+                <h3 style={{ fontFamily: 'var(--sans)', fontSize: '1rem', fontWeight: 500, margin: '0.5rem 0', color: 'var(--text)' }}>{item.title}</h3>
+                <p style={{ fontSize: '0.85rem', color: 'var(--muted)', lineHeight: 1.5, fontWeight: 300 }}>{item.detail}</p>
               </div>
             ))}
           </div>
         </section>
 
-        {/* ── PROCESS & METHODOLOGY ───────────────────────────────── */}
+        {/* ── HOW WE BUILT IT ─────────────────────────────────────── */}
         <section style={{
           borderTop: '1px solid var(--border)',
           padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
@@ -250,13 +368,13 @@ export default function ApplyIQCaseStudy() {
           <SectionTitle>How We Built It</SectionTitle>
 
           <div style={{ border: '1px solid var(--border)', marginTop: '2.5rem', overflow: 'hidden' }}>
-            {PROCESS.map((step, i) => (
+            {HOW_WE_BUILT_IT.map((step, i) => (
               <div key={step.label} style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 2fr',
                 gap: '2rem',
                 padding: '2rem',
-                borderBottom: i < PROCESS.length - 1 ? '1px solid var(--border)' : 'none',
+                borderBottom: i < HOW_WE_BUILT_IT.length - 1 ? '1px solid var(--border)' : 'none',
                 alignItems: 'start',
               }}>
                 <div>
@@ -272,6 +390,31 @@ export default function ApplyIQCaseStudy() {
                 </p>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* ── WHY THIS PROJECT MATTERS ─────────────────────────────── */}
+        <section style={{
+          borderTop: '1px solid var(--border)',
+          padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1300px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          <Label>Impact & Vision</Label>
+          <SectionTitle>Why This Project Matters</SectionTitle>
+
+          <div style={{ maxWidth: '68ch', marginTop: '1.5rem' }}>
+            <p style={{ fontFamily: 'var(--serif)', fontSize: '1.25rem', color: 'var(--text)', lineHeight: 1.6, fontWeight: 300, marginBottom: '1.25rem' }}>
+              This project explores how AI can support hiring decisions before applications are submitted.
+            </p>
+            <p style={{ fontSize: '1rem', color: 'var(--muted)', lineHeight: 1.7, fontWeight: 300, marginBottom: '1.25rem' }}>
+              Rather than encouraging candidates to apply indiscriminately, the platform provides structured, explainable feedback that helps users prioritize opportunities where their experience is most aligned.
+            </p>
+            <p style={{ fontSize: '1rem', color: 'var(--muted)', lineHeight: 1.7, fontWeight: 300 }}>
+              The result is a full-stack SaaS application that combines AI evaluation, subscription management, backend infrastructure, and analytics into a cohesive product.
+            </p>
           </div>
         </section>
 
