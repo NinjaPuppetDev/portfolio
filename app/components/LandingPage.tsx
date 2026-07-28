@@ -65,7 +65,7 @@ const web3Projects = [
     tags: ['UX Design', 'State Management', 'Solidity', 'Chainlink Oracles'],
     description:
       'Most derivative platforms fail because users cannot decipher real-time contract states when volatility spikes. We integrated automated smart-contract telemetry with contextual AI summaries, turning raw blockchain streams into clear risk interfaces.',
-    link: 'https://bruma-protocol.vercel.app/',
+    link: '/work/bruma-protocol',
     linkLabel: 'View protocol',
     accent: 'var(--accent)',
     variant: 'web3' as const,
