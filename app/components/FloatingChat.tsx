@@ -87,6 +87,9 @@ const GREETING: Message = {
   content: "Hi — I'm Vera, an AI system architected into this ecosystem. I can unpack the studio's operational layout, break down specific technical systems, or guide you through selected production logs.",
 }
 
+// how long to wait after mount before surfacing the "Talk to me" nudge
+const NUDGE_DELAY_MS = 3500
+
 function isExternal(path: string) {
   return path.startsWith('http')
 }
@@ -118,6 +121,10 @@ export default function FloatingChat() {
   const [contactEmail, setContactEmail] = useState('')
   const [contactName, setContactName] = useState('')
 
+  // Proactive attention-getting nudge shown near the trigger button
+  const [showNudge, setShowNudge] = useState(false)
+  const [nudgeDismissed, setNudgeDismissed] = useState(false)
+
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
@@ -147,6 +154,21 @@ export default function FloatingChat() {
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 150)
   }, [open, contactMode])
+
+  // Surface the "Talk to me" nudge a few seconds after the page loads,
+  // as long as the chat hasn't been opened and the nudge wasn't dismissed.
+  useEffect(() => {
+    if (!mounted) return
+    const timer = setTimeout(() => {
+      if (!open && !nudgeDismissed) setShowNudge(true)
+    }, NUDGE_DELAY_MS)
+    return () => clearTimeout(timer)
+  }, [mounted, open, nudgeDismissed])
+
+  // Hide the nudge as soon as the chat opens
+  useEffect(() => {
+    if (open) setShowNudge(false)
+  }, [open])
 
   const sendMessage = async (text: string, overrideTourType?: TourType, overrideTourStep?: number) => {
     const trimmed = text.trim()
@@ -189,11 +211,11 @@ export default function FloatingChat() {
 
     const backendMessageContent = trimmed || `Describe project step ${activeStep} on the ${activeType} tour.`
     const userMsg: Message = { role: 'user', content: backendMessageContent }
-    
+
     if (trimmed) {
       setMessages(prev => [...prev, { role: 'user', content: trimmed }])
     }
-    
+
     setInput('')
     setLoading(true)
 
@@ -210,7 +232,7 @@ export default function FloatingChat() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           messages: formattedApiMessages,
           tourType: activeType,
           tourStep: activeStep
@@ -264,9 +286,9 @@ export default function FloatingChat() {
     setContactMode(true)
     setContactName('')
     setContactEmail('')
-    setMessages(prev => [...prev, { 
-      role: 'assistant', 
-      content: "Initializing message context sync.\n\nCould you supply your name?" 
+    setMessages(prev => [...prev, {
+      role: 'assistant',
+      content: "Initializing message context sync.\n\nCould you supply your name?"
     }])
   }
 
@@ -300,7 +322,7 @@ export default function FloatingChat() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: contactName, email: contactEmail, message: messageContent }),
       })
-      
+
       if (res.ok) {
         setMessages(prev => [...prev, { role: 'assistant', content: "Transmission complete. ✓\n\nDavid has been updated on this communication pipeline. Let me know if you need any further indexing." }])
         setContactMode(false)
@@ -320,7 +342,7 @@ export default function FloatingChat() {
     setTourActive(true)
     setTourType(type)
     setTourStep(1)
-    
+
     if (tour[0]?.path) executeNavigation(tour[0].path, router)
     sendMessage('', type, 1)
   }
@@ -355,6 +377,15 @@ export default function FloatingChat() {
       e.preventDefault()
       sendMessage(input)
     }
+  }
+
+  const dismissNudge = () => {
+    setShowNudge(false)
+    setNudgeDismissed(true)
+  }
+
+  const openFromNudge = () => {
+    setOpen(true)
   }
 
   if (!mounted) return null
@@ -490,7 +521,7 @@ export default function FloatingChat() {
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={
-              contactMode 
+              contactMode
                 ? !contactName ? "Specify identity..." : !contactEmail ? "Specify communications route..." : "Draft prompt payload..."
                 : "Ask anything..."
             }
@@ -539,49 +570,114 @@ export default function FloatingChat() {
         </div>
       </div>
 
-      {/* Luxury System Dock Trigger Pin */}
-      <div style={{ position: 'fixed', bottom: 'clamp(1rem, 3vw, 1.75rem)', right: 'clamp(1rem, 3vw, 2.5rem)', zIndex: 1000, opacity: mounted ? 1 : 0, transition: 'opacity 0.5s ease' }}>
+      {/* Luxury System Dock Trigger — blob button + delayed "Talk to me" nudge */}
+      <div
+        style={{
+          position: 'fixed',
+          bottom: 'clamp(1rem, 3vw, 1.75rem)',
+          right: 'clamp(1rem, 3vw, 2.5rem)',
+          zIndex: 1000,
+          opacity: mounted ? 1 : 0,
+          transition: 'opacity 0.5s ease',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+          gap: '0.6rem',
+        }}
+      >
+        {showNudge && !open && (
+          <div
+            className="vera-nudge"
+            style={{
+              position: 'relative',
+              fontFamily: 'var(--sans)',
+              fontSize: '0.75rem',
+              color: 'var(--text)',
+              background: 'rgba(12, 12, 12, 0.95)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '10px',
+              padding: '0.6rem 0.9rem',
+              backdropFilter: 'blur(16px)',
+              whiteSpace: 'nowrap',
+              boxShadow: '0 16px 32px -8px rgba(0,0,0,0.4)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+            }}
+            onClick={openFromNudge}
+          >
+            Talk to me
+            <button
+              onClick={e => {
+                e.stopPropagation()
+                dismissNudge()
+              }}
+              aria-label="Dismiss message"
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'var(--muted)',
+                opacity: 0.5,
+                fontSize: '0.65rem',
+                cursor: 'pointer',
+                padding: 0,
+                lineHeight: 1,
+              }}
+            >
+              ✕
+            </button>
+            {/* speech bubble tail, pointing down at the blob */}
+            <span
+              style={{
+                position: 'absolute',
+                bottom: '-6px',
+                right: '22px',
+                width: '10px',
+                height: '10px',
+                background: 'rgba(12, 12, 12, 0.95)',
+                borderRight: '1px solid rgba(255,255,255,0.1)',
+                borderBottom: '1px solid rgba(255,255,255,0.1)',
+                transform: 'rotate(45deg)',
+              }}
+            />
+          </div>
+        )}
+
         <button
           onClick={() => setOpen(prev => !prev)}
           aria-label={open ? 'Close system layer' : 'Open system layer'}
+          className="vera-blob"
           style={{
             position: 'relative',
+            width: '58px',
+            height: '58px',
             background: 'rgba(12, 12, 12, 0.9)',
             border: open ? '1px solid rgba(255,255,255,0.15)' : '1px solid rgba(255,255,255,0.06)',
-            borderRadius: '4px',
             color: 'var(--text)',
             fontFamily: 'var(--mono)',
-            fontSize: '0.625rem',
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            padding: '0.55rem 1rem',
+            fontSize: '0.6rem',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.6rem',
+            justifyContent: 'center',
             backdropFilter: 'blur(16px)',
-            transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
             boxShadow: '0 16px 32px -8px rgba(0,0,0,0.4)',
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'
-            e.currentTarget.style.transform = 'translateY(-1px)'
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.borderColor = open ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.06)'
-            e.currentTarget.style.transform = 'translateY(0)'
+            flexShrink: 0,
           }}
         >
-          {/* Subtle rare accent state indicator */}
-          <span style={{ 
-            width: '4px', 
-            height: '4px', 
-            borderRadius: '50%', 
-            background: open ? 'var(--text)' : 'var(--accent)', 
-            display: 'inline-block',
-            boxShadow: open ? 'none' : '0 0 8px var(--accent)'
-          }} />
-          {open ? 'Close' : 'Ask Vera'}
+          {open ? (
+            '✕'
+          ) : (
+            <span style={{
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              background: 'var(--accent)',
+              display: 'inline-block',
+              boxShadow: '0 0 8px var(--accent)',
+            }} />
+          )}
         </button>
       </div>
 
@@ -589,6 +685,31 @@ export default function FloatingChat() {
         @keyframes chatDot {
           0%, 80%, 100% { opacity: 0.2; transform: translateY(0px); }
           40% { opacity: 1; transform: translateY(-1px); }
+        }
+
+        .vera-blob {
+          border-radius: 58% 42% 63% 37% / 41% 55% 45% 59%;
+          animation: blobMorph 8s ease-in-out infinite;
+          transition: border-radius 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+        }
+        .vera-blob:hover {
+          transform: scale(1.05);
+          border-color: rgba(255,255,255,0.2);
+        }
+
+        @keyframes blobMorph {
+          0%, 100% { border-radius: 58% 42% 63% 37% / 41% 55% 45% 59%; }
+          50% { border-radius: 43% 57% 41% 59% / 58% 44% 56% 42%; }
+        }
+
+        .vera-nudge {
+          opacity: 0;
+          transform: translateY(6px) scale(0.96);
+          animation: nudgeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes nudgeIn {
+          to { opacity: 1; transform: translateY(0) scale(1); }
         }
       `}</style>
     </>
