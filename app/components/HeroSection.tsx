@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import GlitchWord from './GlitchWord'
 import PromptBar from './PromptBar'
+import VeraPointCloud from './VeraPointCloud'
 import { useBodySignals } from '../hooks/useBodySignals'
 
 export default function HeroSection() {
@@ -69,7 +70,6 @@ export default function HeroSection() {
           justifyContent: 'flex-end',
           padding: isMobile
             ? '7rem 1.5rem 2rem 1.5rem'
-            /* Increased bottom padding from 1.5rem to clamp(3.5rem, 6vh, 5.5rem) */
             : 'clamp(5rem, 8vh, 7rem) clamp(2rem, 6vw, 6rem) clamp(3.5rem, 6vh, 5.5rem)',
           position: 'relative',
           overflow: 'hidden',
@@ -90,7 +90,9 @@ export default function HeroSection() {
         }}
       />
 
-      {/* Balanced Editorial Portrait */}
+      {/* Interactive Point Cloud — replaces the Vera portrait video.
+          Same footprint/mask/parallax as before; morphs shape on the
+          'vera-shape' window event dispatched from FloatingChat. */}
       <div
         style={{
           position: 'absolute',
@@ -100,36 +102,19 @@ export default function HeroSection() {
             ? 'translateY(-50%)'
             : `translateY(calc(-50% + ${mounted ? '0px' : '16px'})) translate(calc(var(--mx, 0) * 8px), calc(var(--my, 0) * 6px))`,
           width: isMobile ? '130%' : 'clamp(500px, 60vw, 880px)',
-          maxHeight: isMobile ? 'none' : 'min(80vh, 800px)',
+          height: isMobile ? '60vh' : 'min(80vh, 800px)',
           opacity: isMobile ? 0.25 : mounted ? 0.9 : 0,
           transition: 'opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 0.3s ease-out',
           pointerEvents: 'none',
           zIndex: 1,
+          mixBlendMode: 'screen',
+          WebkitMaskImage: veraMask,
+          maskImage: veraMask,
+          WebkitMaskComposite: isMobile ? 'source-over' : 'source-in, source-in, source-in',
+          maskComposite: isMobile ? 'add' : 'intersect, intersect, intersect',
         }}
       >
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          style={{
-            width: '100%',
-            height: 'auto',
-            display: 'block',
-            objectFit: 'cover',
-            mixBlendMode: 'screen',
-            filter: 'grayscale(100%) contrast(1.05)',
-            WebkitMaskImage: veraMask,
-            maskImage: veraMask,
-            WebkitMaskComposite: isMobile ? 'source-over' : 'source-in, source-in, source-in',
-            maskComposite: isMobile ? 'add' : 'intersect, intersect, intersect',
-          }}
-        >
-          <source src="/images/vera/vera-hero.mov" type="video/mp4; codecs=hvc1" />
-          <source src="/images/vera/vera-hero.webm" type="video/webm" />
-          <source src="/images/vera/vera-hero.mp4" type="video/mp4" />
-        </video>
+        {mounted && <VeraPointCloud />}
       </div>
 
       {/* TEXT & COPY CONTAINER */}
