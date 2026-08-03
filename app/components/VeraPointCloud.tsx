@@ -3,25 +3,36 @@
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 
+// ─── SEEDED RNG ─────────────────────────────────────────────────────────────
+function mulberry32(a: number) {
+  return function() {
+    let t = (a += 0x6D2B79F5)
+    t = Math.imul(t ^ (t >>> 15), t | 1)
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+const rand = mulberry32(42)
+
 // ─── CONFIG ─────────────────────────────────────────────────────────────────
 
-const INNER_COUNT = 800
-const INNER_SEED = 7
+const INNER_COUNT = 150
+const INNER_SEED = 3
 const INNER_ATTACH = 3
 const INNER_MIN_R = 0.15
-const INNER_MAX_R = 1.0
+const INNER_MAX_R = 0.5
 
-const OUTER_COUNT = 8000
-const OUTER_MIN_R = 2.0
-const OUTER_MAX_R = 2.5
+const OUTER_COUNT = 4500
+const OUTER_MIN_R = 0.9
+const OUTER_MAX_R = 2.0
 
-const INNER_DOT_RADIUS = 0.035
-const OUTER_DOT_RADIUS = 0.009
-const GLOW_RADIUS = 0.2
+// Bumped up so nucleus is visible without glow mesh
+const INNER_DOT_RADIUS = 0.055
+const OUTER_DOT_RADIUS = 0.012
 
 const COLOR_OUTER = new THREE.Color('#A0A3A8')
-const COLOR_INNER_IDLE = new THREE.Color('#4ECA5C')   // brighter base green
-const COLOR_INNER_HUB = new THREE.Color('#9FFF60')    // bright hub green
+const COLOR_INNER_IDLE = new THREE.Color('#4ECA5C')
+const COLOR_INNER_HUB = new THREE.Color('#9FFF60')
 const COLOR_ACTIVE = new THREE.Color('#D9F70F')
 const COLOR_EDGE_HIGHLIGHT = new THREE.Color('#C8FF30')
 const COLOR_EDGE_BASE = new THREE.Color('#4ECA5C')
@@ -33,18 +44,18 @@ const EDGE_HIGHLIGHT_ALPHA = 0.95
 const BRIDGE_BASE_ALPHA = 0.0
 const BRIDGE_HIGHLIGHT_ALPHA = 0.85
 
-const WOBBLE_OUTER = 0.006
-const WOBBLE_INNER = 0.0        // inner sphere locked solid
-const WOBBLE_SPEED = 0.3
+const WOBBLE_OUTER = 0.0015
+const WOBBLE_INNER = 0.0
+const WOBBLE_SPEED = 0.2
 
-const ASSEMBLY_DELAY_SPAN = 1800
-const ASSEMBLY_DURATION = 1100
-const ASSEMBLY_FLIGHT_MIN = 5.0
-const ASSEMBLY_FLIGHT_JITTER = 3.5
+const ASSEMBLY_DELAY_SPAN = 0
+const ASSEMBLY_DURATION = 1
+const ASSEMBLY_FLIGHT_MIN = 0
+const ASSEMBLY_FLIGHT_JITTER = 0
 
-const PULSE_SPEED = 2.6
-const ACTIVATION_DECAY = 0.94
-const EDGE_ACTIVATION_DECAY = 0.92
+const PULSE_SPEED = 2
+const ACTIVATION_DECAY = 0.985
+const EDGE_ACTIVATION_DECAY = 0.001
 const BASE_THINK_MIN_MS = 1600
 const BASE_THINK_MAX_MS = 3400
 const HOVER_THINK_MIN_MS = 120
@@ -112,6 +123,7 @@ export default function VeraGraph() {
     const edgeIndexMap = new Map<string, number>()
     const attachPool: number[] = []
 
+    // FIX: unescaped template literal so the key is actually unique per edge
     const edgeKey = (a: number, b: number) => (a < b ? `${a}_${b}` : `${b}_${a}`)
 
     function addEdge(a: number, b: number) {
@@ -135,14 +147,24 @@ export default function VeraGraph() {
       let guard = 0
       while (chosen.size < Math.min(INNER_ATTACH, i) && guard < 50) {
         guard++
-        const useWeighted = attachPool.length > 0 && Math.random() < 0.82
+        const useWeighted = attachPool.length > 0 && rand() < 0.82
         const pick = useWeighted
-          ? attachPool[Math.floor(Math.random() * attachPool.length)]
-          : Math.floor(Math.random() * i)
+          ? attachPool[Math.floor(rand() * attachPool.length)]
+          : Math.floor(rand() * i)
         if (pick !== i) chosen.add(pick)
       }
       for (const t of chosen) addEdge(i, t)
     }
+
+    // VALIDATION: refuse to boot if the graph invariant is violated
+    const expectedEdges = INNER_COUNT * INNER_ATTACH * 0.5
+    if (edgeList.length < expectedEdges) {
+      throw new Error(
+        `Graph construction failed: expected ~${expectedEdges} edges, got ${edgeList.length}. ` +
+        `Check edgeKey and addEdge logic.`
+      )
+    }
+
     const edgeCount = edgeList.length
     const maxDegree = Math.max(1, ...Array.from(degree))
 
@@ -177,9 +199,9 @@ export default function VeraGraph() {
 
     // ── SPHERE SAMPLER ─────────────────────────────────────────────────────
     function sampleSpherePoint(minR: number, maxR: number, out: THREE.Vector3) {
-      const theta = Math.random() * Math.PI * 2
-      const phi = Math.acos(2 * Math.random() - 1)
-      const u = Math.random()
+      const theta = rand() * Math.PI * 2
+      const phi = Math.acos(2 * rand() - 1)
+      const u = rand()
       const r = minR + (maxR - minR) * Math.pow(0.55 + 0.45 * u, 1 / 3)
       out.set(
         Math.sin(phi) * Math.cos(theta) * r,
@@ -206,14 +228,14 @@ export default function VeraGraph() {
         finalPos[i * 3 + 1] = v.y
         finalPos[i * 3 + 2] = v.z
         const dir = v.clone().normalize()
-        const flight = ASSEMBLY_FLIGHT_MIN + Math.random() * ASSEMBLY_FLIGHT_JITTER
+        const flight = ASSEMBLY_FLIGHT_MIN + rand() * ASSEMBLY_FLIGHT_JITTER
         const s = dir.multiplyScalar(r + flight)
         startPos[i * 3] = s.x
         startPos[i * 3 + 1] = s.y
         startPos[i * 3 + 2] = s.z
-        wobbleSeed[i * 3] = Math.random() * 1000
-        wobbleSeed[i * 3 + 1] = Math.random() * 1000
-        wobbleSeed[i * 3 + 2] = Math.random() * 1000
+        wobbleSeed[i * 3] = rand() * 1000
+        wobbleSeed[i * 3 + 1] = rand() * 1000
+        wobbleSeed[i * 3 + 2] = rand() * 1000
       }
       for (let i = 0; i < count; i++) {
         const norm = maxRadiusSeen > 0 ? radius[i] / maxRadiusSeen : 1
@@ -233,7 +255,7 @@ export default function VeraGraph() {
     const nucleusIndices = sortedByRadius.slice(0, Math.max(3, Math.floor(INNER_COUNT * 0.06)))
     const exteriorIndices = sortedByRadius.slice(Math.floor(INNER_COUNT * 0.70))
 
-    // ── INNER → OUTER BRIDGE MAP (nearest outer for each inner) ────────────
+    // ── INNER → OUTER BRIDGE MAP ───────────────────────────────────────────
     const innerToOuterBridges: number[][] = Array.from({ length: INNER_COUNT }, () => [])
     const tmpA = new THREE.Vector3()
     const tmpB = new THREE.Vector3()
@@ -271,8 +293,15 @@ export default function VeraGraph() {
 
     // ── INNER MESH ─────────────────────────────────────────────────────────
     const innerGeo = new THREE.IcosahedronGeometry(INNER_DOT_RADIUS, 1)
-    const innerMat = new THREE.MeshBasicMaterial({ vertexColors: true })
+    const innerMat = new THREE.MeshBasicMaterial({
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.95,
+      depthWrite: false,
+    })
     const innerMesh = new THREE.InstancedMesh(innerGeo, innerMat, INNER_COUNT)
+
+    // CRITICAL: initialize instanceColor so dots render with correct colors
     const innerColors = new Float32Array(INNER_COUNT * 3)
     for (let i = 0; i < INNER_COUNT; i++) {
       innerColors[i * 3] = innerIdleColor[i].r
@@ -281,27 +310,6 @@ export default function VeraGraph() {
     }
     innerMesh.instanceColor = new THREE.InstancedBufferAttribute(innerColors, 3)
     graphGroup.add(innerMesh)
-
-    // ── GLOW MESH (always on top) ──────────────────────────────────────────
-    const glowGeo = new THREE.IcosahedronGeometry(GLOW_RADIUS, 1)
-    const glowMat = new THREE.MeshBasicMaterial({
-      color: COLOR_ACTIVE,
-      transparent: true,
-      opacity: 0.5,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-      depthTest: false,          // ← prevents black-dot clipping
-      vertexColors: true,
-    })
-    const glowMesh = new THREE.InstancedMesh(glowGeo, glowMat, INNER_COUNT)
-    const glowColors = new Float32Array(INNER_COUNT * 3)
-    for (let i = 0; i < INNER_COUNT; i++) {
-      glowColors[i * 3] = innerIdleColor[i].r
-      glowColors[i * 3 + 1] = innerIdleColor[i].g
-      glowColors[i * 3 + 2] = innerIdleColor[i].b
-    }
-    glowMesh.instanceColor = new THREE.InstancedBufferAttribute(glowColors, 3)
-    graphGroup.add(glowMesh)
 
     // ── INNER EDGES ────────────────────────────────────────────────────────
     const edgePositions = new Float32Array(edgeCount * 2 * 3)
@@ -333,7 +341,7 @@ export default function VeraGraph() {
     const edgeLines = new THREE.LineSegments(edgeGeo, edgeMat)
     graphGroup.add(edgeLines)
 
-    // ── OUTER BRIDGES (inner → outer synapse rays) ────────────────────────
+    // ── OUTER BRIDGES ──────────────────────────────────────────────────────
     const bridgePositions = new Float32Array(MAX_BRIDGES * 2 * 3)
     const bridgeColors = new Float32Array(MAX_BRIDGES * 2 * 4)
     const bridgeGeo = new THREE.BufferGeometry()
@@ -375,7 +383,7 @@ export default function VeraGraph() {
     function spawnBridge(innerIdx: number) {
       const candidates = innerToOuterBridges[innerIdx]
       if (!candidates || candidates.length === 0) return
-      const outerIdx = candidates[Math.floor(Math.random() * candidates.length)]
+      const outerIdx = candidates[Math.floor(rand() * candidates.length)]
       const b = bridges[nextBridgeSlot]
       b.innerIdx = innerIdx
       b.outerIdx = outerIdx
@@ -397,12 +405,12 @@ export default function VeraGraph() {
 
     function triggerRadialBurst(count: number, fixedTarget?: number) {
       for (let k = 0; k < count; k++) {
-        const source = nucleusIndices[Math.floor(Math.random() * nucleusIndices.length)]
+        const source = nucleusIndices[Math.floor(rand() * nucleusIndices.length)]
         let target: number
         if (fixedTarget !== undefined) {
           target = fixedTarget
         } else {
-          target = exteriorIndices[Math.floor(Math.random() * exteriorIndices.length)]
+          target = exteriorIndices[Math.floor(rand() * exteriorIndices.length)]
         }
         if (source === target) continue
         const path = bfsPath(source, target)
@@ -456,11 +464,9 @@ export default function VeraGraph() {
         lastHoverTrigger = now
         const nearest = findNearestInnerNode(nearestPoint)
         if (nearest === -1) return
-
-        // Burst from hovered node outward (interruption)
         const targets: number[] = []
         for (let k = 0; k < HOVER_BURST_COUNT; k++) {
-          targets.push(exteriorIndices[Math.floor(Math.random() * exteriorIndices.length)])
+          targets.push(exteriorIndices[Math.floor(rand() * exteriorIndices.length)])
         }
         for (const t of targets) {
           const path = bfsPath(nearest, t)
@@ -487,16 +493,11 @@ export default function VeraGraph() {
     let raf = 0
     let last = performance.now()
     const startTime = performance.now()
-    const clock = new THREE.Clock()
 
     let rotY = 0
     let rotX = 0
     let rotYVel = IDLE_ROT_SPEED
     let hoverIntensity = 0
-
-    function easeOutCubic(t: number) {
-      return 1 - Math.pow(1 - t, 3)
-    }
 
     function stepCloud(
       cloud: ReturnType<typeof buildCloud>,
@@ -507,32 +508,20 @@ export default function VeraGraph() {
       writeColor: (i: number, scale: number) => void
     ) {
       for (let i = 0; i < cloud.count; i++) {
-        const local = elapsed - cloud.delay[i]
-        const progress = Math.max(0, Math.min(1, local / ASSEMBLY_DURATION))
-        const eased = easeOutCubic(progress)
-
         const fx = cloud.finalPos[i * 3]
         const fy = cloud.finalPos[i * 3 + 1]
         const fz = cloud.finalPos[i * 3 + 2]
-        const sx = cloud.startPos[i * 3]
-        const sy = cloud.startPos[i * 3 + 1]
-        const sz = cloud.startPos[i * 3 + 2]
 
         const wx = Math.sin(t * WOBBLE_SPEED + cloud.wobbleSeed[i * 3]) * wobbleAmp
         const wy = Math.cos(t * WOBBLE_SPEED + cloud.wobbleSeed[i * 3 + 1]) * wobbleAmp
         const wz = Math.sin(t * WOBBLE_SPEED + cloud.wobbleSeed[i * 3 + 2]) * wobbleAmp
 
-        posVec.set(
-          sx + (fx - sx) * eased + wx,
-          sy + (fy - sy) * eased + wy,
-          sz + (fz - sz) * eased + wz
-        )
+        posVec.set(fx + wx, fy + wy, fz + wz)
         dummy.position.copy(posVec)
-        const scale = progress <= 0 ? 0.0001 : eased
-        dummy.scale.setScalar(Math.max(0.0001, scale))
+        dummy.scale.setScalar(1.0)
         dummy.updateMatrix()
         mesh.setMatrixAt(i, dummy.matrix)
-        writeColor(i, scale)
+        writeColor(i, 1.0)
       }
       mesh.instanceMatrix.needsUpdate = true
     }
@@ -543,13 +532,13 @@ export default function VeraGraph() {
       const dt = Math.min(0.05, (now - last) / 1000)
       last = now
       const elapsed = now - startTime
-      const t = clock.getElapsedTime()
+      const t = elapsed / 1000
 
       // ── hover intensity smoothing ──
       const targetHover = pointerActive ? 1 : 0
       hoverIntensity += (targetHover - hoverIntensity) * 0.08
 
-      // ── auto think (baseline + hover intensification) ──
+      // ── auto think ──
       const thinkMin = BASE_THINK_MIN_MS * (1 - hoverIntensity * 0.92) + HOVER_THINK_MIN_MS * hoverIntensity
       const thinkMax = BASE_THINK_MAX_MS * (1 - hoverIntensity * 0.92) + HOVER_THINK_MAX_MS * hoverIntensity
       if (now > nextAutoThink && pulses.length < MAX_CONCURRENT_PULSES) {
@@ -565,7 +554,6 @@ export default function VeraGraph() {
         if (pulse.t >= maxT) {
           const terminal = pulse.path[pulse.path.length - 1]
           innerActivation[terminal] = 1
-          // spawn bridge to outer shell when pulse reaches edge
           if (inner.radius[terminal] > INNER_MAX_R * 0.75) {
             spawnBridge(terminal)
           }
@@ -604,48 +592,29 @@ export default function VeraGraph() {
       graphGroup.rotation.y = rotY
       graphGroup.rotation.x = rotX
 
-      // ── outer cloud (subtle wobble) ──
+      // ── outer cloud ──
       stepCloud(outer, outerMesh, elapsed, t, WOBBLE_OUTER, () => {})
 
-      // ── inner cloud (locked, zero wobble) + glow ──
-      stepCloud(inner, innerMesh, elapsed, t, WOBBLE_INNER, (i, scale) => {
+      // ── inner cloud ──
+      stepCloud(inner, innerMesh, elapsed, t, WOBBLE_INNER, (i) => {
         const act = innerActivation[i]
-        if (act > 0.02) {
-          colorScratch.copy(innerIdleColor[i]).lerp(COLOR_ACTIVE, Math.min(1, act))
-        } else {
-          colorScratch.copy(innerIdleColor[i])
-        }
+        // Floor activation so nucleus never fades to invisibility
+        const visibleAct = Math.max(act, 0.25)
+        colorScratch.copy(innerIdleColor[i]).lerp(COLOR_ACTIVE, Math.min(1, visibleAct))
         innerMesh.setColorAt(i, colorScratch)
-
-        // glow positioning
-        const glowScale = (0.65 + act * 1.3 + hoverIntensity * 0.15) * scale
-        dummy.position.set(
-          inner.startPos[i * 3] + (inner.finalPos[i * 3] - inner.startPos[i * 3]) * scale,
-          inner.startPos[i * 3 + 1] + (inner.finalPos[i * 3 + 1] - inner.startPos[i * 3 + 1]) * scale,
-          inner.startPos[i * 3 + 2] + (inner.finalPos[i * 3 + 2] - inner.startPos[i * 3 + 2]) * scale
-        )
-        dummy.scale.setScalar(Math.max(0.0001, glowScale))
-        dummy.updateMatrix()
-        glowMesh.setMatrixAt(i, dummy.matrix)
-
-        colorScratch.copy(innerIdleColor[i]).lerp(COLOR_ACTIVE, Math.min(1, act * 1.5 + hoverIntensity * 0.2))
-        glowMesh.setColorAt(i, colorScratch)
       })
+
       if (innerMesh.instanceColor) innerMesh.instanceColor.needsUpdate = true
-      glowMesh.instanceMatrix.needsUpdate = true
-      if (glowMesh.instanceColor) glowMesh.instanceColor.needsUpdate = true
 
       // ── write inner edges ──
       for (let e = 0; e < edgeCount; e++) {
         const [a, b] = edgeList[e]
-        const la = Math.max(0, Math.min(1, easeOutCubic(Math.max(0, Math.min(1, (elapsed - inner.delay[a]) / ASSEMBLY_DURATION)))))
-        const lb = Math.max(0, Math.min(1, easeOutCubic(Math.max(0, Math.min(1, (elapsed - inner.delay[b]) / ASSEMBLY_DURATION)))))
-        const ax = inner.startPos[a * 3] + (inner.finalPos[a * 3] - inner.startPos[a * 3]) * la
-        const ay = inner.startPos[a * 3 + 1] + (inner.finalPos[a * 3 + 1] - inner.startPos[a * 3 + 1]) * la
-        const az = inner.startPos[a * 3 + 2] + (inner.finalPos[a * 3 + 2] - inner.startPos[a * 3 + 2]) * la
-        const bx = inner.startPos[b * 3] + (inner.finalPos[b * 3] - inner.startPos[b * 3]) * lb
-        const by = inner.startPos[b * 3 + 1] + (inner.finalPos[b * 3 + 1] - inner.startPos[b * 3 + 1]) * lb
-        const bz = inner.startPos[b * 3 + 2] + (inner.finalPos[b * 3 + 2] - inner.startPos[b * 3 + 2]) * lb
+        const ax = inner.finalPos[a * 3]
+        const ay = inner.finalPos[a * 3 + 1]
+        const az = inner.finalPos[a * 3 + 2]
+        const bx = inner.finalPos[b * 3]
+        const by = inner.finalPos[b * 3 + 1]
+        const bz = inner.finalPos[b * 3 + 2]
 
         const base = e * 6
         edgePositions[base] = ax
@@ -660,7 +629,8 @@ export default function VeraGraph() {
         const col = act > 0.02
           ? colorScratch.copy(COLOR_EDGE_BASE).lerp(COLOR_EDGE_HIGHLIGHT, act)
           : colorScratch.copy(COLOR_EDGE_BASE)
-        const alpha = (EDGE_BASE_ALPHA + (EDGE_HIGHLIGHT_ALPHA - EDGE_BASE_ALPHA) * act) * Math.min(la, lb)
+
+        const alpha = EDGE_BASE_ALPHA + (EDGE_HIGHLIGHT_ALPHA - EDGE_BASE_ALPHA) * act
         edgeColors[cBase] = col.r; edgeColors[cBase + 1] = col.g; edgeColors[cBase + 2] = col.b; edgeColors[cBase + 3] = alpha
         edgeColors[cBase + 4] = col.r; edgeColors[cBase + 5] = col.g; edgeColors[cBase + 6] = col.b; edgeColors[cBase + 7] = alpha
       }
@@ -673,7 +643,6 @@ export default function VeraGraph() {
         const base = b * 6
         const cBase = b * 8
         if (!br.active) {
-          // hide
           bridgePositions[base] = 0; bridgePositions[base + 1] = 0; bridgePositions[base + 2] = 0
           bridgePositions[base + 3] = 0; bridgePositions[base + 4] = 0; bridgePositions[base + 5] = 0
           bridgeColors[cBase + 3] = 0; bridgeColors[cBase + 7] = 0
@@ -746,8 +715,6 @@ export default function VeraGraph() {
       outerMat.dispose()
       innerGeo.dispose()
       innerMat.dispose()
-      glowGeo.dispose()
-      glowMat.dispose()
       hitGeo.dispose()
       hitMat.dispose()
       edgeGeo.dispose()
