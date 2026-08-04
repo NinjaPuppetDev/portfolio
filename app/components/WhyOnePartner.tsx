@@ -30,6 +30,7 @@ export default function WhyOnePartner({ onExploreClick }: WhyOnePartnerProps) {
 
   return (
     <section
+    id="about"
       aria-labelledby="why-one-partner-heading"
       style={{
         width: '100%',

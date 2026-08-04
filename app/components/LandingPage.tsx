@@ -8,7 +8,6 @@ import EssaySection from './EssaySection'
 import TechStackBanner from './TechStackBanner'
 import WhyOnePartner from './WhyOnePartner'
 import Labs from './Labs'
-import CTA from './CTA'
 
 // ── PROJECT TRACKS (unchanged content, metadata, tags, links, chronology) ─────
 
@@ -365,145 +364,6 @@ export default function LandingPage() {
 
       <Labs />
 
-      {/* ── OPERATIONAL STRATEGY (ABOUT) ───────────────────────────────── */}
-      <section
-        id="about"
-        style={{
-          padding: 'clamp(5rem, 8vw, 8rem) clamp(1.5rem, 5vw, 4rem)',
-          borderTop: '1px solid var(--border)',
-          maxWidth: '1200px',
-          margin: '0 auto',
-          position: 'relative',
-          zIndex: 2,
-        }}
-      >
-        {/* Header Grid */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))',
-            gap: '4rem',
-            marginBottom: '5rem',
-          }}
-        >
-          <div>
-            <p
-              style={{
-                fontFamily: 'var(--mono)',
-                fontSize: '0.65rem',
-                color: 'var(--accent)',
-                letterSpacing: '0.25em',
-                textTransform: 'uppercase',
-                marginBottom: '1.5rem',
-              }}
-            >
-              04 / Operational Thesis
-            </p>
-            <h2
-              style={{
-                fontFamily: 'var(--serif)',
-                fontSize: 'clamp(2rem, 4vw, 3.2rem)',
-                fontWeight: 300,
-                lineHeight: 1.15,
-                color: 'var(--text)',
-                fontStyle: 'italic',
-              }}
-            >
-              "Every product is a conversation between an idea and the people it hopes to reach."
-            </h2>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <p style={{ fontSize: '1.05rem', color: 'var(--text)', lineHeight: 1.7, fontWeight: 300 }}>
-              I know you're here because you have an idea.
-              Maybe you don't have the time to build it. Maybe you don't have the team. Or maybe you're still figuring out what it should become.
-
-              That's where I come in.
-
-              I help turn ideas into products people can actually use. Together we'll decide what to build, how to build it, and how to reach the people it's meant for.
-
-              But launching isn't the end of the conversation.
-
-              I build products that observe how people use them, revealing patterns, friction, and opportunities so the next decision is informed by behavior instead of guesswork.
-            </p>
-          </div>
-        </div>
-
-        {/* 3-Column Execution Pillars */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
-            gap: '2.5rem',
-            marginBottom: '4rem',
-          }}
-        >
-          {/* Pillar 1 */}
-          <div
-            style={{
-              padding: '2rem',
-              border: '1px solid var(--border)',
-              backgroundColor: 'rgba(255, 255, 255, 0.01)',
-            }}
-          >
-            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--accent)', letterSpacing: '0.15em' }}>
-              01 // Preserve the idea
-            </span>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 400, color: 'var(--text)', margin: '1rem 0 0.75rem' }}>
-              Ideas change every time they're translated.
-            </h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--muted)', lineHeight: 1.7 }}>
-              I remove as many translations as possible by designing and building the product as one continuous process.
-            </p>
-          </div>
-
-          {/* Pillar 2 */}
-          <div
-            style={{
-              padding: '2rem',
-              border: '1px solid var(--border)',
-              backgroundColor: 'rgba(255, 255, 255, 0.01)',
-            }}
-          >
-            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--accent)', letterSpacing: '0.15em' }}>
-              02 // Learn from reality
-            </span>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 400, color: 'var(--text)', margin: '1rem 0 0.75rem' }}>
-              Launching answers nothing.
-            </h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--muted)', lineHeight: 1.7 }}>
-              Watching how people actually use a product is where design begins.
-
-              Every system I build is instrumented to help founders see what users are trying to tell them.
-            </p>
-          </div>
-
-          {/* Pillar 3 */}
-          <div
-            style={{
-              padding: '2rem',
-              border: '1px solid var(--border)',
-              backgroundColor: 'rgba(255, 255, 255, 0.01)',
-            }}
-          >
-            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--accent)', letterSpacing: '0.15em' }}>
-              03 // Technology follows the problem
-            </span>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 400, color: 'var(--text)', margin: '1rem 0 0.75rem' }}>
-              I don't start with frameworks.
-            </h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--muted)', lineHeight: 1.7 }}>
-              I start with constraints.
-
-              The stack changes.
-
-              The questions usually don't.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <CTA contactFormId="contact-form" />
 
       {/* ── CONVERSIONS (CONTACT) ─────────────────────────────────────── */}
       <section
@@ -583,7 +443,6 @@ export default function LandingPage() {
               Whether you're exploring a new venture, improving an existing product, or trying to make sense of a complex problem, I'd be happy to think it through with you.
 
               Sometimes the outcome is a website.
-
               Sometimes it's a prototype.
 
               Sometimes it's realizing you don't need to build what you thought you needed.

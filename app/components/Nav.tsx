@@ -146,10 +146,22 @@ export default function Nav() {
           boxShadow: isLightPage ? 'inset 0 1px 2px rgba(0,0,0,0.04)' : 'inset 0 2px 4px rgba(0,0,0,0.6)',
           transition: 'all 0.3s ease',
         }}>
-          {navItems.map(item => (
+          {navItems.map((item) => (
             <Link
               key={item.label}
               href={item.href}
+              onClick={(e) => {
+                // Smooth scroll if clicking an anchor link on the current page
+                if (item.href.startsWith('/#') && pathname === '/') {
+                  const targetId = item.href.replace('/#', '')
+                  const element = document.getElementById(targetId)
+                  if (element) {
+                    e.preventDefault()
+                    element.scrollIntoView({ behavior: 'smooth' })
+                    window.history.pushState(null, '', item.href)
+                  }
+                }
+              }}
               style={{
                 fontFamily: 'var(--mono)',
                 fontSize: '0.625rem',
@@ -160,16 +172,18 @@ export default function Nav() {
                 borderRadius: '16px',
                 textDecoration: 'none',
                 transition: 'all 0.2s ease',
-                whiteSpace: 'nowrap'
+                whiteSpace: 'nowrap',
               }}
-              onMouseEnter={e => {
+              onMouseEnter={(e) => {
                 e.currentTarget.style.color = isLightPage ? '#000000' : '#FFFFFF'
-                e.currentTarget.style.backgroundColor = isLightPage ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.03)'
-                e.currentTarget.style.boxShadow = isLightPage 
-                  ? '0 1px 0 rgba(255,255,255,0.8), inset 0 1px 1px rgba(0,0,0,0.02)' 
+                e.currentTarget.style.backgroundColor = isLightPage
+                  ? 'rgba(0, 0, 0, 0.04)'
+                  : 'rgba(255, 255, 255, 0.03)'
+                e.currentTarget.style.boxShadow = isLightPage
+                  ? '0 1px 0 rgba(255,255,255,0.8), inset 0 1px 1px rgba(0,0,0,0.02)'
                   : '0 1px 0 rgba(255,255,255,0.05), inset 0 1px 1px rgba(0,0,0,0.2)'
               }}
-              onMouseLeave={e => {
+              onMouseLeave={(e) => {
                 e.currentTarget.style.color = textMuted
                 e.currentTarget.style.backgroundColor = 'transparent'
                 e.currentTarget.style.boxShadow = 'none'

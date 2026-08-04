@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
 import GlitchWord from './GlitchWord'
 import PromptBar from './PromptBar'
 import VeraPointCloud from './VeraPointCloud'
@@ -12,6 +13,7 @@ export default function HeroSection() {
   const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  const [isCtaHovered, setIsCtaHovered] = useState(false)
 
   useEffect(() => {
     setMounted(true)
@@ -90,9 +92,7 @@ export default function HeroSection() {
         }}
       />
 
-      {/* Interactive Point Cloud — replaces the Vera portrait video.
-          Same footprint/mask/parallax as before; morphs shape on the
-          'vera-shape' window event dispatched from FloatingChat. */}
+      {/* Interactive Point Cloud */}
       <div
         style={{
           position: 'absolute',
@@ -210,13 +210,57 @@ export default function HeroSection() {
             margin: 0,
           }}
         >
-      Every product begins as a conversation. 
-      Somewhere between the first sketch and the first customer, that conversation gets translated into specifications, tickets, meetings, revisions, and handoffs. Every translation changes the idea. I built my practice to remove those translations.     </p>
+          Every product begins as a conversation. Somewhere between the first sketch and the first customer, that conversation gets translated into specifications, tickets, meetings, revisions, and handoffs. Every translation changes the idea. I built my practice to remove those translations.
+        </p>
       </div>
 
-      {/* Structured Action Dock */}
-      <div style={{ marginTop: '2.5rem', width: '100%', zIndex: 4, maxWidth: '600px' }}>
+      {/* Structured Action Dock & CTA Container */}
+      <div style={{ marginTop: '1.5rem', width: '100%', zIndex: 4, maxWidth: '600px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
         <PromptBar mounted={mounted} />
+
+        {/* Work With Me Direct CTA Link */}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Link
+            href="/work-with-me"
+            onMouseEnter={() => setIsCtaHovered(true)}
+            onMouseLeave={() => setIsCtaHovered(false)}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.6rem',
+              padding: '0.6rem 1.25rem',
+              borderRadius: '20px',
+              fontFamily: 'var(--mono)',
+              fontSize: '0.6875rem',
+              fontWeight: 600,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              textDecoration: 'none',
+              color: 'var(--text)',
+              background: 'linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)',
+              borderTop: '1px solid rgba(255, 255, 255, 0.15)',
+              borderLeft: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRight: '1px solid rgba(0, 0, 0, 0.4)',
+              borderBottom: '1px solid rgba(0, 0, 0, 0.6)',
+              boxShadow: isCtaHovered
+                ? '0 6px 16px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                : '0 4px 10px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.04)',
+              transform: isCtaHovered ? 'translateY(-1px)' : 'translateY(0)',
+              transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
+          >
+            <span>Work With Me</span>
+            <span
+              aria-hidden="true"
+              style={{
+                transform: isCtaHovered ? 'translateX(3px)' : 'translateX(0)',
+                transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+            >
+              →
+            </span>
+          </Link>
+        </div>
       </div>
     </section>
   )
