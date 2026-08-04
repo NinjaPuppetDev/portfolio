@@ -36,6 +36,12 @@ export default function Nav() {
   const textPrimary = isLightPage ? '#1A1A1A' : '#FFFFFF'
   const textMuted = isLightPage ? 'rgba(0, 0, 0, 0.5)' : 'var(--muted)'
 
+  const navItems = [
+    { label: 'work', href: '/#work' },
+    { label: 'about', href: '/#about' },
+    { label: 'work with me', href: '/work-with-me' },
+  ]
+
   return (
     <div style={{
       position: 'fixed',
@@ -127,7 +133,7 @@ export default function Nav() {
         {/* INTERACTION LINKS (MILLEDOUT TRAY) */}
         <div style={{ 
           display: 'flex', 
-          gap: isMobile ? '1.25rem' : '0.5rem',
+          gap: isMobile ? '0.75rem' : '0.25rem',
           position: isMobile ? 'static' : 'absolute',
           left: isMobile ? 'auto' : '50%',
           transform: isMobile ? 'none' : 'translateX(-50%)',
@@ -140,20 +146,21 @@ export default function Nav() {
           boxShadow: isLightPage ? 'inset 0 1px 2px rgba(0,0,0,0.04)' : 'inset 0 2px 4px rgba(0,0,0,0.6)',
           transition: 'all 0.3s ease',
         }}>
-          {['work', 'about'].map(item => (
+          {navItems.map(item => (
             <Link
-              key={item}
-              href={`/#${item}`}
+              key={item.label}
+              href={item.href}
               style={{
                 fontFamily: 'var(--mono)',
                 fontSize: '0.625rem',
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
                 color: textMuted,
-                padding: '0.35rem 1rem',
+                padding: '0.35rem 0.85rem',
                 borderRadius: '16px',
                 textDecoration: 'none',
                 transition: 'all 0.2s ease',
+                whiteSpace: 'nowrap'
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.color = isLightPage ? '#000000' : '#FFFFFF'
@@ -168,12 +175,12 @@ export default function Nav() {
                 e.currentTarget.style.boxShadow = 'none'
               }}
             >
-              {item}
+              {item.label}
             </Link>
           ))}
         </div>
 
-        {/* NEUMORPHIC BUTTON EXTENSION */}
+        {/* NEUMORPHIC BUTTON EXTENSION (PRIMARY CTA) */}
         <button
           onClick={() => {
             window.dispatchEvent(new CustomEvent('open-vera'))
