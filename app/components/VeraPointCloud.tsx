@@ -27,7 +27,7 @@ const OUTER_MIN_R = 0.9
 const OUTER_MAX_R = 2.0
 
 // Bumped up so nucleus is visible without glow mesh
-const INNER_DOT_RADIUS = 0.055
+const INNER_DOT_RADIUS = 0.012
 const OUTER_DOT_RADIUS = 0.012
 
 const COLOR_OUTER = new THREE.Color('#A0A3A8')
@@ -39,7 +39,7 @@ const COLOR_EDGE_BASE = new THREE.Color('#4ECA5C')
 const COLOR_BRIDGE = new THREE.Color('#D9F70F')
 const BG_COLOR = 0x090909
 
-const EDGE_BASE_ALPHA = 0.22
+const EDGE_BASE_ALPHA = 0.55
 const EDGE_HIGHLIGHT_ALPHA = 0.95
 const BRIDGE_BASE_ALPHA = 0.0
 const BRIDGE_HIGHLIGHT_ALPHA = 0.85
@@ -55,7 +55,7 @@ const ASSEMBLY_FLIGHT_JITTER = 0
 
 const PULSE_SPEED = 2
 const ACTIVATION_DECAY = 0.985
-const EDGE_ACTIVATION_DECAY = 0.001
+const EDGE_ACTIVATION_DECAY = 0.97
 const BASE_THINK_MIN_MS = 1600
 const BASE_THINK_MAX_MS = 3400
 const HOVER_THINK_MIN_MS = 120
@@ -297,7 +297,7 @@ export default function VeraGraph() {
       vertexColors: true,
       transparent: true,
       opacity: 0.95,
-      depthWrite: false,
+      depthWrite: true,
     })
     const innerMesh = new THREE.InstancedMesh(innerGeo, innerMat, INNER_COUNT)
 
@@ -394,7 +394,7 @@ export default function VeraGraph() {
 
     // ── HIT SPHERE ─────────────────────────────────────────────────────────
     const hitGeo = new THREE.SphereGeometry(OUTER_MAX_R, 16, 16)
-    const hitMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 })
+    const hitMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false })
     const hitSphere = new THREE.Mesh(hitGeo, hitMat)
     graphGroup.add(hitSphere)
 
