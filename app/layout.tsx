@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Cursor from './components/Cursor'
 import FloatingChat from './components/FloatingChat'
-import Nav from './components/Nav' 
+import Navigation from './components/Navigation' 
 import Script from 'next/script'
 import { ExperimentProvider } from './components/ExperimentProvider' 
 
@@ -32,7 +32,7 @@ export default function RootLayout({
           <FloatingChat />
           
           {/* ── GLOBAL HUD NAVIGATION HEADER ───────────────────── */}
-          <Nav />
+          <Navigation />
           
         </ExperimentProvider>
         
