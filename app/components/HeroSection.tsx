@@ -3,8 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import GlitchWord from './GlitchWord'
-import PromptBar from './PromptBar'
-import VeraPointCloud from './VeraPointCloud'
+import VeraGraph from './VeraGraph'
 import { useBodySignals } from '../hooks/useBodySignals'
 
 export default function HeroSection() {
@@ -114,7 +113,7 @@ export default function HeroSection() {
           maskComposite: isMobile ? 'add' : 'intersect, intersect, intersect',
         }}
       >
-        {mounted && <VeraPointCloud />}
+        {mounted && <VeraGraph />}
       </div>
 
       {/* TEXT & COPY CONTAINER */}
@@ -216,7 +215,6 @@ export default function HeroSection() {
 
       {/* Structured Action Dock & CTA Container */}
       <div style={{ marginTop: '1.5rem', width: '100%', zIndex: 4, maxWidth: '600px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-        <PromptBar mounted={mounted} />
 
         {/* Work With Me Direct CTA Link */}
         <div style={{ display: 'flex', alignItems: 'center' }}>
