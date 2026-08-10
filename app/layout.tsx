@@ -3,9 +3,10 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Cursor from './components/Cursor'
 import FloatingChat from './components/FloatingChat'
-import Navigation from './components/Navigation' 
+import Navigation from './components/Navigation'
+import VeraCompanion from './components/VeraCompanion'
 import Script from 'next/script'
-import { ExperimentProvider } from './components/ExperimentProvider' 
+import { ExperimentProvider } from './components/ExperimentProvider'
 
 export const metadata: Metadata = {
   title: 'David Raigoza',
@@ -23,22 +24,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    // ─── THE FIX: Explicitly set dark color-scheme so browsers and Clarity match default dark mode ───
     <html lang="en" style={{ colorScheme: 'dark', backgroundColor: '#000000' }}>
-      {/* ─── THE FIX: Inline a fallback black background so it renders dark even if CSS fails to stream in Clarity ─── */}
       <body style={{ backgroundColor: '#000000', color: '#ffffff' }}>
         <Cursor />
+        <VeraCompanion />
+
         <ExperimentProvider>
           <FloatingChat />
-          
-          {/* ── GLOBAL HUD NAVIGATION HEADER ───────────────────── */}
           <Navigation />
-          
         </ExperimentProvider>
-        
+
         {children}
 
-        {/* ── GOOGLE TAGS MANAGEMENT ─────────────────────────── */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-YQXEJSG71S"
           strategy="afterInteractive"
@@ -48,12 +45,10 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
             gtag('config', 'G-YQXEJSG71S');
           `}
         </Script>
 
-        {/* ── MICROSOFT CLARITY HEATMAP TRACKING ──────────────── */}
         <Script id="microsoft-clarity" strategy="afterInteractive">
           {`
             (function(c,l,a,r,i,t,y){

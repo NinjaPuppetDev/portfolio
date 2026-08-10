@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import GlitchWord from './GlitchWord'
-import VeraGraph from './VeraGraph'
+import { useVeraStore } from '../store/veraStore'
 import { useBodySignals } from '../hooks/useBodySignals'
 
 export default function HeroSection() {
@@ -13,6 +13,8 @@ export default function HeroSection() {
   const [isMobile, setIsMobile] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const [isCtaHovered, setIsCtaHovered] = useState(false)
+
+  const setMode = useVeraStore((s) => s.setMode)
 
   useEffect(() => {
     setMounted(true)
@@ -24,6 +26,11 @@ export default function HeroSection() {
     media.addEventListener('change', listener)
     return () => media.removeEventListener('change', listener)
   }, [])
+
+  useEffect(() => {
+    setMode('hero')
+    return () => setMode('dock')
+  }, [setMode])
 
   useEffect(() => {
     const onScroll = () => {
@@ -52,13 +59,6 @@ export default function HeroSection() {
     window.addEventListener('mousemove', onMouseMove, { passive: true })
     return () => window.removeEventListener('mousemove', onMouseMove)
   }, [isMobile])
-
-  const veraMask = isMobile
-    ? 'radial-gradient(ellipse 62% 58% at 50% 45%, black 35%, transparent 88%)'
-    : `radial-gradient(ellipse 78% 72% at 58% 42%, black 42%, transparent 92%),
-       linear-gradient(to left, black 55%, transparent 100%),
-       linear-gradient(to top, black 55%, transparent 100%),
-       linear-gradient(to bottom, black 65%, transparent 100%)`
 
   return (
     <section
@@ -90,31 +90,6 @@ export default function HeroSection() {
           maskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.3) 10%, black 25%)',
         }}
       />
-
-      {/* Interactive Point Cloud */}
-      <div
-        style={{
-          position: 'absolute',
-          top: isMobile ? '30%' : '50%',
-          right: isMobile ? '-20%' : '-5%',
-          transform: isMobile
-            ? 'translateY(-50%)'
-            : `translateY(calc(-50% + ${mounted ? '0px' : '16px'})) translate(calc(var(--mx, 0) * 8px), calc(var(--my, 0) * 6px))`,
-          width: isMobile ? '130%' : 'clamp(500px, 60vw, 880px)',
-          height: isMobile ? '60vh' : 'min(80vh, 800px)',
-          opacity: isMobile ? 0.25 : mounted ? 0.9 : 0,
-          transition: 'opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 0.3s ease-out',
-          pointerEvents: 'none',
-          zIndex: 1,
-          mixBlendMode: 'screen',
-          WebkitMaskImage: veraMask,
-          maskImage: veraMask,
-          WebkitMaskComposite: isMobile ? 'source-over' : 'source-in, source-in, source-in',
-          maskComposite: isMobile ? 'add' : 'intersect, intersect, intersect',
-        }}
-      >
-        {mounted && <VeraGraph />}
-      </div>
 
       {/* TEXT & COPY CONTAINER */}
       <div style={{ position: 'relative', zIndex: 3, width: '100%', maxWidth: '1400px' }}>

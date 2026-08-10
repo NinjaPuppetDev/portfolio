@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useImperativeHandle, useRef, forwardRef } from 'react'
 import * as THREE from 'three'
+import type { VeraMode } from '../store/veraStore'
 
 // ─── SEEDED RNG ─────────────────────────────────────────────────────────────
 function mulberry32(a: number) {
@@ -73,6 +74,11 @@ const MAX_BRIDGES = 120
 
 // ─── TYPES ──────────────────────────────────────────────────────────────────
 
+export interface VeraGraphHandle {
+  setMode: (mode: VeraMode) => void
+  pulse: (targetIndex?: number) => void
+}
+
 interface Pulse {
   path: number[]
   t: number
@@ -85,8 +91,9 @@ interface Bridge {
   active: boolean
 }
 
-export default function VeraGraph() {
+const VeraGraph = forwardRef<VeraGraphHandle>((_props, ref) => {
   const mountRef = useRef<HTMLDivElement>(null)
+  const modeRef = useRef<VeraMode>('hero')
 
   useEffect(() => {
     const mount = mountRef.current
@@ -418,9 +425,13 @@ export default function VeraGraph() {
       }
     }
 
+    function pulseNow(targetIndex?: number) {
+      triggerRadialBurst(1, targetIndex)
+    }
+
     const onThinkEvent = (e: Event) => {
       const detail = (e as CustomEvent).detail || {}
-      triggerRadialBurst(1, detail.targetIndex)
+      pulseNow(detail.targetIndex)
     }
     window.addEventListener('vera-think', onThinkEvent as EventListener)
 
@@ -584,6 +595,7 @@ export default function VeraGraph() {
       }
 
       // ── rotation ──
+      // modeRef.current is available here for mode-driven rotation tweaks in step 4
       const targetYVel = pointerActive ? IDLE_ROT_SPEED + pointerNDC.x * HOVER_ROT_GAIN : IDLE_ROT_SPEED
       rotYVel += (targetYVel - rotYVel) * ROTATION_EASE
       rotY += rotYVel * dt
@@ -726,5 +738,15 @@ export default function VeraGraph() {
     }
   }, [])
 
+  useImperativeHandle(ref, () => ({
+    setMode: (mode) => { modeRef.current = mode },
+    pulse: (targetIndex) => {
+      window.dispatchEvent(new CustomEvent('vera-think', { detail: { targetIndex } }))
+    },
+  }))
+
   return <div ref={mountRef} style={{ width: '100%', height: '100%' }} />
-}
+})
+
+VeraGraph.displayName = 'VeraGraph'
+export default VeraGraph
