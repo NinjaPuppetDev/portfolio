@@ -7,6 +7,7 @@ import Navigation from './components/Navigation'
 import VeraCompanion from './components/VeraCompanion'
 import Script from 'next/script'
 import { ExperimentProvider } from './components/ExperimentProvider'
+import IntroOverlay from './components/IntroOverlay'
 
 export const metadata: Metadata = {
   title: 'David Raigoza',
@@ -28,6 +29,7 @@ export default function RootLayout({
       <body style={{ backgroundColor: '#000000', color: '#ffffff' }}>
         <Cursor />
         <VeraCompanion />
+        <IntroOverlay />
 
         <ExperimentProvider>
           <FloatingChat />

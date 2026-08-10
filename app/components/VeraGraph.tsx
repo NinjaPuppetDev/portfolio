@@ -706,6 +706,7 @@ const VeraGraph = forwardRef<VeraGraphHandle>((_props, ref) => {
 
     animate()
 
+    // VeraGraph.tsx — inside the main useEffect, near the existing onResize block
     const onResize = () => {
       const w = mount.clientWidth || 1
       const h = mount.clientHeight || 1
@@ -715,8 +716,13 @@ const VeraGraph = forwardRef<VeraGraphHandle>((_props, ref) => {
     }
     window.addEventListener('resize', onResize)
 
+    const resizeObserver = new ResizeObserver(onResize)
+    resizeObserver.observe(mount)
+
     return () => {
       cancelAnimationFrame(raf)
+      window.removeEventListener('resize', onResize)
+      resizeObserver.disconnect()
       window.removeEventListener('resize', onResize)
       window.removeEventListener('vera-think', onThinkEvent as EventListener)
       window.removeEventListener('pointermove', onPointerMove)

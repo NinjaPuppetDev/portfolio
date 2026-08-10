@@ -1,20 +1,20 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import GlitchWord from './GlitchWord'
 import { useVeraStore } from '../store/veraStore'
 import { useBodySignals } from '../hooks/useBodySignals'
+import { useVeraAnchor } from '../hooks/useVeraAnchor'
 
 export default function HeroSection() {
   useBodySignals()
-  const heroRef = useRef<HTMLDivElement>(null)
+  const anchorRef = useVeraAnchor('hero', 'dock') as React.RefObject<HTMLDivElement>
+  const heroRef = anchorRef
   const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const [isCtaHovered, setIsCtaHovered] = useState(false)
-
-  const setMode = useVeraStore((s) => s.setMode)
 
   useEffect(() => {
     setMounted(true)
@@ -26,11 +26,6 @@ export default function HeroSection() {
     media.addEventListener('change', listener)
     return () => media.removeEventListener('change', listener)
   }, [])
-
-  useEffect(() => {
-    setMode('hero')
-    return () => setMode('dock')
-  }, [setMode])
 
   useEffect(() => {
     const onScroll = () => {

@@ -5,22 +5,24 @@ import { useRef } from 'react'
 import VeraGraph, { type VeraGraphHandle } from './VeraGraph'
 import { useVeraStore } from '../store/veraStore'
 
+const BASE_SIZE = 900
+
 const PRESETS: Record<string, React.CSSProperties> = {
   hero: {
     top: '50%',
-    right: '-5%',
+    right: '-2%',
     width: 'clamp(500px, 60vw, 880px)',
     height: 'min(80vh, 800px)',
     transform: 'translateY(-50%)',
     opacity: 0.9,
   },
   dock: {
-    top: '24px',
-    right: '24px',
-    width: '120px',
-    height: '120px',
+    top: '100px',
+    right: '32px',
+    width: '140px',
+    height: '140px',
     transform: 'none',
-    opacity: 1,
+    opacity: 0.85,
   },
   transition: {
     top: '50%',
@@ -38,6 +40,13 @@ const PRESETS: Record<string, React.CSSProperties> = {
     transform: 'translate(50%, -50%)',
     opacity: 1,
   },
+}
+
+const GRAPH_SCALE: Record<string, number> = {
+  hero: 880 / BASE_SIZE,
+  dock: 140 / BASE_SIZE,
+  transition: 200 / BASE_SIZE,
+  loading: 160 / BASE_SIZE,
 }
 
 const HERO_MASK = `radial-gradient(ellipse 78% 72% at 58% 42%, black 42%, transparent 92%),
@@ -62,21 +71,37 @@ export default function VeraCompanion() {
 
   const preset = PRESETS[mode] ?? PRESETS.hero
   const mask = MASKS[mode] ?? HERO_MASK
+  const scale = GRAPH_SCALE[mode] ?? 1
 
   return (
     <div
       style={{
         position: 'fixed',
-        zIndex: 50,
+        zIndex: 20000, // clearly above IntroOverlay's 10000 — no tie possible
         pointerEvents: 'none',
-        mixBlendMode: 'screen',
+        overflow: 'hidden',
+        mixBlendMode: mode === 'loading' ? 'normal' : 'screen',
         WebkitMaskImage: mask,
         maskImage: mask,
-        transition: 'top 0.6s cubic-bezier(0.16,1,0.3,1), right 0.6s cubic-bezier(0.16,1,0.3,1), width 0.6s cubic-bezier(0.16,1,0.3,1), height 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.4s ease',
+        transition:
+          'top 0.6s cubic-bezier(0.16,1,0.3,1), right 0.6s cubic-bezier(0.16,1,0.3,1), width 0.6s cubic-bezier(0.16,1,0.3,1), height 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.4s ease',
         ...preset,
       }}
     >
-      <VeraGraph ref={localRef} />
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          width: `${BASE_SIZE}px`,
+          height: `${BASE_SIZE}px`,
+          transform: `translate(-50%, -50%) scale(${scale})`,
+          transformOrigin: 'center',
+          transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
+        }}
+      >
+        <VeraGraph ref={localRef} />
+      </div>
     </div>
   )
 }

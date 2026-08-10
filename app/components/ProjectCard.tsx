@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export interface ProjectCardProps {
   index: string
@@ -38,7 +39,6 @@ const getCardChassisStyles = (hovered: boolean, isMobile: boolean) => ({
   transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
 })
 
-// Unified Card Shell for standard visual presentation
 export default function ProjectCard(props: ProjectCardProps) {
   const {
     index,
@@ -64,16 +64,16 @@ export default function ProjectCard(props: ProjectCardProps) {
   }, [])
 
   const active = isMobile ? true : hovered
+  const isExternal = link.startsWith('http')
 
-  return (
-    <a
-      href={link}
-      target={link.startsWith('http') ? '_blank' : '_self'}
-      rel="noopener noreferrer"
-      onMouseEnter={() => !isMobile && setHovered(true)}
-      onMouseLeave={() => !isMobile && setHovered(false)}
-      style={getCardChassisStyles(hovered, isMobile)}
-    >
+  const chassisProps = {
+    onMouseEnter: () => !isMobile && setHovered(true),
+    onMouseLeave: () => !isMobile && setHovered(false),
+    style: getCardChassisStyles(hovered, isMobile),
+  }
+
+  const cardContent = (
+    <>
       {/* Editorial Thumbnail Tray */}
       <div
         style={{
@@ -244,6 +244,20 @@ export default function ProjectCard(props: ProjectCardProps) {
           {linkLabel} →
         </span>
       </div>
-    </a>
+    </>
+  )
+
+  if (isExternal) {
+    return (
+      <a href={link} target="_blank" rel="noopener noreferrer" {...chassisProps}>
+        {cardContent}
+      </a>
+    )
+  }
+
+  return (
+    <Link href={link} {...chassisProps}>
+      {cardContent}
+    </Link>
   )
 }
