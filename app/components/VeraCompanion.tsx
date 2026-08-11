@@ -1,7 +1,7 @@
 // app/components/VeraCompanion.tsx
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import VeraGraph, { type VeraGraphHandle } from './VeraGraph'
 import { useVeraStore } from '../store/veraStore'
 
@@ -10,13 +10,21 @@ const BASE_SIZE = 900
 const PRESETS: Record<string, React.CSSProperties> = {
   hero: {
     top: '50%',
-    right: '14%',
-    width: 'clamp(380px, 34vw, 560px)',   // was: clamp(500px, 60vw, 880px)
-    height: 'min(60vh, 560px)',           // was: min(80vh, 800px)
+    right: '25%',
+    width: 'clamp(280px, 22vw, 380px)',
+    height: 'min(40vh, 380px)',
     transform: 'translateY(-50%)',
     opacity: 0.9,
   },
-  dock: {
+  heroMobile: {
+    top: '12%',              // sits above the text block instead of behind it
+    right: '50%',
+    width: '150px',
+    height: '150px',
+    transform: 'translateX(50%)',
+    opacity: 0.7,
+  },
+  dock: { /* unchanged */
     top: '100px',
     right: '32px',
     width: '140px',
@@ -24,7 +32,7 @@ const PRESETS: Record<string, React.CSSProperties> = {
     transform: 'none',
     opacity: 0.85,
   },
-  transition: {
+  transition: { /* unchanged */
     top: '50%',
     right: '50%',
     width: '200px',
@@ -32,7 +40,7 @@ const PRESETS: Record<string, React.CSSProperties> = {
     transform: 'translate(50%, -50%)',
     opacity: 1,
   },
-  loading: {
+  loading: { /* unchanged */
     top: '50%',
     right: '50%',
     width: '160px',
@@ -43,7 +51,8 @@ const PRESETS: Record<string, React.CSSProperties> = {
 }
 
 const GRAPH_SCALE: Record<string, number> = {
-  hero: 400 / BASE_SIZE,
+  hero: 380 / BASE_SIZE,
+  heroMobile: 150 / BASE_SIZE,
   dock: 140 / BASE_SIZE,
   transition: 200 / BASE_SIZE,
   loading: 160 / BASE_SIZE,
@@ -58,6 +67,7 @@ const DOCK_MASK = 'radial-gradient(ellipse 65% 65% at 50% 50%, black 60%, transp
 
 const MASKS: Record<string, string> = {
   hero: HERO_MASK,
+  heroMobile: DOCK_MASK,
   dock: DOCK_MASK,
   transition: DOCK_MASK,
   loading: DOCK_MASK,
@@ -68,19 +78,30 @@ export const graphRef = { current: null as VeraGraphHandle | null }
 export default function VeraCompanion() {
   const mode = useVeraStore((s) => s.mode)
   const localRef = useRef<VeraGraphHandle>(null)
+  const [isMobile, setIsMobile] = useState(false)
 
-  const preset = PRESETS[mode] ?? PRESETS.hero
-  const mask = MASKS[mode] ?? HERO_MASK
-  const scale = GRAPH_SCALE[mode] ?? 1
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 768px)')
+    setIsMobile(media.matches)
+    const listener = (e: MediaQueryListEvent) => setIsMobile(e.matches)
+    media.addEventListener('change', listener)
+    return () => media.removeEventListener('change', listener)
+  }, [])
+
+  const effectiveMode = mode === 'hero' && isMobile ? 'heroMobile' : mode
+
+  const preset = PRESETS[effectiveMode] ?? PRESETS.hero
+  const mask = MASKS[effectiveMode] ?? HERO_MASK
+  const scale = GRAPH_SCALE[effectiveMode] ?? 1
 
   return (
     <div
       style={{
         position: 'fixed',
-        zIndex: 20000, // clearly above IntroOverlay's 10000 — no tie possible
+        zIndex: 20000,
         pointerEvents: 'none',
         overflow: 'hidden',
-        mixBlendMode: mode === 'loading' ? 'normal' : 'screen',
+        mixBlendMode: effectiveMode === 'loading' ? 'normal' : 'screen',
         WebkitMaskImage: mask,
         maskImage: mask,
         transition:

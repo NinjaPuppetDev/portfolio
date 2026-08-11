@@ -6,6 +6,7 @@ import GlitchWord from './GlitchWord'
 import { useVeraStore } from '../store/veraStore'
 import { useBodySignals } from '../hooks/useBodySignals'
 import { useVeraAnchor } from '../hooks/useVeraAnchor'
+import ScrollCue from './ScrollCue'
 
 export default function HeroSection() {
   useBodySignals()
@@ -189,10 +190,10 @@ export default function HeroSection() {
           </h1>
 
           {/* Value Proposition */}
-          <p
+<p
             style={{
               fontFamily: 'var(--sans)',
-              fontSize: isMobile ? '1.1rem' : 'clamp(1.15rem, 1.7vw, 1.4rem)',
+              fontSize: isMobile ? '0.9375rem' : 'clamp(1.15rem, 1.7vw, 1.4rem)', // was: isMobile ? '1.1rem' : ...
               color: 'var(--text)',
               opacity: 0.92,
               maxWidth: '52ch',
@@ -249,6 +250,7 @@ export default function HeroSection() {
         </div>
 
       </div>
+      <ScrollCue />
     </section>
   )
 }
