@@ -10,9 +10,9 @@ const BASE_SIZE = 900
 const PRESETS: Record<string, React.CSSProperties> = {
   hero: {
     top: '50%',
-    right: '-2%',
-    width: 'clamp(500px, 60vw, 880px)',
-    height: 'min(80vh, 800px)',
+    right: '14%',
+    width: 'clamp(380px, 34vw, 560px)',   // was: clamp(500px, 60vw, 880px)
+    height: 'min(60vh, 560px)',           // was: min(80vh, 800px)
     transform: 'translateY(-50%)',
     opacity: 0.9,
   },
@@ -43,7 +43,7 @@ const PRESETS: Record<string, React.CSSProperties> = {
 }
 
 const GRAPH_SCALE: Record<string, number> = {
-  hero: 880 / BASE_SIZE,
+  hero: 400 / BASE_SIZE,
   dock: 140 / BASE_SIZE,
   transition: 200 / BASE_SIZE,
   loading: 160 / BASE_SIZE,
