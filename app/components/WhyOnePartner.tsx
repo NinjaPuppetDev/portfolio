@@ -44,68 +44,116 @@ export default function WhyOnePartner({ onExploreClick }: WhyOnePartnerProps) {
       }}
     >
       {/* SECTION INTRO */}
-      <header
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          maxWidth: '820px',
-        }}
-      >
-        {/* Eyebrow */}
-        <span
-          style={{
-            fontFamily: 'var(--mono, monospace)',
-            fontSize: '0.75rem',
-            letterSpacing: '0.18em',
-            textTransform: 'uppercase',
-            color: 'var(--muted, rgba(255, 255, 255, 0.45))',
-            marginBottom: '1.75rem',
-            display: 'inline-block',
-          }}
-        >
-          WHY ONE PARTNER?
-        </span>
+      <style>{`
+        .why-one-partner-intro {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 3rem;
+          align-items: start;
+        }
+        @media (min-width: 900px) {
+          .why-one-partner-intro {
+            grid-template-columns: 1.35fr 1fr;
+            gap: 4.5rem;
+          }
+          .why-one-partner-photo {
+            order: 2;
+            margin-top: 0.5rem;
+          }
+          .why-one-partner-text {
+            order: 1;
+          }
+        }
+      `}</style>
 
-        {/* Heading */}
-        <h2
-          id="why-one-partner-heading"
-          style={{
-            fontFamily: 'var(--font-sans, system-ui, sans-serif)',
-            fontSize: 'clamp(2.25rem, 5vw, 3.75rem)',
-            fontWeight: 400,
-            lineHeight: 1.1,
-            letterSpacing: '-0.03em',
-            margin: '0 0 2.5rem 0',
-            color: 'var(--text-primary, #FFFFFF)',
-          }}
-        >
-          One conversation.
-          <br />
-          One continuous system.
-        </h2>
-
-        {/* Editorial Body */}
-        <div
+      <div className="why-one-partner-intro">
+        {/* TEXT COLUMN */}
+        <header
+          className="why-one-partner-text"
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '1.5rem',
-            fontSize: 'clamp(1rem, 1.8vw, 1.1875rem)',
-            lineHeight: 1.65,
-            fontWeight: 300,
-            color: 'var(--text-secondary, rgba(255, 255, 255, 0.75))',
-            maxWidth: '720px',
+            alignItems: 'flex-start',
+            maxWidth: '820px',
           }}
         >
-          <p style={{ margin: 0 }}>
-            I run a lightweight product studio built to move from intention to working product without the overhead of a traditional team.
-          </p>
-          <p style={{ margin: 0 }}>
-            Strategy, design, engineering, AI, and deployment are usually treated as separate stages. I work across them as one continuous system, so decisions can stay connected from the first idea to the product in people's hands.
-          </p>
+          {/* Eyebrow */}
+          <span
+            style={{
+              fontFamily: 'var(--mono, monospace)',
+              fontSize: '0.75rem',
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: 'var(--muted, rgba(255, 255, 255, 0.45))',
+              marginBottom: '1.75rem',
+              display: 'inline-block',
+            }}
+          >
+            WHY ONE PARTNER?
+          </span>
+
+          {/* Heading */}
+          <h2
+            id="why-one-partner-heading"
+            style={{
+              fontFamily: 'var(--font-sans, system-ui, sans-serif)',
+              fontSize: 'clamp(2.25rem, 5vw, 3.75rem)',
+              fontWeight: 400,
+              lineHeight: 1.1,
+              letterSpacing: '-0.03em',
+              margin: '0 0 2.5rem 0',
+              color: 'var(--text-primary, #FFFFFF)',
+            }}
+          >
+            One conversation.
+            <br />
+            One continuous system.
+          </h2>
+
+          {/* Editorial Body */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.5rem',
+              fontSize: 'clamp(1rem, 1.8vw, 1.1875rem)',
+              lineHeight: 1.65,
+              fontWeight: 300,
+              color: 'var(--text-secondary, rgba(255, 255, 255, 0.75))',
+              maxWidth: '720px',
+            }}
+          >
+            <p style={{ margin: 0 }}>
+              I run a lightweight product studio built to move from intention to working product without the overhead of a traditional team.
+            </p>
+            <p style={{ margin: 0 }}>
+              Strategy, design, engineering, AI, and deployment are usually treated as separate stages. I work across them as one continuous system, so decisions can stay connected from the first idea to the product in people's hands.
+            </p>
+          </div>
+        </header>
+
+        {/* PHOTO COLUMN */}
+        <div
+          className="why-one-partner-photo"
+          style={{
+            width: '100%',
+            maxWidth: '360px',
+          }}
+        >
+          <img
+            src="/images/why-one-partner/david-raigoza.jpg"
+            alt="David Raigoza"
+            style={{
+              width: '100%',
+              aspectRatio: '4 / 5',
+              objectFit: 'cover',
+              objectPosition: 'center 20%',
+              display: 'block',
+              border: '1px solid var(--border-color, rgba(255, 255, 255, 0.1))',
+            }}
+          />
         </div>
-      </header>
+      </div>
 
       {/* EDITORIAL PRINCIPLES */}
       <ol
