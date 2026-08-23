@@ -99,7 +99,7 @@ export default function WhyOnePartner({ onExploreClick }: WhyOnePartnerProps) {
           }}
         >
           <p style={{ margin: 0 }}>
-            Every product starts with an intention. The challenge is carrying that intention through everything that follows.
+            I run a lightweight product studio built to move from intention to working product without the overhead of a traditional team.
           </p>
           <p style={{ margin: 0 }}>
             Strategy, design, engineering, AI, and deployment are usually treated as separate stages. I work across them as one continuous system, so decisions can stay connected from the first idea to the product in people's hands.
