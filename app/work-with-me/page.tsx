@@ -432,7 +432,7 @@ export default function WorkWithMePage() {
                   background: 'var(--accent)',
                   padding: '0.25rem 0.6rem',
                 }}>
-                  Most Common
+                  Flagship Offer
                 </span>
               )}
               <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
