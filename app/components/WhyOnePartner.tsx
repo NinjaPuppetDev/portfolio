@@ -4,9 +4,15 @@ import React from 'react'
 
 export interface WhyOnePartnerProps {
   onExploreClick?: () => void
+  onBookCallClick?: () => void
+  bookCallHref?: string
 }
 
-export default function WhyOnePartner({ onExploreClick }: WhyOnePartnerProps) {
+export default function WhyOnePartner({
+  onExploreClick,
+  onBookCallClick,
+  bookCallHref = 'https://cal.com/david-raigoza-1juo6a',
+}: WhyOnePartnerProps) {
   const principles = [
     {
       index: '01',
@@ -30,7 +36,7 @@ export default function WhyOnePartner({ onExploreClick }: WhyOnePartnerProps) {
 
   return (
     <section
-    id="about"
+      id="about"
       aria-labelledby="why-one-partner-heading"
       style={{
         width: '100%',
@@ -138,6 +144,9 @@ export default function WhyOnePartner({ onExploreClick }: WhyOnePartnerProps) {
           style={{
             width: '100%',
             maxWidth: '360px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1.25rem',
           }}
         >
           <img
@@ -152,6 +161,69 @@ export default function WhyOnePartner({ onExploreClick }: WhyOnePartnerProps) {
               border: '1px solid var(--border-color, rgba(255, 255, 255, 0.1))',
             }}
           />
+
+          {onBookCallClick ? (
+            <button
+              onClick={onBookCallClick}
+              type="button"
+              style={{
+                background: 'none',
+                border: '1px solid var(--border-color, rgba(255, 255, 255, 0.2))',
+                padding: '0.875rem 1.25rem',
+                fontFamily: 'var(--mono, monospace)',
+                fontSize: '0.75rem',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: 'var(--text-primary, #FFFFFF)',
+                cursor: 'pointer',
+                width: '100%',
+                textAlign: 'center',
+                transition: 'background 0.2s ease, border-color 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)'
+                e.currentTarget.style.borderColor = 'var(--text-primary, rgba(255, 255, 255, 0.6))'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'none'
+                e.currentTarget.style.borderColor = 'var(--border-color, rgba(255, 255, 255, 0.2))'
+              }}
+            >
+              Book a discovery call
+            </button>
+          ) : (
+            <a
+              href={bookCallHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                background: 'none',
+                border: '1px solid var(--border-color, rgba(255, 255, 255, 0.2))',
+                padding: '0.875rem 1.25rem',
+                fontFamily: 'var(--mono, monospace)',
+                fontSize: '0.75rem',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: 'var(--text-primary, #FFFFFF)',
+                textDecoration: 'none',
+                display: 'block',
+                width: '100%',
+                boxSizing: 'border-box',
+                textAlign: 'center',
+                transition: 'background 0.2s ease, border-color 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)'
+                e.currentTarget.style.borderColor = 'var(--text-primary, rgba(255, 255, 255, 0.6))'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'none'
+                e.currentTarget.style.borderColor = 'var(--border-color, rgba(255, 255, 255, 0.2))'
+              }}
+            >
+              Book a discovery call
+            </a>
+          )}
         </div>
       </div>
 
@@ -178,7 +250,6 @@ export default function WhyOnePartner({ onExploreClick }: WhyOnePartnerProps) {
               alignItems: 'flex-start',
             }}
           >
-            {/* Index Number */}
             <span
               aria-hidden="true"
               style={{
@@ -192,7 +263,6 @@ export default function WhyOnePartner({ onExploreClick }: WhyOnePartnerProps) {
               {principle.index}
             </span>
 
-            {/* Principle Title */}
             <h3
               style={{
                 fontFamily: 'var(--font-sans, system-ui, sans-serif)',
@@ -206,7 +276,6 @@ export default function WhyOnePartner({ onExploreClick }: WhyOnePartnerProps) {
               {principle.title}
             </h3>
 
-            {/* Principle Body */}
             <p
               style={{
                 fontFamily: 'var(--font-sans, system-ui, sans-serif)',
@@ -264,7 +333,6 @@ export default function WhyOnePartner({ onExploreClick }: WhyOnePartnerProps) {
           </p>
         </div>
 
-        {/* Transition Link / CTA */}
         {onExploreClick ? (
           <button
             onClick={onExploreClick}
