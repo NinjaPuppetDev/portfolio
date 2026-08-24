@@ -74,6 +74,14 @@ const WAYS = [
   },
 ]
 
+const CAPABILITIES = [
+  'Product Strategy',
+  'System Architecture',
+  'Product Design',
+  'Full-Stack Engineering',
+  'AI-Native Workflows',
+]
+
 const PRICING = [
   {
     name: 'Discovery Sprint',
@@ -151,21 +159,19 @@ const DIFFERENTIATORS = [
 ]
 
 const GOOD_FIT = [
-  'You have an idea and need to determine what to build.',
-  'You’re a founder who needs product thinking and execution.',
-  'You’re a technical founder who needs design/product capability.',
-  'You have a small team and need to accelerate a product initiative.',
-  'You need to bridge product, design and engineering.',
-  'You’re experimenting with AI and need it to become a usable product.',
-  'You need a senior product partner without a full-time hire.',
+  'You have a promising idea that needs to become a coherent, buildable product.',
+  'Your AI or product concept is technically interesting but hard to understand, use, demonstrate or bring to market.',
+  'You need product strategy, design and engineering connected — without coordinating multiple specialists.',
+  'A technically complex product needs a clearer interface, workflow or user experience.',
+  'You need senior product/design/engineering capability without building an agency or a full team.',
 ]
 
 const NOT_FIT = [
-  'You only need cheap implementation.',
-  'You have a finished spec and only need commodity development.',
-  'You need a large production team.',
-  'You need high-volume marketing websites or content production.',
-  'You need a permanent full-time employee.',
+  'You’re looking for the cheapest possible freelancer.',
+  'You need a high-volume production agency or a generic web development shop.',
+  'You need marketing production, not product work.',
+  'You have a finished spec and only need implementation — a developer is the better fit.',
+  'You need a large production team or a permanent full-time hire.',
 ]
 
 const FAQS = [
@@ -273,11 +279,11 @@ export default function WorkWithMePage() {
           marginBottom: '2.5rem',
           ...fadeIn(0.3)
         }}>
-          I'm a Product Design Engineer working as a lightweight product studio — carrying context from problem to product strategy, design, engineering and deployment, without the overhead of a traditional agency or the fragmentation of hiring multiple specialists.
+          I help early-stage product teams turn complex ideas into clear, working products — closing the gap between product thinking, system architecture, design and engineering, instead of hiring multiple specialists and hoping the handoffs hold.
         </p>
 
         <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', alignItems: 'center', ...fadeIn(0.4) }}>
-          <a href="https://cal.com/david-raigoza-1juo6a" target="_blank" rel="noopener noreferrer" style={primaryButtonStyle}>
+          <a href="https://cal.com/davidraigoza" target="_blank" rel="noopener noreferrer" style={primaryButtonStyle}>
             Book a Discovery Call →
           </a>
           <Link href="/" style={secondaryButtonStyle}>
@@ -295,19 +301,31 @@ export default function WorkWithMePage() {
         position: 'relative',
         zIndex: 1,
       }}>
-        <Label>The Problem</Label>
-        <SectionTitle>The cost isn't managing vendors. It's coordination and context loss.</SectionTitle>
+        <Label>The Problem I Solve</Label>
+        <SectionTitle>Most teams have the pieces. They're missing the connective tissue.</SectionTitle>
 
         <p style={{
           fontFamily: 'var(--sans)',
           fontSize: '0.95rem',
-          color: 'var(--muted)',
+          color: 'var(--text)',
           fontWeight: 300,
           lineHeight: 1.7,
           maxWidth: '68ch',
           marginTop: '1.75rem',
         }}>
-          A typical process looks like Founder → PM → designer → developer → QA → revisions. Every handoff adds interpretation, delay and rework. Working with me compresses most of that into one line: Founder or product team ↔ me.
+          Strategy gets disconnected from design. Design gets disconnected from engineering. AI capabilities get bolted onto products without a coherent interaction model. Complex technical systems become hard to explain, use and ship. I work across the system, from definition through production, to close that gap.
+        </p>
+
+        <p style={{
+          fontFamily: 'var(--sans)',
+          fontSize: '0.85rem',
+          color: 'var(--muted)',
+          fontWeight: 300,
+          lineHeight: 1.7,
+          maxWidth: '68ch',
+          marginTop: '1rem',
+        }}>
+          The usual alternative is Founder → PM → designer → developer → QA → revisions. Every handoff adds interpretation, delay and rework. Working with me compresses that into one line: Founder or product team ↔ me.
         </p>
 
         <div style={{
@@ -381,6 +399,36 @@ export default function WorkWithMePage() {
                 {w.outcome}
               </p>
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── CAPABILITIES ─────────────────────────────────────────────── */}
+      <section style={{
+        borderTop: '1px solid var(--border)',
+        padding: 'clamp(3rem, 6vw, 4rem) clamp(1.5rem, 5vw, 4rem)',
+        maxWidth: '1300px',
+        margin: '0 auto',
+        position: 'relative',
+        zIndex: 1,
+      }}>
+        <Label>What I Bring</Label>
+        <p style={{ fontSize: '0.9rem', color: 'var(--muted)', fontWeight: 300, maxWidth: '55ch', marginBottom: '1.25rem' }}>
+          Not five separate services. One connected skill set, applied to whichever situation above fits you.
+        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem' }}>
+          {CAPABILITIES.map((c) => (
+            <span key={c} style={{
+              fontFamily: 'var(--mono)',
+              fontSize: '0.7rem',
+              color: 'var(--text)',
+              border: '1px solid var(--border)',
+              padding: '0.45rem 0.9rem',
+              borderRadius: '2px',
+              background: 'rgba(255,255,255,0.02)',
+            }}>
+              {c}
+            </span>
           ))}
         </div>
       </section>
@@ -679,6 +727,17 @@ export default function WorkWithMePage() {
             </ul>
           </div>
         </div>
+
+        <p style={{
+          fontSize: '0.8rem',
+          color: 'var(--muted)',
+          fontWeight: 300,
+          lineHeight: 1.6,
+          marginTop: '1.5rem',
+          maxWidth: '60ch',
+        }}>
+          A missing feature or a rough-looking website isn't the same as a product problem. If there isn't a clear one here, I'll tell you.
+        </p>
       </section>
 
       {/* ── FAQ ──────────────────────────────────────────────────────── */}
