@@ -6,62 +6,108 @@ import Link from 'next/link'
 // ─── CONTENT ─────────────────────────────────────────────────────────────────
 // All copy lives here so the JSX below stays purely structural.
 
-const ENGAGEMENTS = [
+const PROBLEMS = [
+  'Product ambiguity — you know something should exist, not what it is yet.',
+  'Slow development caused by too much coordination between specialists.',
+  'Design and engineering handoffs that lose context every time work changes hands.',
+  'Getting stuck between a prototype and something you can actually ship.',
+  'Knowing what to build, but not having the person to carry it across the finish line.',
+  'Having an existing team, but needing extra product/design/engineering capacity for one initiative.',
+]
+
+const WAYS = [
   {
-    label: 'For teams that need clarity before they build.',
-    title: 'Discovery & Product Strategy',
-    items: ['Product strategy', 'UX research', 'Technical direction', 'AI opportunity assessment', 'Product roadmap'],
+    tag: '01',
+    title: 'Find the Product',
+    subtitle: 'You have an idea. Let’s figure out what’s actually worth building.',
+    includes: [
+      'Product strategy & problem framing',
+      'UX research',
+      'Technical direction',
+      'AI opportunity assessment',
+      'Interactive prototype',
+      'Product roadmap',
+    ],
+    outcome: 'A clearer product direction and a concrete plan for what to build next.',
   },
   {
-    label: 'Design digital products that balance usability, business goals and technical feasibility.',
-    title: 'Product Design',
-    items: ['UX/UI design', 'Design systems', 'Interactive prototypes', 'Validation', 'Developer handoff'],
+    tag: '02',
+    title: 'Build the Product',
+    subtitle: 'From product direction to a working MVP.',
+    includes: [
+      'Product strategy & UX/UI',
+      'System architecture',
+      'Full-stack development',
+      'AI integrations',
+      'Database & backend',
+      'Deployment',
+    ],
+    outcome: 'A functional product that can reach real users and generate real learning.',
   },
   {
-    label: 'Turn ideas into production-ready software.',
-    title: 'Product Engineering',
-    items: ['SaaS applications', 'AI integrations', 'Internal tools', 'Full-stack development', 'Deployment'],
+    tag: '03',
+    title: 'Accelerate the Product',
+    subtitle: 'Your team doesn’t need another pair of hands. It needs momentum.',
+    includes: [
+      'A new product or feature',
+      'A prototype or redesign',
+      'AI integration',
+      'A complex technical interaction',
+      'An initiative that has stalled',
+      'Bridging product, design & engineering',
+    ],
+    outcome: 'An initiative that moves again, without waiting to hire and onboard.',
   },
   {
-    label: 'Design systems where humans and AI work together.',
-    title: 'AI Workflow Design',
-    items: ['AI copilots', 'Workflow automation', 'Knowledge systems', 'Evaluation pipelines', 'Internal AI tools'],
-  },
-  {
-    label: 'Design and build blockchain products.',
-    title: 'Web3 Product Development',
-    items: ['Smart contracts', 'Web3 frontends', 'Protocol UX', 'Token systems', 'MVP development'],
+    tag: '04',
+    title: 'Keep the Product Moving',
+    subtitle: 'Ongoing product care and iteration without another full-time hire.',
+    includes: [
+      'Bug fixes & technical maintenance',
+      'Dependency & infrastructure updates',
+      'Performance & UX improvements',
+      'Small feature iterations',
+      'Analytics, SEO/AEO',
+      'AI integrations',
+    ],
+    outcome: 'A product that keeps improving after launch, without staffing up to do it.',
   },
 ]
 
-const MODELS = [
+const PRICING = [
   {
     name: 'Discovery Sprint',
-    priceLabel: 'Typical investment',
+    maps: 'Find the Product',
+    priceLabel: 'Starting point',
     price: 'Starting at $2,500',
-    idealFor: ['Validating ideas', 'Product direction', 'Technical planning'],
-    included: ['Workshop', 'Product roadmap', 'Technical recommendations', 'Next steps'],
+    idealFor: ['Founders with an idea', 'Product direction & validation', 'Technical planning'],
     featured: false,
   },
   {
     name: 'MVP Partnership',
-    priceLabel: 'Typical investment',
+    maps: 'Build the Product',
+    priceLabel: 'Starting point',
     price: 'Starting at $10,000',
-    idealFor: ['Startups', 'AI products', 'SaaS', 'Internal tools'],
-    included: ['Strategy', 'UX/UI', 'Development', 'Deployment'],
+    idealFor: ['Startups & small teams', 'AI products, SaaS, internal tools', 'A scoped, working MVP'],
     featured: true,
   },
   {
     name: 'Fractional Product Partner',
-    priceLabel: 'Investment',
+    maps: 'Accelerate the Product',
+    priceLabel: 'Engagement',
     price: 'Custom monthly engagement',
-    idealFor: ['Companies needing continuous product strategy, design and engineering'],
-    included: [],
+    idealFor: ['Teams that already have engineers', 'A defined initiative, not open-ended hours'],
+    featured: false,
+  },
+  {
+    name: 'Ongoing Product Care',
+    maps: 'Keep the Product Moving',
+    priceLabel: 'Engagement',
+    price: 'Custom, scoped per product',
+    idealFor: ['Products already in production', 'Continuity after launch, not a maintenance contract'],
     featured: false,
   },
 ]
-
-const INDUSTRIES = ['AI Products', 'SaaS', 'Developer Tools', 'Web3', 'Startups', 'Innovation Teams']
 
 const PROCESS = [
   { step: 'Understand', description: 'Clarify the problem, the user, and the constraints before any solution takes shape.' },
@@ -78,52 +124,82 @@ const PRODUCTS = [
   { name: 'Web3 Builder', description: 'AI-assisted Web3 application builder with automated deployment and testing.', status: 'In Development' },
 ]
 
+const WHY_MODEL = [
+  {
+    tag: 'Instead of a freelancer',
+    title: 'You’re not hiring a specialist for one task.',
+    body: 'You’re hiring one person who can carry the product across disciplines. A developer is the right call once a spec is finished and all that’s left is implementation. I’m strongest when the problem still needs product thinking.',
+  },
+  {
+    tag: 'Instead of an agency',
+    title: 'Not because agencies are slow. Because of the structure.',
+    body: 'Traditional agency structures add coordination, handoffs and overhead that are often unnecessary for early-stage product work. The studio stays deliberately small: fewer handoffs, less context loss, shorter feedback loops, no account-management layer between you and the work.',
+  },
+  {
+    tag: 'Instead of hiring internally',
+    title: 'Hiring makes sense when you need permanent capacity.',
+    body: 'I make sense when you need to test an idea before a major commitment, move a product forward before building a larger team, add senior cross-functional capability temporarily, or ship a defined initiative without hiring several specialists for one project.',
+  },
+]
+
 const DIFFERENTIATORS = [
-  'One partner instead of multiple specialists.',
-  'Strategy, design and engineering connected from day one.',
-  'AI-native workflows that accelerate execution without replacing human judgment.',
-  'Rapid iteration from idea to production.',
+  'Continuity — one person carries context from problem to production.',
+  'Cross-functional execution — strategy, design and engineering connected from day one.',
+  'Lower coordination overhead — fewer handoffs, less interpretation, less rework.',
+  'AI-native acceleration — part of how the studio works, not the pitch.',
+  'Speed, as a consequence of the above — not the primary promise.',
 ]
 
 const GOOD_FIT = [
-  "You're validating a new product.",
-  'You need strategy and execution.',
-  "You're building AI products.",
-  "You're building Web3 products.",
-  'You want one technical partner.',
+  'You have an idea and need to determine what to build.',
+  'You’re a founder who needs product thinking and execution.',
+  'You’re a technical founder who needs design/product capability.',
+  'You have a small team and need to accelerate a product initiative.',
+  'You need to bridge product, design and engineering.',
+  'You’re experimenting with AI and need it to become a usable product.',
+  'You need a senior product partner without a full-time hire.',
 ]
 
 const NOT_FIT = [
-  "You're looking for the cheapest freelancer.",
-  'You need a large production agency.',
-  'You already have a finished specification and only need implementation.',
-  'Your priority is high-volume marketing production.',
+  'You only need cheap implementation.',
+  'You have a finished spec and only need commodity development.',
+  'You need a large production team.',
+  'You need high-volume marketing websites or content production.',
+  'You need a permanent full-time employee.',
 ]
 
 const FAQS = [
   {
     q: 'Do you work internationally?',
-    a: "Yes. I'm based in Medellín and work remotely with clients across the US, Latin America, and Europe, with overlap-friendly hours.",
+    a: "Yes. I'm based in Medellín and work remotely with clients internationally.",
   },
   {
     q: 'Do you work with startups?',
-    a: 'Yes — especially early-stage and pre-seed teams that need to validate direction before committing to a full build.',
+    a: 'Yes — particularly founders and small product teams where product thinking and execution need to stay closely connected.',
   },
   {
     q: 'Can you join an existing team?',
-    a: "Yes. I work as a fractional product partner or embedded contributor alongside your existing team, not just as an outside vendor.",
+    a: 'Yes. The role can be project-based or ongoing, depending on the product initiative.',
   },
   {
     q: 'Do you build the software yourself?',
-    a: 'Yes. I design and ship the code myself — no handoff to a separate development team, no translation loss between design and build.',
+    a: "Yes. I handle product, design and engineering work directly rather than handing the project across a large production team.",
   },
   {
     q: 'Do you use AI?',
-    a: "Yes, throughout — for architecture, code, and workflow design. It's part of how I work, not a separate line item.",
+    a: "Yes. AI-native tools and workflows are part of the studio's process, but AI doesn't replace product judgment, engineering decisions or human validation.",
+  },
+  {
+    q: 'What if I only have an idea?',
+    a: 'That’s a strong fit for the Discovery Sprint — figuring out what’s actually worth building comes first.',
+  },
+  {
+    q: 'What if I already have a team?',
+    a: 'I can join for a specific initiative where product, design and engineering need to move together.',
   },
   {
     q: 'Do you build Web3 products?',
-    a: 'Yes, end to end — from smart contracts and protocol design through to the frontend, with a security-conscious approach to contract work.',
+    a: 'Yes, but complex Web3 and protocol work is treated as a specialized engagement. For smart contracts, formal verification and security-sensitive systems, reach out directly.',
   },
 ]
 
@@ -181,10 +257,10 @@ export default function WorkWithMePage() {
           lineHeight: 1.02,
           letterSpacing: '-0.03em',
           marginBottom: '2rem',
-          maxWidth: '18ch',
+          maxWidth: '20ch',
           ...fadeIn(0.2)
         }}>
-          Build products without managing five different specialists.
+          You don't need to assemble a product team for every product problem.
         </h1>
 
         <p style={{
@@ -197,20 +273,66 @@ export default function WorkWithMePage() {
           marginBottom: '2.5rem',
           ...fadeIn(0.3)
         }}>
-          I help founders and product teams turn ideas into production-ready products by combining product strategy, design, engineering, and AI workflows into one continuous partnership.
+          I'm a Product Design Engineer working as a lightweight product studio — carrying context from problem to product strategy, design, engineering and deployment, without the overhead of a traditional agency or the fragmentation of hiring multiple specialists.
         </p>
 
         <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', alignItems: 'center', ...fadeIn(0.4) }}>
-          <Link href="#contact" style={primaryButtonStyle}>
-            Start a Project →
-          </Link>
+          <a href="https://cal.com/david-raigoza-1juo6a" target="_blank" rel="noopener noreferrer" style={primaryButtonStyle}>
+            Book a Discovery Call →
+          </a>
           <Link href="/" style={secondaryButtonStyle}>
             View My Work
           </Link>
         </div>
       </section>
 
-      {/* ── WAYS WE CAN WORK TOGETHER ───────────────────────────────── */}
+      {/* ── THE PROBLEM ──────────────────────────────────────────────── */}
+      <section style={{
+        borderTop: '1px solid var(--border)',
+        padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+        maxWidth: '1300px',
+        margin: '0 auto',
+        position: 'relative',
+        zIndex: 1,
+      }}>
+        <Label>The Problem</Label>
+        <SectionTitle>The cost isn't managing vendors. It's coordination and context loss.</SectionTitle>
+
+        <p style={{
+          fontFamily: 'var(--sans)',
+          fontSize: '0.95rem',
+          color: 'var(--muted)',
+          fontWeight: 300,
+          lineHeight: 1.7,
+          maxWidth: '68ch',
+          marginTop: '1.75rem',
+        }}>
+          A typical process looks like Founder → PM → designer → developer → QA → revisions. Every handoff adds interpretation, delay and rework. Working with me compresses most of that into one line: Founder or product team ↔ me.
+        </p>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gap: '0.5rem',
+          marginTop: '2.5rem',
+        }}>
+          {PROBLEMS.map((p) => (
+            <div key={p} style={{
+              display: 'flex',
+              gap: '0.75rem',
+              padding: '1rem 0',
+              borderTop: '1px solid var(--border)',
+            }}>
+              <span style={{ color: 'var(--accent)', flexShrink: 0 }}>—</span>
+              <span style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.55 }}>
+                {p}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── FOUR WAYS TO WORK TOGETHER ──────────────────────────────── */}
       <section style={{
         borderTop: '1px solid var(--border)',
         padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
@@ -220,24 +342,27 @@ export default function WorkWithMePage() {
         zIndex: 1,
       }}>
         <Label>How We Can Work Together</Label>
-        <SectionTitle>Five ways to bring me into what you're building.</SectionTitle>
+        <SectionTitle>Four situations. Pick the one that matches where you are.</SectionTitle>
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: '1.5rem',
           marginTop: '3rem',
         }}>
-          {ENGAGEMENTS.map((e) => (
-            <div key={e.title} style={cardStyle}>
-              <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.35rem', fontWeight: 400, margin: '0 0 0.6rem', color: 'var(--text)' }}>
-                {e.title}
+          {WAYS.map((w) => (
+            <div key={w.title} style={cardStyle}>
+              <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)' }}>
+                {w.tag}
+              </span>
+              <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.35rem', fontWeight: 400, margin: '0.5rem 0 0.6rem', color: 'var(--text)' }}>
+                {w.title}
               </h3>
               <p style={{ fontSize: '0.85rem', color: 'var(--muted)', lineHeight: 1.55, fontWeight: 300, marginBottom: '1.25rem' }}>
-                {e.label}
+                {w.subtitle}
               </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                {e.items.map((item) => (
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 1.25rem' }}>
+                {w.includes.map((item) => (
                   <li key={item} style={{
                     fontSize: '0.8rem',
                     color: 'var(--text)',
@@ -249,12 +374,18 @@ export default function WorkWithMePage() {
                   </li>
                 ))}
               </ul>
+              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
+                Outcome
+              </p>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.5 }}>
+                {w.outcome}
+              </p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── ENGAGEMENT MODELS ───────────────────────────────────────── */}
+      {/* ── PRICING / ENGAGEMENT MODELS ─────────────────────────────── */}
       <section style={{
         borderTop: '1px solid var(--border)',
         padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
@@ -265,14 +396,24 @@ export default function WorkWithMePage() {
       }}>
         <Label>Engagement Models</Label>
         <SectionTitle>Sold as outcomes, not hours.</SectionTitle>
+        <p style={{
+          fontFamily: 'var(--sans)',
+          fontSize: '0.85rem',
+          color: 'var(--muted)',
+          fontWeight: 300,
+          marginTop: '1rem',
+          maxWidth: '60ch',
+        }}>
+          These are typical starting points, not rigid packages — actual scope depends on the initiative.
+        </p>
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
           gap: '1.5rem',
           marginTop: '3rem',
         }}>
-          {MODELS.map((m) => (
+          {PRICING.map((m) => (
             <div key={m.name} style={{
               ...cardStyle,
               borderColor: m.featured ? 'var(--accent)' : 'var(--border)',
@@ -294,7 +435,10 @@ export default function WorkWithMePage() {
                   Most Common
                 </span>
               )}
-              <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.4rem', fontWeight: 400, margin: '0.5rem 0 1rem', color: 'var(--text)' }}>
+              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+                {m.maps}
+              </p>
+              <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.4rem', fontWeight: 400, margin: '0 0 1rem', color: 'var(--text)' }}>
                 {m.name}
               </h3>
 
@@ -308,40 +452,19 @@ export default function WorkWithMePage() {
               <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
                 Ideal for
               </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 1.5rem' }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {m.idealFor.map((item) => (
                   <li key={item} style={{ fontSize: '0.8rem', color: 'var(--muted)', fontWeight: 300, lineHeight: 1.6 }}>
                     {item}
                   </li>
                 ))}
               </ul>
-
-              {m.included.length > 0 && (
-                <>
-                  <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
-                    Included
-                  </p>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                    {m.included.map((item) => (
-                      <li key={item} style={{
-                        fontSize: '0.8rem',
-                        color: 'var(--text)',
-                        fontWeight: 300,
-                        padding: '0.4rem 0',
-                        borderTop: '1px solid var(--border)',
-                      }}>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── INDUSTRIES ──────────────────────────────────────────────── */}
+      {/* ── WEB3 SPECIALIST ─────────────────────────────────────────── */}
       <section style={{
         borderTop: '1px solid var(--border)',
         padding: 'clamp(3rem, 6vw, 4rem) clamp(1.5rem, 5vw, 4rem)',
@@ -350,21 +473,25 @@ export default function WorkWithMePage() {
         position: 'relative',
         zIndex: 1,
       }}>
-        <Label>Industries</Label>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem', marginTop: '1rem' }}>
-          {INDUSTRIES.map((industry) => (
-            <span key={industry} style={{
-              fontFamily: 'var(--mono)',
-              fontSize: '0.7rem',
-              color: 'var(--text)',
-              border: '1px solid var(--border)',
-              padding: '0.45rem 0.9rem',
-              borderRadius: '2px',
-              background: 'rgba(255,255,255,0.02)',
-            }}>
-              {industry}
-            </span>
-          ))}
+        <div style={{
+          ...cardStyle,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '1.5rem',
+        }}>
+          <div style={{ maxWidth: '50ch' }}>
+            <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
+              Building Something Technically Serious?
+            </p>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.6 }}>
+              Smart contract architecture, protocol UX, token systems and security-sensitive systems are a different category of risk than a normal SaaS or AI MVP. This isn't a standard package — it's a conversation.
+            </p>
+          </div>
+          <a href="mailto:hello@davidraigoza.design" style={secondaryButtonStyle}>
+            Talk to Me
+          </a>
         </div>
       </section>
 
@@ -403,6 +530,59 @@ export default function WorkWithMePage() {
                   {p.description}
                 </p>
               </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── WHY THE LIGHTWEIGHT STUDIO MODEL ────────────────────────── */}
+      <section style={{
+        borderTop: '1px solid var(--border)',
+        padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+        maxWidth: '1300px',
+        margin: '0 auto',
+        position: 'relative',
+        zIndex: 1,
+      }}>
+        <Label>Why the Lightweight Studio Model</Label>
+        <SectionTitle>The differentiator isn't speed. It's continuity.</SectionTitle>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '1.5rem',
+          marginTop: '3rem',
+        }}>
+          {WHY_MODEL.map((w) => (
+            <div key={w.tag} style={cardStyle}>
+              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
+                {w.tag}
+              </p>
+              <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.2rem', fontWeight: 400, margin: '0 0 0.75rem', color: 'var(--text)', lineHeight: 1.3 }}>
+                {w.title}
+              </h3>
+              <p style={{ fontSize: '0.85rem', color: 'var(--muted)', fontWeight: 300, lineHeight: 1.6 }}>
+                {w.body}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ border: '1px solid var(--border)', marginTop: '2.5rem', overflow: 'hidden' }}>
+          {DIFFERENTIATORS.map((d, i) => (
+            <div key={d} style={{
+              display: 'flex',
+              gap: '1.5rem',
+              padding: '1.5rem 2rem',
+              borderBottom: i < DIFFERENTIATORS.length - 1 ? '1px solid var(--border)' : 'none',
+              alignItems: 'center',
+            }}>
+              <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', flexShrink: 0 }}>
+                0{i + 1}
+              </span>
+              <span style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.5 }}>
+                {d}
+              </span>
             </div>
           ))}
         </div>
@@ -453,38 +633,6 @@ export default function WorkWithMePage() {
         </div>
       </section>
 
-      {/* ── WHY CLIENTS WORK WITH ME ────────────────────────────────── */}
-      <section style={{
-        borderTop: '1px solid var(--border)',
-        padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
-        maxWidth: '1300px',
-        margin: '0 auto',
-        position: 'relative',
-        zIndex: 1,
-      }}>
-        <Label>Why Clients Work With Me</Label>
-        <SectionTitle>The differentiator isn't speed. It's continuity.</SectionTitle>
-
-        <div style={{ border: '1px solid var(--border)', marginTop: '2.5rem', overflow: 'hidden' }}>
-          {DIFFERENTIATORS.map((d, i) => (
-            <div key={d} style={{
-              display: 'flex',
-              gap: '1.5rem',
-              padding: '1.5rem 2rem',
-              borderBottom: i < DIFFERENTIATORS.length - 1 ? '1px solid var(--border)' : 'none',
-              alignItems: 'center',
-            }}>
-              <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', flexShrink: 0 }}>
-                0{i + 1}
-              </span>
-              <span style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.5 }}>
-                {d}
-              </span>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* ── ARE WE A GOOD FIT ───────────────────────────────────────── */}
       <section style={{
         borderTop: '1px solid var(--border)',
@@ -505,7 +653,7 @@ export default function WorkWithMePage() {
         }}>
           <div style={cardStyle}>
             <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '1.25rem' }}>
-              We're a great fit if
+              Good fit
             </p>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {GOOD_FIT.map((item) => (
@@ -519,7 +667,7 @@ export default function WorkWithMePage() {
 
           <div style={cardStyle}>
             <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '1.25rem' }}>
-              We may not be the best fit if
+              Not a good fit
             </p>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {NOT_FIT.map((item) => (
@@ -610,12 +758,12 @@ export default function WorkWithMePage() {
           fontFamily: 'var(--sans)',
           fontSize: '1rem',
           color: 'var(--muted)',
-          maxWidth: '50ch',
+          maxWidth: '52ch',
           margin: '0 auto 2.5rem',
           lineHeight: 1.6,
           fontWeight: 300,
         }}>
-          Whether you're exploring an idea or scaling an existing product, I'd love to learn what you're building.
+          Have an idea, a product problem, or something that needs shipping? Tell me what you're building, where you're stuck, and what you need next.
         </p>
 
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
