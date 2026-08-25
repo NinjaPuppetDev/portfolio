@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Space_Mono, Cormorant_Garamond, DM_Sans } from 'next/font/google'
 // @ts-ignore: allow global CSS import without type declarations
 import './globals.css'
 import Cursor from './components/Cursor'
@@ -8,6 +9,30 @@ import VeraCompanion from './components/VeraCompanion'
 import Script from 'next/script'
 import { ExperimentProvider } from './components/ExperimentProvider'
 import IntroOverlay from './components/IntroOverlay'
+
+const spaceMono = Space_Mono({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  variable: '--mono',
+  display: 'swap',
+})
+
+const cormorantGaramond = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['300', '400', '600'],
+  style: ['normal', 'italic'],
+  variable: '--serif',
+  display: 'swap',
+})
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  weight: ['300', '400'],
+  style: ['normal', 'italic'],
+  variable: '--sans',
+  display: 'swap',
+})
 
 // Base domain required by Next.js for resolving relative OG image and canonical URLs
 const baseUrl = 'https://davidraigoza.design'
@@ -88,7 +113,11 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en" style={{ colorScheme: 'dark', backgroundColor: '#000000' }}>
+    <html
+      lang="en"
+      className={`${spaceMono.variable} ${cormorantGaramond.variable} ${dmSans.variable}`}
+      style={{ colorScheme: 'dark', backgroundColor: '#000000' }}
+    >
       <body style={{ backgroundColor: '#000000', color: '#ffffff' }}>
         {/* Entity Structured Data */}
         <script
@@ -110,11 +139,11 @@ export default function RootLayout({
         {/* Google Analytics 4 */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-YQXEJSG71S"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
         <Script
           id="google-analytics"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
@@ -128,7 +157,7 @@ export default function RootLayout({
         {/* Microsoft Clarity */}
         <Script
           id="microsoft-clarity"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               (function(c,l,a,r,i,t,y){
