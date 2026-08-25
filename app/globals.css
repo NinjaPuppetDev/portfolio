@@ -7,7 +7,7 @@
   --border-hi: #2e2e2e;
   --text:      #e8e2d9;
   --muted:     #5a5650;
-  --accent:    #c8f04a;       /* acid lime — the one thing that pops */
+  --accent:    #c8f04a;       /* acid lime */
   --accent-dim:#7a9420;
   --amber:     #f0a020;
 }
@@ -23,12 +23,13 @@ html {
   font-size: 16px;
   max-width: 100vw;
   overflow-x: clip;
+  height: 100%;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--sans);
+  font-family: var(--sans, sans-serif);
   font-weight: 300;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -36,52 +37,58 @@ body {
   overflow-x: clip;
   max-width: 100vw;
   min-height: 100vh;
+  position: relative;
 }
 
-/* Custom cursor */
+/* Custom Cursor Elements */
 .cursor {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 8px;
   height: 8px;
   background: var(--accent);
   border-radius: 50%;
   pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
-  mix-blend-mode: difference;
+  z-index: 999999;
+  will-change: transform, width, height, opacity;
+  transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
 }
 
 .cursor-ring {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 32px;
   height: 32px;
   border: 1px solid var(--accent);
   border-radius: 50%;
   pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
-  opacity: 0.4;
+  z-index: 999998;
+  will-change: transform, width, height, opacity;
+  transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
 }
 
-body:not(:hover) .cursor,
-body:not(:hover) .cursor-ring {
-  opacity: 0;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 3px;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border-hi); }
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
 
-/* Selection */
+::-webkit-scrollbar-thumb {
+  background: var(--border-hi);
+}
+
+/* Text Selection */
 ::selection {
   background: var(--accent);
   color: var(--bg);
 }
 
-/* Scanline overlay */
+/* Scanline Visual Texture Overlay */
 body::before {
   content: '';
   position: fixed;
@@ -90,14 +97,14 @@ body::before {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0,0,0,0.03) 2px,
-    rgba(0,0,0,0.03) 4px
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
   );
   pointer-events: none;
   z-index: 9990;
 }
 
-/* Static background overlay */
+/* Lightweight Ambient Vignette (Zero CPU Turbulence Overhead) */
 body::after {
   content: '';
   position: fixed;
@@ -107,8 +114,8 @@ body::after {
   z-index: 9989;
 }
 
-/* Mobile Touch Cursor Override */
-@media (pointer: coarse) {
+/* Mobile & Touch Device Cursor Override */
+@media (hover: none) and (pointer: coarse) {
   body {
     cursor: auto !important;
   }
