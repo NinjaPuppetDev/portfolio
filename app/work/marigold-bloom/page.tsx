@@ -5,7 +5,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
-const FIGMA_URL = 'https://www.figma.com/design/jIBAE61aROr179qls7F8mF/Marigold?node-id=0-1&t=8sC53V4F2EoXE4yI-1'
+const FIGMA_URL      = 'https://www.figma.com/design/jIBAE61aROr179qls7F8mF/Marigold?node-id=0-1&t=8sC53V4F2EoXE4yI-1'
+const V2_VIDEO_URL    = '/work/marigold/marigold-bloom-video.mp4'
+const V2_LIVE_URL     = 'https://marigold-bloom-pi.vercel.app'
 
 // ─── PALETTE — locked to Marigold's warm botanical palette ───────────────────
 const MG = {
@@ -41,6 +43,62 @@ const RITUAL_STEPS = [
   { step: '02', label: 'Hydrate',  note: 'Restore moisture and prepare skin.' },
   { step: '03', label: 'Restore',  note: 'Nourish with potent botanical actives.' },
   { step: '04', label: 'Protect',  note: 'Shield and support all day long.' },
+]
+
+const TRADEOFF_COMPARISON = [
+  {
+    dimension: 'Core Objective',
+    v1: 'Warm, ritual-driven brand storytelling — botanical mood over proof.',
+    v2: 'Clinical credibility built to justify premium pricing through transparency.',
+  },
+  {
+    dimension: 'Positioning & Voice',
+    v1: 'Soft botanical language: gentle, small-batch, ethically sourced.',
+    v2: 'Bio-apothecary science: active %, pH values, bio-fermentation data, molecular weights.',
+  },
+  {
+    dimension: 'Architecture & Engine',
+    v1: 'Static Figma mockup — a single scrollable concept, no live pages.',
+    v2: 'Fully deployed production build with live, navigable product and cart pages.',
+  },
+  {
+    dimension: 'Build Process',
+    v1: 'Hand-built screen-by-screen in Figma.',
+    v2: 'Written brief prompted through Antigravity and Google AI Studio, shipped live.',
+  },
+  {
+    dimension: 'Conversion Strategy',
+    v1: 'Passive lifestyle imagery, no proof points ahead of purchase.',
+    v2: 'Ingredient-matrix comparisons and formulation data placed right before add-to-cart.',
+  },
+]
+
+const V2_PROCESS = [
+  {
+    label: 'Brief Definition',
+    description:
+      'Wrote a structured creative and technical brief translating the V1 botanical concept into a clinical bio-apothecary direction — positioning, copy voice, ingredient science, and page-by-page scope.',
+  },
+  {
+    label: 'AI-Assisted Build',
+    description:
+      'Handed the brief to Antigravity and Google AI Studio to generate and iterate the production frontend — full navigation, product catalog, formulation pages, and cart logic.',
+  },
+  {
+    label: 'Botanical-to-Clinical Data Layer',
+    description:
+      'Rebuilt the ingredients story as an interactive comparison matrix — raw botanical extract mapped against its bio-fermented, clinically synthesized active for each formulation.',
+  },
+  {
+    label: 'Ritual-to-Routine Conversion Path',
+    description:
+      'Converted the original four-step ritual concept into a shoppable routine — bundle pricing and an add-4-step-routine action sitting directly beneath the steps.',
+  },
+  {
+    label: 'Live Deployment',
+    description:
+      'Shipped as a fully live, browsable storefront rather than a static prototype — every formulation has its own working product page.',
+  },
 ]
 
 // ─── JSON-LD ──────────────────────────────────────────────────────────────────
@@ -100,7 +158,7 @@ export default function MarigoldBloomCaseStudy() {
 
           <div style={{ position: 'relative', zIndex: 1 }}>
             <p style={{ fontFamily: MG.mono, fontSize: '0.65rem', color: MG.rust, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '1.5rem', ...fade(0.1) }}>
-              Case Study · Brand & UI Design · 2024
+              Case Study · Brand, UI & AI-Assisted Build · 2024–2025
             </p>
 
             {/* Logotype — mirrors the brand's own serif + script pairing feel */}
@@ -111,28 +169,34 @@ export default function MarigoldBloomCaseStudy() {
               Bloom
             </h1>
 
-            <p style={{ fontFamily: MG.sans, fontSize: 'clamp(0.9rem, 1.5vw, 1.1rem)', color: MG.muted, maxWidth: '52ch', lineHeight: 1.85, fontWeight: 300, marginBottom: '1.25rem', ...fade(0.4) }}>
-              End-to-end brand and UI system for a botanical skincare brand.
-              Visual identity, e-commerce landing page, and Instagram content
-              system — warm earthy tones, serif typography, and a ritual-driven
-              narrative translated consistently from web to social.
+            <p style={{ fontFamily: MG.sans, fontSize: 'clamp(0.9rem, 1.5vw, 1.1rem)', color: MG.muted, maxWidth: '54ch', lineHeight: 1.85, fontWeight: 300, marginBottom: '1.25rem', ...fade(0.4) }}>
+              From a static botanical concept to a live, clinically-voiced
+              storefront. The original brand and UI system, then a written
+              brief carried through Antigravity and Google AI Studio into a
+              fully deployed bio-apothecary e-commerce build.
             </p>
 
             <p style={{ fontFamily: MG.mono, fontSize: '0.68rem', color: MG.muted, letterSpacing: '0.1em', marginBottom: '3rem', opacity: 0.7, ...fade(0.45) }}>
-              Figma · Blender · Brand Systems · UI Design · Social Media
+              Figma · Blender · Antigravity · Google AI Studio · Brand Systems · UI Design
             </p>
 
             {/* CTA */}
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', ...fade(0.55) }}>
               <a
-                href={FIGMA_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#walkthrough"
                 style={{ fontFamily: MG.mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fff', background: MG.rust, padding: '0.85rem 2.25rem', textDecoration: 'none', transition: 'background 0.2s' }}
                 onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.background = MG.text)}
                 onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.background = MG.rust)}
               >
-                Open in Figma →
+                Watch the V2 Build →
+              </a>
+              <a
+                href={FIGMA_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ fontFamily: MG.mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: MG.text, background: 'transparent', border: `1px solid ${MG.border}`, padding: '0.8rem 2.25rem', textDecoration: 'none', transition: 'border-color 0.2s' }}
+              >
+                Open V1 in Figma →
               </a>
             </div>
           </div>
@@ -165,18 +229,150 @@ export default function MarigoldBloomCaseStudy() {
           </div>
         </div>
 
-        {/* ── LANDING PAGE SCREENSHOT ───────────────────────────────── */}
+        {/* ── PLATFORM STRATEGY & TRADE-OFFS ──────────────────────── */}
         <section style={section({ borderBottom: `1px solid ${MG.border}` })}>
-          <MGLabel>Web design</MGLabel>
-          <MGSectionTitle>Landing page</MGSectionTitle>
+          <MGLabel>Platform Strategy</MGLabel>
+          <MGSectionTitle>V1 concept, V2 clinical rebuild.</MGSectionTitle>
 
-          <p style={{ fontFamily: MG.sans, fontSize: '0.9rem', color: MG.muted, maxWidth: '56ch', lineHeight: 1.8, marginTop: '0.75rem', marginBottom: '2.5rem' }}>
-            Full e-commerce UI — botanical hero with product photography,
-            featured collection grid, ingredients section, ritual steps,
-            customer testimonial, brand story, and newsletter signup.
+          <p style={{ fontFamily: MG.sans, fontSize: '0.95rem', color: MG.muted, maxWidth: '62ch', lineHeight: 1.8, marginTop: '1rem', marginBottom: '2.5rem' }}>
+            The original Figma concept sold Marigold Bloom on warmth and
+            ritual. The rebuild keeps the botanical world but repositions the
+            brand around clinical transparency — bio-fermentation data,
+            active percentages, and pH values placed where a buyer needs
+            proof, not just mood — then ships it as a real, live storefront.
           </p>
 
           <div style={{ border: `1px solid ${MG.border}`, overflow: 'hidden' }}>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1.2fr 2fr 2fr',
+              padding: '1.25rem 1.5rem',
+              background: MG.surface,
+              borderBottom: `1px solid ${MG.border}`,
+              fontFamily: MG.mono,
+              fontSize: '0.65rem',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              color: MG.muted,
+            }}>
+              <div>Dimension</div>
+              <div>V1 / Concept (Figma)</div>
+              <div style={{ color: MG.rust }}>V2 / AI-Built Production</div>
+            </div>
+
+            {TRADEOFF_COMPARISON.map((row, idx) => (
+              <div
+                key={row.dimension}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1.2fr 2fr 2fr',
+                  padding: '1.5rem',
+                  borderBottom: idx < TRADEOFF_COMPARISON.length - 1 ? `1px solid ${MG.border}` : 'none',
+                  fontSize: '0.875rem',
+                  lineHeight: 1.6,
+                  alignItems: 'start',
+                  background: MG.bg,
+                }}
+              >
+                <div style={{ fontFamily: MG.mono, fontSize: '0.75rem', color: MG.text }}>
+                  {row.dimension}
+                </div>
+                <div style={{ color: MG.muted, paddingRight: '1rem', fontWeight: 300 }}>
+                  {row.v1}
+                </div>
+                <div style={{ color: MG.text, fontWeight: 400 }}>
+                  {row.v2}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── V2 LIVE BUILD WALKTHROUGH ───────────────────────────── */}
+        <section id="walkthrough" style={{ ...section(), borderBottom: `1px solid ${MG.border}` }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '2rem', marginBottom: '2.5rem' }}>
+            <div>
+              <MGLabel>V2 Build Walkthrough</MGLabel>
+              <MGSectionTitle>The Bio-Apothecary Storefront</MGSectionTitle>
+            </div>
+            <a
+              href={V2_LIVE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ fontFamily: MG.mono, fontSize: '0.65rem', color: MG.rust, letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', maxWidth: '36ch', textAlign: 'right' }}
+            >
+              View Live Build →
+            </a>
+          </div>
+
+          <p style={{ fontFamily: MG.sans, fontSize: '0.9rem', color: MG.muted, maxWidth: '60ch', lineHeight: 1.8, marginBottom: '2.5rem' }}>
+            Built from a written brief and shipped through Antigravity and
+            Google AI Studio: a live product catalog, a formulation-by-
+            formulation Botanical Matrix comparing raw extracts to their
+            bio-fermented actives, and a shoppable four-step routine —
+            all running on a real storefront, not a static prototype.
+          </p>
+
+          <div style={{
+            position: 'relative',
+            width: '100%',
+            border: `1px solid ${MG.border}`,
+            background: '#0a0a0a',
+            overflow: 'hidden',
+          }}>
+            <video
+              controls
+              playsInline
+              preload="metadata"
+              style={{ width: '100%', height: 'auto', display: 'block' }}
+            >
+              <source src={V2_VIDEO_URL} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </section>
+
+        {/* ── LANDING PAGE SCREENSHOT (V1) ─────────────────────────── */}
+        <section style={section({ borderBottom: `1px solid ${MG.border}` })}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
+            <div>
+              <MGLabel>V1 Concept</MGLabel>
+              <MGSectionTitle>The original landing page</MGSectionTitle>
+            </div>
+            <a
+              href={FIGMA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ fontFamily: MG.mono, fontSize: '0.6rem', color: MG.rust, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', opacity: 0.85 }}
+            >
+              Open in Figma →
+            </a>
+          </div>
+
+          <p style={{ fontFamily: MG.sans, fontSize: '0.9rem', color: MG.muted, maxWidth: '56ch', lineHeight: 1.8, marginTop: '0.75rem', marginBottom: '2.5rem' }}>
+            Full e-commerce UI concept — botanical hero with product photography,
+            featured collection grid, ingredients section, ritual steps,
+            customer testimonial, brand story, and newsletter signup. Static,
+            single-scroll, and the starting point for the V2 rebuild.
+          </p>
+
+          <div style={{ border: `1px solid ${MG.border}`, overflow: 'hidden', position: 'relative' }}>
+            <span style={{
+              position: 'absolute',
+              top: '0.75rem',
+              left: '0.75rem',
+              fontFamily: MG.mono,
+              fontSize: '0.55rem',
+              color: MG.muted,
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              background: 'rgba(245,239,230,0.9)',
+              padding: '0.3rem 0.6rem',
+              border: `1px solid ${MG.border}`,
+              zIndex: 1,
+            }}>
+              Superseded V1 Concept
+            </span>
             <Image
               src="/work/marigold/MarigoldLandingPage.png"
               alt="Marigold Bloom landing page — Skincare rooted in gentle rituals, full e-commerce page mockup"
@@ -185,19 +381,6 @@ export default function MarigoldBloomCaseStudy() {
               style={{ width: '100%', height: 'auto', display: 'block' }}
               priority
             />
-          </div>
-
-          <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'flex-end' }}>
-            <a
-              href={FIGMA_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontFamily: MG.mono, fontSize: '0.6rem', color: MG.rust, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', opacity: 0.7, transition: 'opacity 0.2s' }}
-              onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = '1')}
-              onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = '0.7')}
-            >
-              Open in Figma →
-            </a>
           </div>
         </section>
 
@@ -235,7 +418,7 @@ export default function MarigoldBloomCaseStudy() {
             {/* Ritual steps */}
             <div style={{ marginTop: '3rem' }}>
               <p style={{ fontFamily: MG.mono, fontSize: '0.65rem', color: MG.rust, letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
-                Your daily ritual
+                Your daily ritual — V1
               </p>
               <p style={{ fontFamily: MG.serif, fontSize: 'clamp(1.4rem, 3vw, 2.2rem)', fontWeight: 300, fontStyle: 'italic', color: MG.text, marginBottom: '2rem' }}>
                 Simple steps. Radiant results.
@@ -266,20 +449,23 @@ export default function MarigoldBloomCaseStudy() {
                   </div>
                 ))}
               </div>
+              <p style={{ fontFamily: MG.mono, fontSize: '0.6rem', color: MG.muted, letterSpacing: '0.05em', marginTop: '0.85rem', opacity: 0.7 }}>
+                In V2, this sequence ships as a shoppable routine — bundle price and an add-to-bag action live under the steps.
+              </p>
             </div>
           </div>
         </section>
 
         {/* ── SOCIAL MEDIA / BRAND DOC ─────────────────────────────── */}
         <section style={section({ borderBottom: `1px solid ${MG.border}` })}>
-          <MGLabel>Social media & identity</MGLabel>
+          <MGLabel>Social media & identity — V1</MGLabel>
           <MGSectionTitle>Brand in every touchpoint.</MGSectionTitle>
 
           <p style={{ fontFamily: MG.sans, fontSize: '0.9rem', color: MG.muted, maxWidth: '56ch', lineHeight: 1.8, marginTop: '0.75rem', marginBottom: '2.5rem' }}>
             Brand mission, visual direction guide, Instagram profile and content
             grid — six tile variants covering product, testimonial, ingredient
             education, and new arrival. The warm earthy palette and serif
-            typography stay locked across every format.
+            typography carry through into the V2 build.
           </p>
 
           <div style={{ border: `1px solid ${MG.border}`, overflow: 'hidden' }}>
@@ -290,6 +476,38 @@ export default function MarigoldBloomCaseStudy() {
               height={1800}
               style={{ width: '100%', height: 'auto', display: 'block' }}
             />
+          </div>
+        </section>
+
+        {/* ── HOW WE BUILT V2 ──────────────────────────────────────── */}
+        <section style={section({ borderBottom: `1px solid ${MG.border}` })}>
+          <MGLabel>AI-Assisted Build</MGLabel>
+          <MGSectionTitle>How V2 got built.</MGSectionTitle>
+
+          <div style={{ border: `1px solid ${MG.border}`, marginTop: '2.5rem', overflow: 'hidden' }}>
+            {V2_PROCESS.map((step, i) => (
+              <div key={step.label} style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 2fr',
+                gap: '2rem',
+                padding: '2rem',
+                borderBottom: i < V2_PROCESS.length - 1 ? `1px solid ${MG.border}` : 'none',
+                alignItems: 'start',
+                background: MG.bg,
+              }}>
+                <div>
+                  <span style={{ fontFamily: MG.mono, fontSize: '0.6rem', color: MG.rust, letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>
+                    0{i + 1}
+                  </span>
+                  <p style={{ fontFamily: MG.serif, fontSize: '1.1rem', color: MG.text, lineHeight: 1.3, fontStyle: 'italic' }}>
+                    {step.label}
+                  </p>
+                </div>
+                <p style={{ fontSize: '0.9rem', color: MG.muted, lineHeight: 1.7, fontWeight: 300 }}>
+                  {step.description}
+                </p>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -318,19 +536,29 @@ export default function MarigoldBloomCaseStudy() {
             Rooted in care.
           </h2>
           <h2 style={{ fontFamily: MG.serif, fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 300, fontStyle: 'italic', color: MG.rust, marginBottom: '3rem', lineHeight: 1.1 }}>
-            Inspired by nature.
+            Built with precision.
           </h2>
 
-          <a
-            href={FIGMA_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ fontFamily: MG.mono, fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fff', background: MG.rust, padding: '1.1rem 3rem', textDecoration: 'none', display: 'inline-block', transition: 'background 0.2s' }}
-            onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.background = MG.text)}
-            onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.background = MG.rust)}
-          >
-            Open in Figma →
-          </a>
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a
+              href={V2_LIVE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ fontFamily: MG.mono, fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fff', background: MG.rust, padding: '1.1rem 3rem', textDecoration: 'none', display: 'inline-block', transition: 'background 0.2s' }}
+              onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.background = MG.text)}
+              onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.background = MG.rust)}
+            >
+              View Live Build →
+            </a>
+            <a
+              href={FIGMA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ fontFamily: MG.mono, fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: MG.text, background: 'transparent', border: `1px solid ${MG.border}`, padding: '1.05rem 3rem', textDecoration: 'none', display: 'inline-block' }}
+            >
+              Open V1 in Figma →
+            </a>
+          </div>
         </section>
 
         {/* ── FOOTER ───────────────────────────────────────────────── */}
