@@ -224,7 +224,7 @@ export default function WorkWithMePage() {
   })
 
   return (
-    <main style={{ background: 'var(--bg)', color: 'var(--text)', minHeight: '100vh', position: 'relative' }}>
+    <main style={{ background: 'var(--bg)', color: 'var(--text)', minHeight: '100dvh', position: 'relative', zIndex: 10 }}>
 
       {/* Background grid, matches site-wide pattern */}
       <div style={{

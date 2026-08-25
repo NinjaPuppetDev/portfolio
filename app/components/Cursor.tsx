@@ -1,12 +1,14 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function Cursor() {
+  const [mounted, setMounted] = useState(false)
   const dotRef  = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    setMounted(true)
     const dot  = dotRef.current
     const ring = ringRef.current
     if (!dot || !ring) return
@@ -65,6 +67,8 @@ export default function Cursor() {
       cancelAnimationFrame(raf)
     }
   }, [])
+
+  if (!mounted) return null
 
   return (
     <>

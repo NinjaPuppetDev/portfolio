@@ -69,6 +69,7 @@ export default function HeroSection() {
           ? '7rem 1.5rem 2rem 1.5rem'
           : 'clamp(5rem, 8vh, 7rem) clamp(2rem, 6vw, 6rem) clamp(3.5rem, 6vh, 5.5rem)',
         position: 'relative',
+        zIndex: 10,
         overflow: 'hidden',
         backgroundColor: 'var(--bg)',
       }}

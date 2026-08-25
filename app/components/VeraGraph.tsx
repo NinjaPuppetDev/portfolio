@@ -99,8 +99,9 @@ const VeraGraph = forwardRef<VeraGraphHandle>((_props, ref) => {
     const mount = mountRef.current
     if (!mount) return
 
-    const width = mount.clientWidth || 1
-    const height = mount.clientHeight || 1
+    const rect = mount.getBoundingClientRect()
+    const width = rect.width || mount.clientWidth || 1
+    const height = rect.height || mount.clientHeight || 1
     const pixelRatio = Math.min(window.devicePixelRatio || 1, 2)
 
     // ── SCENE / CAMERA / RENDERER ──────────────────────────────────────────
@@ -708,8 +709,9 @@ const VeraGraph = forwardRef<VeraGraphHandle>((_props, ref) => {
 
     // VeraGraph.tsx — inside the main useEffect, near the existing onResize block
     const onResize = () => {
-      const w = mount.clientWidth || 1
-      const h = mount.clientHeight || 1
+      const rect = mount.getBoundingClientRect()
+      const w = rect.width || mount.clientWidth || 1
+      const h = rect.height || mount.clientHeight || 1
       camera.aspect = w / h
       camera.updateProjectionMatrix()
       renderer.setSize(w, h)

@@ -9,6 +9,7 @@ import MobileNavigation from './MobileNavigation'
 export default function Navigation() {
   const { variant } = useExperiment()
   const pathname = usePathname()
+  const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
@@ -16,6 +17,7 @@ export default function Navigation() {
   const isLightPage = pathname === '/work/marigold-bloom'
 
   useEffect(() => {
+    setMounted(true)
     const media = window.matchMedia('(max-width: 768px)')
     setIsMobile(media.matches)
     const listener = (e: MediaQueryListEvent) => setIsMobile(e.matches)
@@ -29,6 +31,8 @@ export default function Navigation() {
       window.removeEventListener('scroll', onScroll)
     }
   }, [])
+
+  if (!mounted) return null
 
   const isVariantB = variant === 'B'
   const showActiveState = scrolled || isVariantB
@@ -53,11 +57,14 @@ export default function Navigation() {
       top: isMobile ? '0.5rem' : '1.75rem',
       left: 0,
       right: 0,
-      zIndex: 100,
+      zIndex: 50,
       display: 'flex',
       justifyContent: 'center',
-      padding: isMobile ? '0 1rem' : '0 2rem',
+      padding: isMobile ? '0 1rem' : '0 1.5rem',
       pointerEvents: 'none',
+      width: '100%',
+      maxWidth: '100%',
+      boxSizing: 'border-box',
     }}>
       {isMobile ? (
         <MobileNavigation

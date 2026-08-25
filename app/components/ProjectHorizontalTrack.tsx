@@ -143,7 +143,7 @@ export default function ProjectHorizontalTrack({ tracks }: ProjectHorizontalTrac
       style={{
         position: 'relative',
         // Total runway height: gives comfortable vertical scroll budget to view every single project
-        height: `calc(100vh + ${totalProjects * 85}vh + 40vh)`,
+        height: `calc(100dvh + ${totalProjects * 85}dvh + 40dvh)`,
         width: '100%',
       }}
     >
@@ -154,7 +154,7 @@ export default function ProjectHorizontalTrack({ tracks }: ProjectHorizontalTrac
           top: 0,
           left: 0,
           width: '100%',
-          height: '100vh',
+          height: '100dvh',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',

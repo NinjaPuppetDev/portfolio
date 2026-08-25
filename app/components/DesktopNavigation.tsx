@@ -31,6 +31,7 @@ export default function DesktopNavigation({ theme, navItems, pathname, showActiv
       justifyContent: 'space-between',
       width: '100%',
       maxWidth: '1100px',
+      boxSizing: 'border-box',
       padding: '0.7rem 1.75rem',
       pointerEvents: 'all',
 

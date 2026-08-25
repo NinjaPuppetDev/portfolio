@@ -12,7 +12,7 @@ const PRESETS: Record<string, React.CSSProperties> = {
     top: '50%',
     right: '25%',
     width: 'clamp(280px, 22vw, 380px)',
-    height: 'min(40vh, 380px)',
+    height: 'min(40dvh, 380px)',
     transform: 'translateY(-50%)',
     opacity: 0.9,
   },
@@ -78,15 +78,19 @@ export const graphRef = { current: null as VeraGraphHandle | null }
 export default function VeraCompanion() {
   const mode = useVeraStore((s) => s.mode)
   const localRef = useRef<VeraGraphHandle>(null)
+  const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     const media = window.matchMedia('(max-width: 768px)')
     setIsMobile(media.matches)
     const listener = (e: MediaQueryListEvent) => setIsMobile(e.matches)
     media.addEventListener('change', listener)
     return () => media.removeEventListener('change', listener)
   }, [])
+
+  if (!mounted) return null
 
   const effectiveMode = mode === 'hero' && isMobile ? 'heroMobile' : mode
 
@@ -98,7 +102,7 @@ export default function VeraCompanion() {
     <div
       style={{
         position: 'fixed',
-        zIndex: 20000,
+        zIndex: effectiveMode === 'loading' ? 10000 : 0,
         pointerEvents: 'none',
         overflow: 'hidden',
         mixBlendMode: effectiveMode === 'loading' ? 'normal' : 'screen',

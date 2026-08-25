@@ -33,6 +33,8 @@ export default function MobileNavigation({ theme, navItems, pathname, showActive
         alignItems: 'center',
         justifyContent: 'space-between',
         width: '100%',
+        maxWidth: '100%',
+        boxSizing: 'border-box',
         padding: '0.75rem 1.25rem',
         pointerEvents: 'all',
 

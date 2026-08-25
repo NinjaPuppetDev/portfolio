@@ -168,7 +168,8 @@ export default function LandingPage() {
       style={{
         position: 'relative',
         backgroundColor: 'var(--bg)',
-        minHeight: '100vh',
+        minHeight: '100dvh',
+        zIndex: 10,
       }}
     >
       {/* Solid gradient mask matching global background */}
