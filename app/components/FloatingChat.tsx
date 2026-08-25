@@ -127,6 +127,7 @@ export default function FloatingChat() {
 
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
+  const sendMessageRef = useRef<(text: string, overrideTourType?: TourType, overrideTourStep?: number) => Promise<void>>(async () => {})
 
   useEffect(() => { setMounted(true) }, [])
 
@@ -136,7 +137,7 @@ export default function FloatingChat() {
       const detail = (e as CustomEvent).detail
       if (detail?.prefill) setInput(detail.prefill)
       if (detail?.autoSend && detail?.message) {
-        setTimeout(() => sendMessage(detail.message), 100)
+        setTimeout(() => sendMessageRef.current(detail.message), 100)
       }
     }
     window.addEventListener('open-portfolio-chat', handler as EventListener)
@@ -278,6 +279,10 @@ export default function FloatingChat() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    sendMessageRef.current = sendMessage
+  })
 
   const initiateContactFlow = () => {
     setTourActive(false)

@@ -41,11 +41,12 @@ export function useBodySignals() {
   const queueRef = useRef<QueuedSignal[]>([])
   const sessionIdRef = useRef<string>('')
   const dwellStartRef = useRef<Record<string, number>>({})
-  const lastActivityRef = useRef<number>(Date.now())
+  const lastActivityRef = useRef<number>(0)
   const clickTimestampsRef = useRef<Record<string, number[]>>({})
 
   useEffect(() => {
     sessionIdRef.current = getSessionId()
+    lastActivityRef.current = Date.now()
 
     function push(signal: Omit<QueuedSignal, 'session_id'>) {
       queueRef.current.push({ session_id: sessionIdRef.current, ...signal })
