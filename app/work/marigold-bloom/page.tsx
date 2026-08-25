@@ -5,7 +5,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
-const FIGMA_URL      = 'https://www.figma.com/design/jIBAE61aROr179qls7F8mF/Marigold?node-id=0-1&t=8sC53V4F2EoXE4yI-1'
 const V2_VIDEO_URL    = '/work/marigold/marigold-bloom-video.mp4'
 const V2_LIVE_URL     = 'https://marigold-bloom-pi.vercel.app'
 
@@ -58,12 +57,12 @@ const TRADEOFF_COMPARISON = [
   },
   {
     dimension: 'Architecture & Engine',
-    v1: 'Static Figma mockup — a single scrollable concept, no live pages.',
+    v1: 'Static layout design — a single scrollable concept, no live pages.',
     v2: 'Fully deployed production build with live, navigable product and cart pages.',
   },
   {
     dimension: 'Build Process',
-    v1: 'Hand-built screen-by-screen in Figma.',
+    v1: 'Hand-built screen-by-screen vector layout.',
     v2: 'Written brief prompted through Antigravity and Google AI Studio, shipped live.',
   },
   {
@@ -109,7 +108,7 @@ const jsonLd = {
   description: 'End-to-end brand identity and UI design for Marigold Bloom, a botanical skincare brand. Designed by David Raigoza.',
   creator: { '@type': 'Person', name: 'David Raigoza', url: 'https://davidraigoza.design' },
   dateCreated: '2024',
-  keywords: 'Marigold Bloom, David Raigoza, brand design, skincare UI, Figma, Blender, botanical, portfolio',
+  keywords: 'Marigold Bloom, David Raigoza, brand design, skincare UI, Blender, botanical, portfolio',
 }
 
 // ─── COMPONENT ────────────────────────────────────────────────────────────────
@@ -177,26 +176,20 @@ export default function MarigoldBloomCaseStudy() {
             </p>
 
             <p style={{ fontFamily: MG.mono, fontSize: '0.68rem', color: MG.muted, letterSpacing: '0.1em', marginBottom: '3rem', opacity: 0.7, ...fade(0.45) }}>
-              Figma · Blender · Antigravity · Google AI Studio · Brand Systems · UI Design
+              Blender · Antigravity · Google AI Studio · Brand Systems · UI Design
             </p>
 
             {/* CTA */}
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', ...fade(0.55) }}>
               <a
-                href="#walkthrough"
+                href={V2_LIVE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{ fontFamily: MG.mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fff', background: MG.rust, padding: '0.85rem 2.25rem', textDecoration: 'none', transition: 'background 0.2s' }}
                 onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.background = MG.text)}
                 onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.background = MG.rust)}
               >
-                Watch the V2 Build →
-              </a>
-              <a
-                href={FIGMA_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ fontFamily: MG.mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: MG.text, background: 'transparent', border: `1px solid ${MG.border}`, padding: '0.8rem 2.25rem', textDecoration: 'none', transition: 'border-color 0.2s' }}
-              >
-                Open V1 in Figma →
+                View Live Site →
               </a>
             </div>
           </div>
@@ -235,7 +228,7 @@ export default function MarigoldBloomCaseStudy() {
           <MGSectionTitle>V1 concept, V2 clinical rebuild.</MGSectionTitle>
 
           <p style={{ fontFamily: MG.sans, fontSize: '0.95rem', color: MG.muted, maxWidth: '62ch', lineHeight: 1.8, marginTop: '1rem', marginBottom: '2.5rem' }}>
-            The original Figma concept sold Marigold Bloom on warmth and
+            The original concept sold Marigold Bloom on warmth and
             ritual. The rebuild keeps the botanical world but repositions the
             brand around clinical transparency — bio-fermentation data,
             active percentages, and pH values placed where a buyer needs
@@ -256,7 +249,7 @@ export default function MarigoldBloomCaseStudy() {
               color: MG.muted,
             }}>
               <div>Dimension</div>
-              <div>V1 / Concept (Figma)</div>
+              <div>V1 / Concept</div>
               <div style={{ color: MG.rust }}>V2 / AI-Built Production</div>
             </div>
 
@@ -339,14 +332,6 @@ export default function MarigoldBloomCaseStudy() {
               <MGLabel>V1 Concept</MGLabel>
               <MGSectionTitle>The original landing page</MGSectionTitle>
             </div>
-            <a
-              href={FIGMA_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontFamily: MG.mono, fontSize: '0.6rem', color: MG.rust, letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', opacity: 0.85 }}
-            >
-              Open in Figma →
-            </a>
           </div>
 
           <p style={{ fontFamily: MG.sans, fontSize: '0.9rem', color: MG.muted, maxWidth: '56ch', lineHeight: 1.8, marginTop: '0.75rem', marginBottom: '2.5rem' }}>
@@ -549,14 +534,6 @@ export default function MarigoldBloomCaseStudy() {
               onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.background = MG.rust)}
             >
               View Live Build →
-            </a>
-            <a
-              href={FIGMA_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontFamily: MG.mono, fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: MG.text, background: 'transparent', border: `1px solid ${MG.border}`, padding: '1.05rem 3rem', textDecoration: 'none', display: 'inline-block' }}
-            >
-              Open V1 in Figma →
             </a>
           </div>
         </section>
