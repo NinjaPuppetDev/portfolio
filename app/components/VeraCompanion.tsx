@@ -102,7 +102,7 @@ export default function VeraCompanion() {
     <div
       style={{
         position: 'fixed',
-        zIndex: effectiveMode === 'loading' ? 10000 : 0,
+        zIndex: effectiveMode === 'loading' ? 10000 : 25,
         pointerEvents: 'none',
         overflow: 'hidden',
         mixBlendMode: effectiveMode === 'loading' ? 'normal' : 'screen',
