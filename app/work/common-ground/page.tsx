@@ -4,66 +4,66 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 // ─── CONSTANTS ───────────────────────────────────────────────────────────────
-const WALKTHROUGH_VIDEO_URL = '/work/applyiq/applyiq-walkthrough.mp4'
-const LIVE_APP_URL = 'https://applyiq-job-scanner.vercel.app/'
+const WALKTHROUGH_VIDEO_URL = '/work/common-ground/common-ground-walkthrough.mp4'
+const LIVE_APP_URL = 'https://common-ground-studio-x66q.vercel.app/'
 
 const TECH_STACK = [
   'Next.js',
   'TypeScript',
+  'Tailwind CSS',
   'Supabase',
   'OpenAI',
-  'Stripe',
-  'Vitest',
-  'Playwright',
+  'Vector Search',
+  'Recharts',
 ]
 
 const WHAT_IT_DOES = [
   {
-    title: 'AI Resume Matching',
-    detail: 'Compares candidate experience against individual job descriptions and generates structured compatibility feedback.',
+    title: 'Automated Position Mapping',
+    detail: 'Plots competitor feature sets, pricing vectors, and value propositions across a multi-dimensional matrix.',
   },
   {
-    title: 'Application Dashboard',
-    detail: 'Tracks submitted applications, interview stages, offers, and response rates from a single interface.',
+    title: 'Market Signal Telemetry',
+    detail: 'Monitors public product updates, customer sentiment shifts, and messaging changes across key market players.',
   },
   {
-    title: 'Candidate Insights',
-    detail: 'Highlights strengths, identifies experience gaps, and explains why a candidate received a particular score.',
+    title: 'White-Space Identification',
+    detail: 'Highlights underserved market segments and uncaptured customer demands using cluster analysis.',
   },
   {
-    title: 'Usage Limits',
-    detail: 'Enforces monthly scan quotas for free users while supporting premium subscription tiers.',
+    title: 'Alignment Dashboards',
+    detail: 'Translates strategic positioning maps into clear operational directives for product and engineering teams.',
   },
   {
-    title: 'Subscription Management',
-    detail: 'Stripe integration handles upgrades, billing, and recurring subscriptions without custom payment infrastructure.',
+    title: 'Real-Time Telemetry',
+    detail: 'Keeps team members synchronized on live positioning changes and competitive benchmark updates.',
   },
 ]
 
 const HOW_WE_BUILT_IT = [
   {
-    label: 'AI Matching Pipeline',
-    description: 'Designed a structured evaluation pipeline that compares résumés against job descriptions and produces explainable scoring rather than opaque recommendations.',
+    label: 'Competitive Intelligence Pipeline',
+    description: 'Designed an ingestion and vector embedding workflow to categorize and evaluate competitor marketing and feature changes.',
   },
   {
-    label: 'Authentication & Rate Limiting',
-    description: 'Implemented user authentication and backend rate limiting to enforce monthly usage quotas across subscription tiers.',
+    label: 'Positioning Matrix UI',
+    description: 'Built an interactive visual canvas allowing teams to manipulate strategic axes and visualize market gaps in real time.',
   },
   {
-    label: 'Subscription Infrastructure',
-    description: 'Integrated Stripe for recurring billing, plan upgrades, and premium feature access.',
+    label: 'Database Schema & Real-Time Sync',
+    description: 'Structured Supabase tables and Realtime channels to broadcast strategy state changes across active team sessions.',
   },
   {
-    label: 'Dashboard Architecture',
-    description: 'Built a responsive analytics dashboard for tracking application progress, interview stages, and response metrics.',
+    label: 'Signal Extraction Engine',
+    description: 'Leveraged OpenAI models to summarize complex competitor changes into clear executive takeaways and actionable insights.',
   },
   {
-    label: 'Database Architecture',
-    description: 'Modeled users, applications, scans, subscriptions, and match results in Supabase using a relational schema optimized for real-time updates.',
+    label: 'Analytics & Export Layer',
+    description: 'Created custom visualization components with interactive filtering for executive reporting and strategic planning.',
   },
   {
-    label: 'Quality Assurance',
-    description: 'Validated core application flows using Vitest for unit testing and Playwright for end-to-end testing.',
+    label: 'Performance & Architecture',
+    description: 'Optimized server-side rendering in Next.js paired with vector indexing for sub-second query performance.',
   },
 ]
 
@@ -71,13 +71,13 @@ const HOW_WE_BUILT_IT = [
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
-  name: 'ApplyIQ — AI Candidate Matching & SaaS Platform',
+  name: 'CommonGround — Market Positioning & Competitive Intelligence Platform',
   description:
-    'A full-stack SaaS platform combining AI resume analysis, application tracking, and Stripe subscription management into a unified workspace.',
+    'A software platform designed to analyze company market positioning, identify competitive white space, and streamline operational alignment.',
   creator: { '@type': 'Person', name: 'David Raigoza', url: 'https://davidraigoza.design' },
 }
 
-export default function ApplyIQCaseStudy() {
+export default function CommonGroundCaseStudy() {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => { setMounted(true) }, [])
@@ -117,7 +117,7 @@ export default function ApplyIQCaseStudy() {
           zIndex: 1,
         }}>
           <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '1.5rem', ...fadeIn(0.1) }}>
-            AI Candidate Matching · SaaS Platform · Full-Stack Engineering
+            Market Positioning · Strategic Intelligence · Full-Stack Engineering
           </p>
 
           <h1 style={{
@@ -129,15 +129,15 @@ export default function ApplyIQCaseStudy() {
             marginBottom: '2.5rem',
             ...fadeIn(0.2)
           }}>
-            ApplyIQ.
+            CommonGround.
             <br />
             <span style={{ fontStyle: 'italic', color: 'var(--text)', opacity: 0.9 }}>
-              Helping candidates understand fit before they apply.
+              Building a shared operational space for market clarity.
             </span>
           </h1>
 
           <p style={{ fontFamily: 'var(--sans)', fontSize: 'clamp(1.1rem, 1.6vw, 1.35rem)', color: 'var(--text)', maxWidth: '58ch', lineHeight: 1.5, fontWeight: 400, marginBottom: '2rem', ...fadeIn(0.3) }}>
-            ApplyIQ combines AI-powered resume analysis, application tracking, and subscription management into a single platform that helps job seekers focus their effort on opportunities where they have the highest likelihood of success.
+            CommonGround is an enterprise intelligence platform designed to analyze market positioning, map competitive landscapes, and give product teams a unified workspace for strategic decision-making.
           </p>
 
           {/* Surface Tech Stack Pill Strip */}
@@ -175,7 +175,7 @@ export default function ApplyIQCaseStudy() {
               onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
               onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
             >
-              Watch Build Walkthrough ↓
+              Watch Platform Walkthrough ↓
             </a>
             <a
               href={LIVE_APP_URL}
@@ -202,34 +202,34 @@ export default function ApplyIQCaseStudy() {
         }}>
           <div>
             <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>01 / The Problem</span>
-            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.5rem', margin: '0.5rem 0 1rem', fontWeight: 300 }}>Applying blindly wastes everyone's time.</h3>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.5rem', margin: '0.5rem 0 1rem', fontWeight: 300 }}>Strategic misalignment slows product momentum.</h3>
             <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.65 }}>
-              Job seekers often submit dozens of applications without understanding how well their experience matches the role. Recruiters receive large volumes of poorly matched applications, while candidates spend hours applying to positions they were unlikely to secure.
+              Companies often struggle to maintain a accurate mental model of their market landscape. Product, design, and executive teams frequently operate with fragmented competitive assumptions, leading to feature duplication and missed opportunities.
             </p>
             <p style={{ fontSize: '0.95rem', color: 'var(--muted)', marginTop: '0.75rem', fontWeight: 300, lineHeight: 1.65, fontStyle: 'italic' }}>
-              The challenge was to provide meaningful feedback before an application is submitted.
+              The challenge was to transform static slide decks into a live, collaborative positioning workspace.
             </p>
           </div>
 
           <div>
             <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>02 / The Solution</span>
-            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.5rem', margin: '0.5rem 0 1rem', fontWeight: 300 }}>AI evaluates candidate fit before they apply.</h3>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.5rem', margin: '0.5rem 0 1rem', fontWeight: 300 }}>AI-driven competitive telemetry & white-space mapping.</h3>
             <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.65 }}>
-              Candidates upload a résumé together with a job description. The platform analyzes experience, skills, and role alignment to generate an overall compatibility score, highlight strengths, identify gaps, and explain the reasoning behind the recommendation.
+              CommonGround continuously ingests product announcements, feature Matrix updates, and positioning signals across a defined market category. It automatically clusters competitors along customizable strategic axes.
             </p>
             <p style={{ fontSize: '0.95rem', color: 'var(--text)', marginTop: '0.75rem', fontWeight: 300, lineHeight: 1.65 }}>
-              Rather than replacing human judgment, the system helps candidates make more informed application decisions.
+              Instead of guessing where differentiation lies, teams can visualize clear market white space in real time.
             </p>
           </div>
 
           <div>
-            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>03 / Business Model</span>
-            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.5rem', margin: '0.5rem 0 1rem', fontWeight: 300 }}>SaaS architecture from day one.</h3>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>03 / Operational Impact</span>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.5rem', margin: '0.5rem 0 1rem', fontWeight: 300 }}>Bridging strategy and product execution.</h3>
             <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.65 }}>
-              The platform includes a usage-based subscription model. Free users can analyze up to five job opportunities per month.
+              By establishing a central source of market truth, teams evaluate roadmap decisions against verified positioning data rather than subjective opinions.
             </p>
             <p style={{ fontSize: '0.95rem', color: 'var(--text)', marginTop: '0.75rem', fontWeight: 300, lineHeight: 1.65 }}>
-              Additional scans unlock through Stripe-powered subscription plans, while backend rate limiting enforces usage quotas automatically.
+              The platform connects strategic research directly to product requirements and feature prioritization.
             </p>
           </div>
         </section>
@@ -246,10 +246,10 @@ export default function ApplyIQCaseStudy() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '2rem', marginBottom: '2.5rem' }}>
             <div>
               <Label>Live Walkthrough</Label>
-              <SectionTitle>From Resume to Match Score</SectionTitle>
+              <SectionTitle>Market Analysis & Alignment Workspace</SectionTitle>
             </div>
             <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.1em', maxWidth: '36ch', textAlign: 'right' }}>
-              EXPLAINABLE AI SCORING MATCHED WITH REAL-TIME SAAS TELEMETRY.
+              REAL-TIME POSITIONING MATRIX WITH SYNCHRONIZED TEAM TELEMETRY.
             </p>
           </div>
 
@@ -265,7 +265,7 @@ export default function ApplyIQCaseStudy() {
               controls
               playsInline
               preload="metadata"
-              poster="/work/applyiq/dashboard.png"
+              poster="/work/common-ground/common-ground-preview.png"
               style={{ width: '100%', height: 'auto', display: 'block' }}
             >
               <source src={WALKTHROUGH_VIDEO_URL} type="video/mp4" />
@@ -284,15 +284,15 @@ export default function ApplyIQCaseStudy() {
           zIndex: 1,
         }}>
           <Label>Product Interface</Label>
-          <SectionTitle>Candidate Insights & Dashboard</SectionTitle>
+          <SectionTitle>Market Matrix & Signal Insights</SectionTitle>
 
-          {/* AI Match Overlay Screenshot */}
+          {/* Positioning Matrix Screenshot */}
           <div style={{ marginTop: '3rem', marginBottom: '5rem' }}>
             <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.8rem', color: 'var(--text)', fontWeight: 300, marginBottom: '1rem' }}>
-              AI Match & Gap Analysis
+              Dynamic Competitive Matrix
             </h3>
             <p style={{ fontSize: '0.95rem', color: 'var(--muted)', marginBottom: '1.5rem', fontWeight: 300 }}>
-              Generates a granular compatibility rubric detailing skills match, experience relevance, screening quality, and explicit gap callouts to inform candidate decisions.
+              Maps competitors across dynamic axes, providing immediate visibility into market saturation and unserved positioning vectors.
             </p>
             <div style={{
               border: '1px solid var(--border)',
@@ -300,21 +300,17 @@ export default function ApplyIQCaseStudy() {
               overflow: 'hidden',
               borderRadius: '4px',
             }}>
-              <img
-                src="/work/applyiq/candidate-match.png"
-                alt="ApplyIQ Candidate Score and Gap Analysis Modal"
-                style={{ width: '100%', height: 'auto', display: 'block' }}
-              />
+           
             </div>
           </div>
 
-          {/* Analytics Dashboard Screenshot */}
+          {/* Telemetry Dashboard Screenshot */}
           <div>
             <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.8rem', color: 'var(--text)', fontWeight: 300, marginBottom: '1rem' }}>
-              Application Funnel Dashboard
+              Competitor Telemetry & Feature Tracking
             </h3>
             <p style={{ fontSize: '0.95rem', color: 'var(--muted)', marginBottom: '1.5rem', fontWeight: 300 }}>
-              Tracks ongoing pipeline metrics, active applications, volume charts over time, and response rates from a clean central view.
+              Monitors feature releases, pricing changes, and market movement across key competitors from a consolidated dashboard view.
             </p>
             <div style={{
               border: '1px solid var(--border)',
@@ -323,8 +319,8 @@ export default function ApplyIQCaseStudy() {
               borderRadius: '4px',
             }}>
               <img
-                src="/work/applyiq/dashboard.png"
-                alt="ApplyIQ Job Search Overview Dashboard"
+                src="/work/common-ground/common-ground-preview.png"
+                alt="CommonGround Telemetry and Competitor Dashboard Overview"
                 style={{ width: '100%', height: 'auto', display: 'block' }}
               />
             </div>
@@ -411,13 +407,13 @@ export default function ApplyIQCaseStudy() {
 
           <div style={{ maxWidth: '68ch', marginTop: '1.5rem' }}>
             <p style={{ fontFamily: 'var(--serif)', fontSize: '1.25rem', color: 'var(--text)', lineHeight: 1.6, fontWeight: 300, marginBottom: '1.25rem' }}>
-              This project explores how AI can support hiring decisions before applications are submitted.
+              CommonGround replaces guesswork and stale static presentations with living market intelligence.
             </p>
             <p style={{ fontSize: '1rem', color: 'var(--muted)', lineHeight: 1.7, fontWeight: 300, marginBottom: '1.25rem' }}>
-              Rather than encouraging candidates to apply indiscriminately, the platform provides structured, explainable feedback that helps users prioritize opportunities where their experience is most aligned.
+              By integrating real-time vector search, multi-dimensional matrix plotting, and automated signal extraction, the tool gives product leaders immediate clarity on where to differentiate.
             </p>
             <p style={{ fontSize: '1rem', color: 'var(--muted)', lineHeight: 1.7, fontWeight: 300 }}>
-              The result is a full-stack SaaS application that combines AI evaluation, subscription management, backend infrastructure, and analytics into a cohesive product.
+              It demonstrates how full-stack design engineering can transform abstract strategic concepts into an intuitive, highly functional digital product.
             </p>
           </div>
         </section>

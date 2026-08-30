@@ -82,39 +82,83 @@ const CAPABILITIES = [
   'AI-Native Workflows',
 ]
 
-const PRICING = [
+// ─── ENGAGEMENT MODELS ───────────────────────────────────────────────────────
+// Every card shares the exact same 7-field shape on purpose: eyebrow → title →
+// one-line description → price → ideal-for → outcome → CTA. No card is allowed
+// to carry extra fields (e.g. a deliverables list) — that asymmetry was what
+// made the four cards look like an uneven spreadsheet instead of one ladder.
+
+interface PricingTier {
+  eyebrow: string
+  title: string
+  description: string
+  price: string
+  idealFor: string[]
+  outcome: string
+  cta: { label: string; href: string }
+}
+
+const PRICING: PricingTier[] = [
   {
-    name: 'Discovery Sprint',
-    maps: 'Find the Product',
-    priceLabel: 'Starting point',
+    eyebrow: 'Start Here',
+    title: 'Product Clarity',
+    description: 'Not sure what to build, fix, or prioritize? Get a focused assessment before committing to a larger engagement.',
+    price: '$300–$500',
+    idealFor: [
+      'Founders with an idea',
+      'Teams unsure what to prioritize',
+      'A second opinion before a bigger commitment',
+    ],
+    outcome: 'A clear view of what deserves attention and what to do next.',
+    cta: { label: 'Start with Product Clarity →', href: 'mailto:hello@davidraigoza.design' },
+  },
+  {
+    eyebrow: 'Define the Product',
+    title: 'Discovery Sprint',
+    description: 'Turn an ambiguous product idea into a defined direction, architecture and prototype.',
     price: 'Starting at $2,500',
-    idealFor: ['Founders with an idea', 'Product direction & validation', 'Technical planning'],
-    featured: false,
+    idealFor: [
+      'Founders with an idea',
+      'Product direction & validation',
+      'Technical planning',
+    ],
+    outcome: 'A concrete product definition and roadmap ready for execution.',
+    cta: { label: 'Book a Discovery Call →', href: 'https://cal.com/davidraigoza' },
   },
   {
-    name: 'MVP Partnership',
-    maps: 'Build the Product',
-    priceLabel: 'Starting point',
+    eyebrow: 'Build the Product',
+    title: 'MVP Partnership',
+    description: 'Take a defined product from strategy and design through engineering and a working MVP.',
     price: 'Starting at $10,000',
-    idealFor: ['Startups & small teams', 'AI products, SaaS, internal tools', 'A scoped, working MVP'],
-    featured: true,
+    idealFor: [
+      'Startups and small teams',
+      'AI products, SaaS and internal tools',
+      'A scoped product ready to build',
+    ],
+    outcome: 'A working product, built from strategy through deployment.',
+    cta: { label: 'Book a Discovery Call →', href: 'https://cal.com/davidraigoza' },
   },
   {
-    name: 'Fractional Product Partner',
-    maps: 'Accelerate the Product',
-    priceLabel: 'Engagement',
+    eyebrow: 'Accelerate the Product',
+    title: 'Fractional Product Partner',
+    description: 'Ongoing product strategy, design and engineering support without adding another full-time team.',
     price: 'Custom monthly engagement',
-    idealFor: ['Teams that already have engineers', 'A defined initiative, not open-ended hours'],
-    featured: false,
+    idealFor: [
+      'Teams that already have engineers',
+      'A defined product initiative',
+      'Teams that need senior product direction',
+    ],
+    outcome: 'Consistent product momentum without an agency-sized process.',
+    cta: { label: 'Book a Discovery Call →', href: 'https://cal.com/davidraigoza' },
   },
-  {
-    name: 'Ongoing Product Care',
-    maps: 'Keep the Product Moving',
-    priceLabel: 'Engagement',
-    price: 'Custom, scoped per product',
-    idealFor: ['Products already in production', 'Continuity after launch, not a maintenance contract'],
-    featured: false,
-  },
+]
+
+// De-duplicated step labels, in order, for the progression strip.
+const COMMITMENT_LADDER = [
+  { label: 'Product Clarity', price: '$300–$500' },
+  { label: 'Discovery Sprint', price: '$2,500+' },
+  { label: 'MVP Partnership', price: '$10,000+' },
+  { label: 'Fractional Partner', price: 'Custom' },
 ]
 
 const PROCESS = [
@@ -206,6 +250,10 @@ const FAQS = [
   {
     q: 'Do you build Web3 products?',
     a: 'Yes, but complex Web3 and protocol work is treated as a specialized engagement. For smart contracts, formal verification and security-sensitive systems, reach out directly.',
+  },
+  {
+    q: 'What is Product Clarity, exactly?',
+    a: 'A paid diagnostic, not a discounted Discovery Sprint. It answers what’s actually going on and what to prioritize next — useful on its own, and it can lead into a Discovery Sprint if a deeper product definition turns out to be needed.',
   },
 ]
 
@@ -452,61 +500,102 @@ export default function WorkWithMePage() {
           marginTop: '1rem',
           maxWidth: '60ch',
         }}>
-          These are typical starting points, not rigid packages — actual scope depends on the initiative.
+          These are typical starting points, not rigid packages — actual scope depends on the initiative. Each level is a different depth of commitment, not a separate, unrelated service.
         </p>
 
+        {/* Commitment ladder — makes the progression obvious before the cards */}
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: '0.6rem',
+          marginTop: '2rem',
+        }}>
+          {COMMITMENT_LADDER.map((step, i) => (
+            <div key={step.label} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.15rem',
+                border: '1px solid var(--border)',
+                padding: '0.5rem 0.85rem',
+                background: 'rgba(255,255,255,0.01)',
+              }}>
+                <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--text)', letterSpacing: '0.05em' }}>
+                  {step.label}
+                </span>
+                <span style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)' }}>
+                  {step.price}
+                </span>
+              </div>
+              {i < COMMITMENT_LADDER.length - 1 && (
+                <span style={{ color: 'var(--accent)', fontSize: '0.85rem', flexShrink: 0 }}>→</span>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/*
+          Card architecture: every card renders the exact same 7 blocks in the
+          exact same order, with no branching on content presence. That's what
+          keeps the four columns visually even. No side borders (that read as
+          a spreadsheet/pricing-table); a single hairline top border per card
+          plus thin internal separators between blocks instead.
+        */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-          gap: '1.5rem',
+          gap: '2rem',
           marginTop: '3rem',
         }}>
           {PRICING.map((m) => (
-            <div key={m.name} style={{
-              ...cardStyle,
-              borderColor: m.featured ? 'var(--accent)' : 'var(--border)',
-              position: 'relative',
-            }}>
-              {m.featured && (
-                <span style={{
-                  position: 'absolute',
-                  top: '-0.65rem',
-                  left: '1.75rem',
-                  fontFamily: 'var(--mono)',
-                  fontSize: '0.6rem',
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
-                  color: 'var(--bg)',
-                  background: 'var(--accent)',
-                  padding: '0.25rem 0.6rem',
-                }}>
-                  Flagship Offer
-                </span>
-              )}
-              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-                {m.maps}
+            <div key={m.title} style={offerCardStyle}>
+              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
+                {m.eyebrow}
               </p>
-              <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.4rem', fontWeight: 400, margin: '0 0 1rem', color: 'var(--text)' }}>
-                {m.name}
+
+              <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.35rem', fontWeight: 400, margin: '0 0 0.85rem', color: 'var(--text)' }}>
+                {m.title}
               </h3>
 
-              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
-                {m.priceLabel}
+              <p style={{ fontSize: '0.85rem', color: 'var(--muted)', fontWeight: 300, lineHeight: 1.55, marginBottom: '1.25rem', minHeight: '3.3rem' }}>
+                {m.description}
               </p>
-              <p style={{ fontSize: '1.1rem', color: 'var(--text)', fontWeight: 300, marginBottom: '1.5rem' }}>
+
+              <p style={{ fontSize: '1.05rem', color: 'var(--text)', fontWeight: 300, marginBottom: '1.5rem' }}>
                 {m.price}
               </p>
 
-              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
-                Ideal for
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                {m.idealFor.map((item) => (
-                  <li key={item} style={{ fontSize: '0.8rem', color: 'var(--muted)', fontWeight: 300, lineHeight: 1.6 }}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.1rem', marginBottom: '1.1rem' }}>
+                <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
+                  Ideal for
+                </p>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                  {m.idealFor.map((item) => (
+                    <li key={item} style={{ fontSize: '0.8rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.6 }}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div style={{ borderTop: '1px solid var(--border)', paddingTop: '1.1rem', marginBottom: '1.5rem' }}>
+                <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
+                  Outcome
+                </p>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.5 }}>
+                  {m.outcome}
+                </p>
+              </div>
+
+              <a
+                href={m.cta.href}
+                target={m.cta.href.startsWith('http') ? '_blank' : undefined}
+                rel={m.cta.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                style={{ ...secondaryButtonStyle, marginTop: 'auto', textAlign: 'center' }}
+              >
+                {m.cta.label}
+              </a>
             </div>
           ))}
         </div>
@@ -864,6 +953,21 @@ const cardStyle: React.CSSProperties = {
   border: '1px solid var(--border)',
   padding: '1.75rem',
   background: 'rgba(255,255,255,0.01)',
+}
+
+// Engagement-model cards intentionally do NOT use `cardStyle`. A full boxed
+// border on all four sides is what made the section read as a pricing table.
+// Instead: a single hairline top rule (the visual cue that echoes the "PROBLEMS"
+// and other list sections elsewhere on the page), generous internal padding,
+// and flex column + auto-margin CTA so the button always sits flush at the
+// bottom regardless of how much text sits above it — this is what keeps the
+// four cards the same height without padding any of them artificially.
+const offerCardStyle: React.CSSProperties = {
+  borderTop: '2px solid var(--border)',
+  paddingTop: '1.75rem',
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
 }
 
 const primaryButtonStyle: React.CSSProperties = {

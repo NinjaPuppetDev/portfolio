@@ -26,19 +26,19 @@ const productProjects = [
     variant: 'product' as const,
     image: '/work/virtual-portfolio-hub/hub-preview.png',
   },
-  {
+{
     index: '02',
     year: '2026',
-    title: 'SiftParity (ApplyIQ)',
-    subtitle: 'Turning a slow enterprise tracking system into a responsive, real-time workspace.',
-    tags: ['Product Architecture', 'Next.js', 'Supabase', 'Dashboard UI'],
+    title: 'Common Ground',
+    subtitle: 'Building a shared operational space for seamless alignment and real-time collaboration.',
+    tags: ['Product Architecture', 'Next.js', 'Supabase', 'UX Architecture'],
     description:
-      'Migrated an enterprise tracking platform from Airtable to Supabase, restructuring the data layer to support faster interface updates, real-time telemetry, and a more responsive operational experience.',
-    link: 'work/applyiq',
-    linkLabel: 'View live app',
+      'A unified platform designed to bridge operational gaps between teams, streamlining communication, state synchronization, and decision-making into a clean, real-time workspace.',
+    link: '/work/common-ground',
+    linkLabel: 'View case study',
     accent: 'var(--accent)',
     variant: 'product' as const,
-    image: '/work/siftparity/job-scanner-preview.png',
+    image: '/work/common-ground/common-ground-preview.png',
   },
 ]
 
@@ -72,26 +72,12 @@ const web3Projects = [
     variant: 'web3' as const,
     image: '/work/bruma/pool-overview.png',
   },
-  {
-    index: '05',
-    year: '2026',
-    title: 'GitHub Core',
-    subtitle: 'The code behind the systems, not just the screenshots.',
-    tags: ['Solidity', 'Next.js', 'Smart Contracts', 'Web3'],
-    description:
-      'An open repository containing the smart contracts, protocol interfaces, and supporting systems behind selected Web3 work. Built to make the architecture inspectable rather than hiding the implementation behind polished mockups.',
-    link: 'https://github.com/NinjaPuppetDev',
-    linkLabel: 'View on GitHub',
-    accent: 'var(--accent)',
-    variant: 'web3' as const,
-    image: '/work/github/github-preview.png',
-  },
 ]
 
 // Track 03: Digital Experiences for Physical Products
 const brandProjects = [
   {
-    index: '06',
+    index: '05',
     year: '2011–2016',
     title: 'Pepe Matilda',
     subtitle: 'Designing the connection between a physical product and the digital experience around it.',
@@ -105,7 +91,7 @@ const brandProjects = [
     image: '/work/pepe-matilda/PepeMatilda.png',
   },
   {
-    index: '07',
+    index: '06',
     year: '2024',
     title: 'NextStep',
     subtitle: 'Exploring what happens when a shoe becomes a digital product.',
@@ -119,7 +105,7 @@ const brandProjects = [
     image: '/work/nextstep/NextStep.png',
   },
   {
-    index: '08',
+    index: '07',
     year: '2024',
     title: 'Marigold Bloom',
     subtitle: 'Building a digital ritual around a physical skincare product.',
@@ -131,6 +117,20 @@ const brandProjects = [
     accent: 'var(--amber)',
     variant: 'brand' as const,
     image: '/work/marigold/Marigold.png',
+  },
+  {
+    index: '08',
+    year: '2026',
+    title: 'GitHub Core',
+    subtitle: 'The code behind the systems, not just the screenshots.',
+    tags: ['Solidity', 'Next.js', 'Smart Contracts', 'Web3'],
+    description:
+      'An open repository containing the smart contracts, protocol interfaces, and supporting systems behind selected Web3 work. Built to make the architecture inspectable rather than hiding the implementation behind polished mockups.',
+    link: 'https://github.com/NinjaPuppetDev',
+    linkLabel: 'View on GitHub',
+    accent: 'var(--accent)',
+    variant: 'web3' as const,
+    image: '/work/github/github-preview.png',
   },
 ]
 
@@ -208,8 +208,6 @@ export default function LandingPage() {
       <WhyOnePartner />
 
       {/* ── SELECTED WORK ──────────────────────────────────────────────── */}
-      {/* The viewport acts as a viewing frame: as the user scrolls vertically,
-          the project sequence moves horizontally through the aperture. */}
       <section
         id="work"
         style={{
@@ -267,7 +265,6 @@ export default function LandingPage() {
       </section>
 
       <Labs />
-
 
       {/* ── CONVERSIONS (CONTACT) ─────────────────────────────────────── */}
       <section
