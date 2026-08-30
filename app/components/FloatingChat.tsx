@@ -21,10 +21,10 @@ type TourType = 'design' | 'web3' | 'product'
 
 // ─── TOUR CONFIGURATION META ──────────────────────────────────────────────────
 // Product tour is the primary buyer path — leads with the AI/SaaS proof points
-// (Virtual Portfolio Hub, ApplyIQ) rather than brand or Web3 work.
+// (Virtual Portfolio Hub, CommonGround) rather than brand or Web3 work.
 const PRODUCT_TOUR = [
-  { step: 1, path: '/work/virtual-portfolio-hub', nextLabel: 'Next: ApplyIQ →' },
-  { step: 2, path: '/work/applyiq', nextLabel: 'Get in touch →', finalStop: true },
+  { step: 1, path: '/work/virtual-portfolio-hub', nextLabel: 'Next: CommonGround →' },
+  { step: 2, path: '/work/common-ground', nextLabel: 'Get in touch →', finalStop: true },
 ]
 
 const DESIGN_TOUR = [
@@ -54,7 +54,7 @@ const NAV_INTENTS: { patterns: RegExp[]; path: string; label: string }[] = [
   { patterns: [/\bbruma\b/i], path: 'https://bruma-protocol.vercel.app/', label: 'Opening Bruma Protocol.' },
   { patterns: [/\bgithub\b/i, /\brepo\b/i], path: 'https://github.com/NinjaPuppetDev', label: 'Opening GitHub.' },
   { patterns: [/\bvirtual\s*portfolio\b/i, /\bportfolio\s*hub\b/i], path: '/work/virtual-portfolio-hub', label: 'Opening the Virtual Portfolio Hub.' },
-  { patterns: [/\bapply\s*iq\b/i, /\bsiftparity\b/i, /\bjob\s*scanner\b/i], path: '/work/applyiq', label: 'Opening ApplyIQ.' },
+  { patterns: [/\bcommon\s*ground\b/i, /\bcommon\s*ground\b/i], path: '/work/common-ground', label: 'Opening CommonGround.' },
   { patterns: [/\bcontact\b/i, /\bget in touch\b/i, /\breach out\b/i], path: '#contact', label: 'Opening contact flow.' },
 ]
 

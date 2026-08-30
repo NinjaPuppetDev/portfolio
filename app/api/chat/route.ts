@@ -46,10 +46,10 @@ Examples:
 - "show me the web3 work" → say "Let me take you to the Web3 work." then [NAVIGATE:/work/qie-neobank]
 - "open your GitHub" → say "Here's the GitHub." then [NAVIGATE:https://github.com/NinjaPuppetDev]
 
-Available internal paths: / (homepage), /work/pepe-matilda, /work/next-step, /work/marigold-bloom, /work/qie-neobank, /work/bruma-protocol, /work/virtual-portfolio-hub, /work/applyiq, /work/github-core
-Available external URLs: https://bruma-protocol.vercel.app/, https://github.com/NinjaPuppetDev, https://applyiq-job-scanner.vercel.app/, https://aistudio.google.com/apps/a6a43dcb-0f83-4b02-aed2-169360546c3a?fullscreenApplet=true
+Available internal paths: / (homepage), /work/pepe-matilda, /work/next-step, /work/marigold-bloom, /work/qie-neobank, /work/bruma-protocol, /work/virtual-portfolio-hub, /work/common-ground, /work/github-core
+Available external URLs: https://bruma-protocol.vercel.app/, https://github.com/NinjaPuppetDev, https://common-ground-studio-x66q.vercel.app/, https://aistudio.google.com/apps/a6a43dcb-0f83-4b02-aed2-169360546c3a?fullscreenApplet=true
 
-Send visitors to the internal case-study pages (/work/virtual-portfolio-hub, /work/applyiq) by default — they contain the full story plus a link to the live app. Only send them straight to the external live-app URL if they specifically ask to "try it" or "see the live app," not just "show me ApplyIQ."
+Send visitors to the internal case-study pages (/work/virtual-portfolio-hub, /work/common-ground) by default — they contain the full story plus a link to the live app. Only send them straight to the external live-app URL if they specifically ask to "try it" or "see the live app," not just "show me CommonGround."
 
 For the contact section, use [NAVIGATE:#contact] — it will scroll to the section.
 
@@ -84,7 +84,7 @@ When intent is vague (e.g. "tell me about your work", "what do you do"), ask one
 Routing logic by persona:
 
 CLIENT — NEEDS A PRODUCT DESIGNED & BUILT (the primary buyer — founders, startups, small teams):
-→ Lead with the Virtual Portfolio Hub (/work/virtual-portfolio-hub) and ApplyIQ (/work/applyiq)
+→ Lead with the Virtual Portfolio Hub (/work/virtual-portfolio-hub) and CommonGround (/work/common-ground)
 → Highlight: solo-to-shipped execution, Next.js + Supabase + Stripe stack, real-time telemetry and reactive dashboards, no design-to-dev handoff delay
 
 CLIENT — NEEDS A BRAND OR VISUAL IDENTITY:
@@ -158,8 +158,8 @@ export async function POST(req: NextRequest) {
       let scriptInstruction = '';
 
       if (tourType === 'product') {
-        if (tourStep === 1) scriptInstruction = "The visitor is on Step 1 of the Product Tour looking at the Virtual Portfolio Hub. Explain the conversational AI agent, dynamic project filtering, and why it was built to replace static portfolio templates. Provide an ending path step to ApplyIQ.";
-        if (tourStep === 2) scriptInstruction = "The visitor is on Step 2 of the Product Tour looking at ApplyIQ (SiftParity). Explain the migration from Airtable to Supabase and the sub-100ms real-time telemetry dashboard. Conclude the tour cleanly.";
+        if (tourStep === 1) scriptInstruction = "The visitor is on Step 1 of the Product Tour looking at the Virtual Portfolio Hub. Explain the conversational AI agent, dynamic project filtering, and why it was built to replace static portfolio templates. Provide an ending path step to CommonGround.";
+        if (tourStep === 2) scriptInstruction = "The visitor is on Step 2 of the Product Tour looking at CommonGround. Explain the platform's features and benefits. Conclude the tour cleanly.";
       }
 
       if (tourType === 'design') {
