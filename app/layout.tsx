@@ -1,14 +1,15 @@
 import type { Metadata } from 'next'
 import { Space_Mono, Cormorant_Garamond, DM_Sans } from 'next/font/google'
+import Script from 'next/script'
+
 // @ts-ignore: allow global CSS import without type declarations
 import './globals.css'
+
 import Cursor from './components/Cursor'
 import FloatingChat from './components/FloatingChat'
 import Navigation from './components/Navigation'
-import VeraCompanion from './components/VeraCompanion'
-import Script from 'next/script'
-import { ExperimentProvider } from './components/ExperimentProvider'
 import IntroOverlay from './components/IntroOverlay'
+import { ExperimentProvider } from './components/ExperimentProvider'
 
 const spaceMono = Space_Mono({
   subsets: ['latin'],
@@ -34,7 +35,6 @@ const dmSans = DM_Sans({
   display: 'swap',
 })
 
-// Base domain required by Next.js for resolving relative OG image and canonical URLs
 const baseUrl = 'https://davidraigoza.design'
 
 export const metadata: Metadata = {
@@ -92,7 +92,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // Schema.org Structured Data for Search Engine Entity Graphing
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
@@ -126,7 +125,6 @@ export default function RootLayout({
         />
 
         <Cursor />
-        <VeraCompanion />
         <IntroOverlay />
 
         <ExperimentProvider>

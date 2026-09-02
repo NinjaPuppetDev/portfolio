@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 // ─── CONTENT ─────────────────────────────────────────────────────────────────
-// All copy lives here so the JSX below stays purely structural.
 
 const PROBLEMS = [
   'Product ambiguity — you know something should exist, not what it is yet.',
@@ -82,12 +81,6 @@ const CAPABILITIES = [
   'AI-Native Workflows',
 ]
 
-// ─── ENGAGEMENT MODELS ───────────────────────────────────────────────────────
-// Every card shares the exact same 7-field shape on purpose: eyebrow → title →
-// one-line description → price → ideal-for → outcome → CTA. No card is allowed
-// to carry extra fields (e.g. a deliverables list) — that asymmetry was what
-// made the four cards look like an uneven spreadsheet instead of one ladder.
-
 interface PricingTier {
   eyebrow: string
   title: string
@@ -110,7 +103,7 @@ const PRICING: PricingTier[] = [
       'A second opinion before a bigger commitment',
     ],
     outcome: 'A clear view of what deserves attention and what to do next.',
-    cta: { label: 'Start with Product Clarity →', href: 'mailto:hello@davidraigoza.design' },
+    cta: { label: 'Start with Product Clarity →', href: '#discovery' },
   },
   {
     eyebrow: 'Define the Product',
@@ -123,7 +116,7 @@ const PRICING: PricingTier[] = [
       'Technical planning',
     ],
     outcome: 'A concrete product definition and roadmap ready for execution.',
-    cta: { label: 'Book a Discovery Call →', href: 'https://cal.com/davidraigoza' },
+    cta: { label: 'Start Discovery Questionnaire →', href: '#discovery' },
   },
   {
     eyebrow: 'Build the Product',
@@ -153,7 +146,6 @@ const PRICING: PricingTier[] = [
   },
 ]
 
-// De-duplicated step labels, in order, for the progression strip.
 const COMMITMENT_LADDER = [
   { label: 'Product Clarity', price: '$300–$500' },
   { label: 'Discovery Sprint', price: '$2,500+' },
@@ -257,7 +249,614 @@ const FAQS = [
   },
 ]
 
-// ─── COMPONENT ───────────────────────────────────────────────────────────────
+// ─── STYLES & HELPER COMPONENTS ──────────────────────────────────────────────
+
+const primaryButtonStyle: React.CSSProperties = {
+  fontFamily: 'var(--mono)',
+  fontSize: '0.75rem',
+  color: '#000000',
+  background: 'var(--accent)',
+  padding: '0.85rem 1.6rem',
+  borderRadius: '2px',
+  textDecoration: 'none',
+  fontWeight: 600,
+  letterSpacing: '0.05em',
+  display: 'inline-block',
+}
+
+const secondaryButtonStyle: React.CSSProperties = {
+  fontFamily: 'var(--mono)',
+  fontSize: '0.75rem',
+  color: 'var(--text)',
+  border: '1px solid var(--border)',
+  background: 'transparent',
+  padding: '0.85rem 1.6rem',
+  borderRadius: '2px',
+  textDecoration: 'none',
+  fontWeight: 400,
+  letterSpacing: '0.05em',
+  display: 'inline-block',
+  cursor: 'pointer',
+}
+
+const cardStyle: React.CSSProperties = {
+  borderTop: '1px solid var(--border)',
+  padding: '1.5rem 0',
+}
+
+const offerCardStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  borderTop: '1px solid var(--border)',
+  paddingTop: '1.5rem',
+}
+
+function Label({ children }: { children: React.ReactNode }) {
+  return (
+    <p style={{
+      fontFamily: 'var(--mono)',
+      fontSize: '0.65rem',
+      color: 'var(--accent)',
+      letterSpacing: '0.25em',
+      textTransform: 'uppercase',
+      marginBottom: '1rem',
+    }}>
+      {children}
+    </p>
+  )
+}
+
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 style={{
+      fontFamily: 'var(--serif)',
+      fontSize: 'clamp(2rem, 4vw, 3.25rem)',
+      fontWeight: 300,
+      lineHeight: 1.1,
+      color: 'var(--text)',
+      maxWidth: '25ch',
+    }}>
+      {children}
+    </h2>
+  )
+}
+
+// ─── DISCOVERY FORM COMPONENT ───────────────────────────────────────────────
+
+const DISCOVERY_SECTIONS = [
+  { id: 1, title: 'About You' },
+  { id: 2, title: 'The Business' },
+  { id: 3, title: 'Your Customers' },
+  { id: 4, title: 'Current Experience' },
+  { id: 5, title: 'Your Brand' },
+  { id: 6, title: 'The Project' },
+]
+
+function DiscoveryForm() {
+  const [step, setStep] = useState(1)
+  const [loading, setLoading] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    businessDesc: '',
+    goals: '',
+    importance: '',
+    successCriteria: '',
+    targetCustomer: '',
+    customerGoals: '',
+    customerObstacles: '',
+    discoveryChannels: [] as string[],
+    discoveryOtherText: '',
+    workingWell: '',
+    notWorkingWell: '',
+    brandFeeling: '',
+    brandAvoidFeeling: '',
+    brandReferences: '',
+    existingAssets: [] as string[],
+    existingAssetsOtherText: '',
+    requirementsAndDeadlines: '',
+    additionalInfo: '',
+  })
+
+  useEffect(() => {
+    const saved = localStorage.getItem('discovery_form_draft')
+    if (saved) {
+      try { setFormData(JSON.parse(saved)) } catch (_) {}
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('discovery_form_draft', JSON.stringify(formData))
+  }, [formData])
+
+  const isValidEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+  }
+
+  const validateStep = (currentStep: number): boolean => {
+    setErrorMsg('')
+    
+    if (currentStep === 1) {
+      if (!formData.name.trim()) {
+        setErrorMsg('Please enter your full name.')
+        return false
+      }
+      if (!formData.email.trim()) {
+        setErrorMsg('Please enter your email address.')
+        return false
+      }
+      if (!isValidEmail(formData.email)) {
+        setErrorMsg('Please enter a valid email address (e.g., name@company.com).')
+        return false
+      }
+    }
+
+    if (currentStep === 2) {
+      if (!formData.businessDesc.trim() || !formData.goals.trim() || !formData.importance.trim() || !formData.successCriteria.trim()) {
+        setErrorMsg('Please complete all required fields in this step.')
+        return false
+      }
+    }
+
+    if (currentStep === 3) {
+      if (!formData.targetCustomer.trim() || !formData.customerGoals.trim() || !formData.customerObstacles.trim()) {
+        setErrorMsg('Please complete all required fields in this step.')
+        return false
+      }
+    }
+
+    if (currentStep === 4) {
+      if (formData.discoveryChannels.length === 0) {
+        setErrorMsg('Please select at least one discovery channel.')
+        return false
+      }
+      if (!formData.workingWell.trim() || !formData.notWorkingWell.trim()) {
+        setErrorMsg('Please complete all required fields in this step.')
+        return false
+      }
+    }
+
+    if (currentStep === 5) {
+      if (!formData.brandFeeling.trim() || !formData.brandAvoidFeeling.trim()) {
+        setErrorMsg('Please complete all required fields in this step.')
+        return false
+      }
+    }
+
+    if (currentStep === 6) {
+      if (formData.existingAssets.length === 0) {
+        setErrorMsg('Please select at least one asset option.')
+        return false
+      }
+      if (!formData.requirementsAndDeadlines.trim()) {
+        setErrorMsg('Please detail any requirements or deadlines.')
+        return false
+      }
+    }
+
+    return true
+  }
+
+  const handleNext = () => {
+    if (validateStep(step)) {
+      setStep((prev) => prev + 1)
+    }
+  }
+
+  const handleCheckbox = (key: 'discoveryChannels' | 'existingAssets', value: string) => {
+    setFormData((prev) => {
+      const current = prev[key]
+      const exists = current.includes(value)
+      return {
+        ...prev,
+        [key]: exists ? current.filter((item) => item !== value) : [...current, value],
+      }
+    })
+  }
+
+  const handleSubmit = async () => {
+    if (!validateStep(6)) return
+
+    setLoading(true)
+    setErrorMsg('')
+
+    try {
+      const res = await fetch('/api/discovery', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+
+      if (res.ok) {
+        setSubmitted(true)
+        localStorage.removeItem('discovery_form_draft')
+      } else {
+        const data = await res.json()
+        setErrorMsg(data.error || 'Failed to submit questionnaire. Please try again.')
+      }
+    } catch (err) {
+      setErrorMsg('A network error occurred. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (submitted) {
+    return (
+      <div style={{
+        border: '1px solid var(--border)',
+        padding: '3rem 2rem',
+        textAlign: 'center',
+        background: 'rgba(255,255,255,0.01)',
+      }}>
+        <p style={{ fontFamily: 'var(--mono)', fontSize: '0.7rem', color: 'var(--accent)', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '1rem' }}>
+          Submission Received
+        </p>
+        <h3 style={{ fontFamily: 'var(--serif)', fontSize: '2rem', fontWeight: 300, marginBottom: '1.5rem', color: 'var(--text)' }}>
+          Thank you.
+        </h3>
+        <p style={{ fontSize: '0.95rem', color: 'var(--muted)', fontWeight: 300, maxWidth: '50ch', margin: '0 auto 2rem', lineHeight: 1.6 }}>
+          We have what we need to start understanding the project. We'll review your answers and follow up with the next step.
+        </p>
+      </div>
+    )
+  }
+
+  const inputStyle: React.CSSProperties = {
+    width: '100%',
+    background: 'rgba(255,255,255,0.03)',
+    border: '1px solid var(--border)',
+    padding: '0.85rem 1rem',
+    color: 'var(--text)',
+    fontFamily: 'var(--sans)',
+    fontSize: '0.9rem',
+    borderRadius: '2px',
+    outline: 'none',
+    marginTop: '0.5rem',
+  }
+
+  const textareaStyle: React.CSSProperties = {
+    ...inputStyle,
+    minHeight: '110px',
+    resize: 'vertical',
+  }
+
+  return (
+    <div id="discovery" style={{ border: '1px solid var(--border)', padding: 'clamp(1.5rem, 4vw, 3rem)', background: 'rgba(0,0,0,0.2)' }}>
+      {/* Progress header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border)', paddingBottom: '1rem', marginBottom: '2.5rem' }}>
+        <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+          Step {step} of 6 — {DISCOVERY_SECTIONS[step - 1].title}
+        </span>
+        <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--muted)' }}>
+          ~10–15 min completion
+        </span>
+      </div>
+
+      {/* SECTION 1 */}
+      {step === 1 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              1. What's your name? <span style={{ color: 'var(--accent)' }}>*</span>
+            </label>
+            <input
+              type="text"
+              required
+              style={inputStyle}
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              placeholder="Your full name"
+            />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              2. What's your email? <span style={{ color: 'var(--accent)' }}>*</span>
+            </label>
+            <input
+              type="email"
+              required
+              style={inputStyle}
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              placeholder="name@company.com"
+            />
+          </div>
+        </div>
+      )}
+
+      {/* SECTION 2 */}
+      {step === 2 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              3. Tell us a little about your business. <span style={{ color: 'var(--accent)' }}>*</span>
+            </label>
+            <p style={{ fontSize: '0.75rem', color: 'var(--muted)', marginTop: '0.2rem' }}>
+              What do you do, what do you sell or provide, and how does the business work today?
+            </p>
+            <textarea
+              required
+              style={textareaStyle}
+              value={formData.businessDesc}
+              onChange={(e) => setFormData({ ...formData, businessDesc: e.target.value })}
+            />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              4. What are you hoping to build, change, or improve? <span style={{ color: 'var(--accent)' }}>*</span>
+            </label>
+            <p style={{ fontSize: '0.75rem', color: 'var(--muted)', marginTop: '0.2rem' }}>
+              Don't worry about describing the solution. Tell us what you're trying to make happen.
+            </p>
+            <textarea
+              required
+              style={textareaStyle}
+              value={formData.goals}
+              onChange={(e) => setFormData({ ...formData, goals: e.target.value })}
+            />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              5. Why is this important right now? <span style={{ color: 'var(--accent)' }}>*</span>
+            </label>
+            <textarea
+              required
+              style={textareaStyle}
+              value={formData.importance}
+              onChange={(e) => setFormData({ ...formData, importance: e.target.value })}
+            />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              6. What would make you say, "This project was successful"? <span style={{ color: 'var(--accent)' }}>*</span>
+            </label>
+            <textarea
+              required
+              style={textareaStyle}
+              value={formData.successCriteria}
+              onChange={(e) => setFormData({ ...formData, successCriteria: e.target.value })}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* SECTION 3 */}
+      {step === 3 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              7. Who is this business primarily for? <span style={{ color: 'var(--accent)' }}>*</span>
+            </label>
+            <p style={{ fontSize: '0.75rem', color: 'var(--muted)', marginTop: '0.2rem' }}>
+              Describe your typical customer or the people you most want to reach. If there are several groups, tell us which one matters most.
+            </p>
+            <textarea
+              required
+              style={textareaStyle}
+              value={formData.targetCustomer}
+              onChange={(e) => setFormData({ ...formData, targetCustomer: e.target.value })}
+            />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              8. What are your customers usually trying to accomplish when they come to you? <span style={{ color: 'var(--accent)' }}>*</span>
+            </label>
+            <textarea
+              required
+              style={textareaStyle}
+              value={formData.customerGoals}
+              onChange={(e) => setFormData({ ...formData, customerGoals: e.target.value })}
+            />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              9. What questions, doubts, or obstacles do customers usually have before choosing you? <span style={{ color: 'var(--accent)' }}>*</span>
+            </label>
+            <textarea
+              required
+              style={textareaStyle}
+              value={formData.customerObstacles}
+              onChange={(e) => setFormData({ ...formData, customerObstacles: e.target.value })}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* SECTION 4 */}
+      {step === 4 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              10. How do people currently discover and interact with your business? <span style={{ color: 'var(--accent)' }}>*</span>
+            </label>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.6rem', marginTop: '0.8rem' }}>
+              {[
+                'Instagram', 'Facebook', 'TikTok', 'LinkedIn', 'Google / Search',
+                'Website', 'WhatsApp', 'Email', 'Physical location', 'Referrals / word of mouth',
+                'Marketplace / third-party platform', 'Other'
+              ].map((opt) => (
+                <label key={opt} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', color: 'var(--text)', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={formData.discoveryChannels.includes(opt)}
+                    onChange={() => handleCheckbox('discoveryChannels', opt)}
+                  />
+                  {opt}
+                </label>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              10a. Anything else you'd like us to know about how customers currently find or contact you?
+            </label>
+            <textarea
+              style={textareaStyle}
+              value={formData.discoveryOtherText}
+              onChange={(e) => setFormData({ ...formData, discoveryOtherText: e.target.value })}
+            />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              11. What is working well today? <span style={{ color: 'var(--accent)' }}>*</span>
+            </label>
+            <textarea
+              required
+              style={textareaStyle}
+              value={formData.workingWell}
+              onChange={(e) => setFormData({ ...formData, workingWell: e.target.value })}
+            />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              12. What isn't working, or feels harder than it should? <span style={{ color: 'var(--accent)' }}>*</span>
+            </label>
+            <textarea
+              required
+              style={textareaStyle}
+              value={formData.notWorkingWell}
+              onChange={(e) => setFormData({ ...formData, notWorkingWell: e.target.value })}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* SECTION 5 */}
+      {step === 5 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              13. If someone encountered your brand for the first time, what would you want them to feel? <span style={{ color: 'var(--accent)' }}>*</span>
+            </label>
+            <textarea
+              required
+              style={textareaStyle}
+              value={formData.brandFeeling}
+              onChange={(e) => setFormData({ ...formData, brandFeeling: e.target.value })}
+            />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              14. What should the experience NOT feel like? <span style={{ color: 'var(--accent)' }}>*</span>
+            </label>
+            <textarea
+              required
+              style={textareaStyle}
+              value={formData.brandAvoidFeeling}
+              onChange={(e) => setFormData({ ...formData, brandAvoidFeeling: e.target.value })}
+            />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              15. Are there brands, websites, products, artists, spaces, or other references that you love?
+            </label>
+            <p style={{ fontSize: '0.75rem', color: 'var(--muted)', marginTop: '0.2rem' }}>
+              Share links if you have them, and tell us what you like about each one.
+            </p>
+            <textarea
+              style={textareaStyle}
+              value={formData.brandReferences}
+              onChange={(e) => setFormData({ ...formData, brandReferences: e.target.value })}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* SECTION 6 */}
+      {step === 6 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              16. What do you already have that we can work with? <span style={{ color: 'var(--accent)' }}>*</span>
+            </label>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.6rem', marginTop: '0.8rem' }}>
+              {[
+                'Logo / identity', 'Brand guidelines', 'Photography', 'Video',
+                'Product images', 'Written content', 'Product / service information',
+                'Existing website', 'Social media presence', 'Customer data / analytics',
+                'Existing software or systems', 'Nothing yet', 'Other'
+              ].map((opt) => (
+                <label key={opt} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', color: 'var(--text)', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={formData.existingAssets.includes(opt)}
+                    onChange={() => handleCheckbox('existingAssets', opt)}
+                  />
+                  {opt}
+                </label>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              16a. If there's anything important you already have, tell us about it.
+            </label>
+            <textarea
+              style={textareaStyle}
+              value={formData.existingAssetsOtherText}
+              onChange={(e) => setFormData({ ...formData, existingAssetsOtherText: e.target.value })}
+            />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              17. Are there any requirements, limitations, or deadlines we should know about? <span style={{ color: 'var(--accent)' }}>*</span>
+            </label>
+            <p style={{ fontSize: '0.75rem', color: 'var(--muted)', marginTop: '0.2rem' }}>
+              Launch date, budget constraints, existing technology, integrations, approval process, etc.
+            </p>
+            <textarea
+              required
+              style={textareaStyle}
+              value={formData.requirementsAndDeadlines}
+              onChange={(e) => setFormData({ ...formData, requirementsAndDeadlines: e.target.value })}
+            />
+          </div>
+          <div>
+            <label style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 400 }}>
+              18. Is there anything else you think we should know before we start?
+            </label>
+            <textarea
+              style={textareaStyle}
+              value={formData.additionalInfo}
+              onChange={(e) => setFormData({ ...formData, additionalInfo: e.target.value })}
+            />
+          </div>
+        </div>
+      )}
+
+      {errorMsg && (
+        <p style={{ color: '#ff5555', fontSize: '0.8rem', marginTop: '1.25rem', fontFamily: 'var(--mono)' }}>
+          ⚠ {errorMsg}
+        </p>
+      )}
+
+      {/* Navigation Buttons */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2.5rem', paddingTop: '1.25rem', borderTop: '1px solid var(--border)' }}>
+        {step > 1 ? (
+          <button type="button" onClick={() => { setErrorMsg(''); setStep(step - 1); }} style={secondaryButtonStyle}>
+            ← Previous
+          </button>
+        ) : <div />}
+
+        {step < 6 ? (
+          <button type="button" onClick={handleNext} style={primaryButtonStyle}>
+            Next Section →
+          </button>
+        ) : (
+          <button type="button" onClick={handleSubmit} disabled={loading} style={primaryButtonStyle}>
+            {loading ? 'Submitting...' : 'Submit Discovery Questionnaire'}
+          </button>
+        )}
+      </div>
+    </div>
+  )
+}
+
+// ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
 
 export default function WorkWithMePage() {
   const [mounted, setMounted] = useState(false)
@@ -274,7 +873,7 @@ export default function WorkWithMePage() {
   return (
     <main style={{ background: 'var(--bg)', color: 'var(--text)', minHeight: '100dvh', position: 'relative', zIndex: 10 }}>
 
-      {/* Background grid, matches site-wide pattern */}
+      {/* Background grid */}
       <div style={{
         position: 'absolute',
         inset: 0,
@@ -331,12 +930,12 @@ export default function WorkWithMePage() {
         </p>
 
         <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', alignItems: 'center', ...fadeIn(0.4) }}>
-          <a href="https://cal.com/davidraigoza" target="_blank" rel="noopener noreferrer" style={primaryButtonStyle}>
-            Book a Discovery Call →
+          <a href="#discovery" style={primaryButtonStyle}>
+            Start Client Discovery →
           </a>
-          <Link href="/" style={secondaryButtonStyle}>
-            View My Work
-          </Link>
+          <a href="https://cal.com/davidraigoza" target="_blank" rel="noopener noreferrer" style={secondaryButtonStyle}>
+            Book a Discovery Call
+          </a>
         </div>
       </section>
 
@@ -503,7 +1102,6 @@ export default function WorkWithMePage() {
           These are typical starting points, not rigid packages — actual scope depends on the initiative. Each level is a different depth of commitment, not a separate, unrelated service.
         </p>
 
-        {/* Commitment ladder — makes the progression obvious before the cards */}
         <div style={{
           display: 'flex',
           flexWrap: 'wrap',
@@ -535,13 +1133,6 @@ export default function WorkWithMePage() {
           ))}
         </div>
 
-        {/*
-          Card architecture: every card renders the exact same 7 blocks in the
-          exact same order, with no branching on content presence. That's what
-          keeps the four columns visually even. No side borders (that read as
-          a spreadsheet/pricing-table); a single hairline top border per card
-          plus thin internal separators between blocks instead.
-        */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
@@ -601,37 +1192,6 @@ export default function WorkWithMePage() {
         </div>
       </section>
 
-      {/* ── WEB3 SPECIALIST ─────────────────────────────────────────── */}
-      <section style={{
-        borderTop: '1px solid var(--border)',
-        padding: 'clamp(3rem, 6vw, 4rem) clamp(1.5rem, 5vw, 4rem)',
-        maxWidth: '1300px',
-        margin: '0 auto',
-        position: 'relative',
-        zIndex: 1,
-      }}>
-        <div style={{
-          ...cardStyle,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '1.5rem',
-        }}>
-          <div style={{ maxWidth: '50ch' }}>
-            <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
-              Building Something Technically Serious?
-            </p>
-            <p style={{ fontSize: '0.9rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.6 }}>
-              Smart contract architecture, protocol UX, token systems and security-sensitive systems are a different category of risk than a normal SaaS or AI MVP. This isn't a standard package — it's a conversation.
-            </p>
-          </div>
-          <a href="mailto:hello@davidraigoza.design" style={secondaryButtonStyle}>
-            Talk to Me
-          </a>
-        </div>
-      </section>
-
       {/* ── PROCESS ──────────────────────────────────────────────────── */}
       <section style={{
         borderTop: '1px solid var(--border)',
@@ -667,59 +1227,6 @@ export default function WorkWithMePage() {
                   {p.description}
                 </p>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── WHY THE LIGHTWEIGHT STUDIO MODEL ────────────────────────── */}
-      <section style={{
-        borderTop: '1px solid var(--border)',
-        padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
-        maxWidth: '1300px',
-        margin: '0 auto',
-        position: 'relative',
-        zIndex: 1,
-      }}>
-        <Label>Why the Lightweight Studio Model</Label>
-        <SectionTitle>The differentiator isn't speed. It's continuity.</SectionTitle>
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '1.5rem',
-          marginTop: '3rem',
-        }}>
-          {WHY_MODEL.map((w) => (
-            <div key={w.tag} style={cardStyle}>
-              <p style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
-                {w.tag}
-              </p>
-              <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.2rem', fontWeight: 400, margin: '0 0 0.75rem', color: 'var(--text)', lineHeight: 1.3 }}>
-                {w.title}
-              </h3>
-              <p style={{ fontSize: '0.85rem', color: 'var(--muted)', fontWeight: 300, lineHeight: 1.6 }}>
-                {w.body}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ border: '1px solid var(--border)', marginTop: '2.5rem', overflow: 'hidden' }}>
-          {DIFFERENTIATORS.map((d, i) => (
-            <div key={d} style={{
-              display: 'flex',
-              gap: '1.5rem',
-              padding: '1.5rem 2rem',
-              borderBottom: i < DIFFERENTIATORS.length - 1 ? '1px solid var(--border)' : 'none',
-              alignItems: 'center',
-            }}>
-              <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', flexShrink: 0 }}>
-                0{i + 1}
-              </span>
-              <span style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.5 }}>
-                {d}
-              </span>
             </div>
           ))}
         </div>
@@ -762,7 +1269,7 @@ export default function WorkWithMePage() {
                   {p.status}
                 </span>
               </div>
-              <p style={{ fontSize: '0.85rem', color: 'var(--muted)', lineHeight: 1.6, fontWeight: 300 }}>
+              <p style={{ fontSize: '0.85rem', color: 'var(--muted)', lineHeight: 1.5 }}>
                 {p.description}
               </p>
             </div>
@@ -770,7 +1277,7 @@ export default function WorkWithMePage() {
         </div>
       </section>
 
-      {/* ── ARE WE A GOOD FIT ───────────────────────────────────────── */}
+      {/* ── CLIENT DISCOVERY SECTION ────────────────────────────────── */}
       <section style={{
         borderTop: '1px solid var(--border)',
         padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
@@ -779,256 +1286,71 @@ export default function WorkWithMePage() {
         position: 'relative',
         zIndex: 1,
       }}>
-        <Label>Are We a Good Fit?</Label>
-        <SectionTitle>Worth knowing before we talk.</SectionTitle>
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '1.5rem',
-          marginTop: '3rem',
-        }}>
-          <div style={cardStyle}>
-            <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '1.25rem' }}>
-              Good fit
-            </p>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-              {GOOD_FIT.map((item) => (
-                <li key={item} style={{ display: 'flex', gap: '0.75rem', fontSize: '0.9rem', color: 'var(--text)', fontWeight: 300, padding: '0.6rem 0', lineHeight: 1.5 }}>
-                  <span style={{ color: 'var(--accent)', flexShrink: 0 }}>✓</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div style={cardStyle}>
-            <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '1.25rem' }}>
-              Not a good fit
-            </p>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-              {NOT_FIT.map((item) => (
-                <li key={item} style={{ display: 'flex', gap: '0.75rem', fontSize: '0.9rem', color: 'var(--muted)', fontWeight: 300, padding: '0.6rem 0', lineHeight: 1.5 }}>
-                  <span style={{ flexShrink: 0 }}>✕</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <p style={{
-          fontSize: '0.8rem',
-          color: 'var(--muted)',
-          fontWeight: 300,
-          lineHeight: 1.6,
-          marginTop: '1.5rem',
-          maxWidth: '60ch',
-        }}>
-          A missing feature or a rough-looking website isn't the same as a product problem. If there isn't a clear one here, I'll tell you.
-        </p>
-      </section>
-
-      {/* ── FAQ ──────────────────────────────────────────────────────── */}
-      <section style={{
-        borderTop: '1px solid var(--border)',
-        padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
-        maxWidth: '1300px',
-        margin: '0 auto',
-        position: 'relative',
-        zIndex: 1,
-      }}>
-        <Label>FAQ</Label>
-        <SectionTitle>Questions worth answering upfront.</SectionTitle>
-
-        <div style={{ border: '1px solid var(--border)', marginTop: '2.5rem' }}>
-          {FAQS.map((f, i) => {
-            const isOpen = openFaq === i
-            return (
-              <div key={f.q} style={{ borderBottom: i < FAQS.length - 1 ? '1px solid var(--border)' : 'none' }}>
-                <button
-                  onClick={() => setOpenFaq(isOpen ? null : i)}
-                  aria-expanded={isOpen}
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    gap: '1.5rem',
-                    padding: '1.5rem 2rem',
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                    font: 'inherit',
-                    color: 'var(--text)',
-                  }}
-                >
-                  <span style={{ fontFamily: 'var(--sans)', fontSize: '0.95rem', fontWeight: 500 }}>
-                    {f.q}
-                  </span>
-                  <span style={{ fontFamily: 'var(--mono)', fontSize: '1rem', color: 'var(--accent)', flexShrink: 0 }}>
-                    {isOpen ? '−' : '+'}
-                  </span>
-                </button>
-                {isOpen && (
-                  <p style={{
-                    fontSize: '0.9rem',
-                    color: 'var(--muted)',
-                    fontWeight: 300,
-                    lineHeight: 1.65,
-                    padding: '0 2rem 1.5rem',
-                    maxWidth: '60ch',
-                  }}>
-                    {f.a}
-                  </p>
-                )}
-              </div>
-            )
-          })}
-        </div>
-      </section>
-
-      {/* ── FINAL CTA ────────────────────────────────────────────────── */}
-      <section id="contact" style={{
-        borderTop: '1px solid var(--border)',
-        padding: 'clamp(5rem, 10vw, 8rem) clamp(1.5rem, 5vw, 4rem)',
-        textAlign: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-        zIndex: 1,
-      }}>
-        <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 300, color: 'var(--text)', marginBottom: '1.5rem', lineHeight: 1.05 }}>
-          Let's build something worth shipping.
-        </h2>
-
+        <Label>Client Discovery</Label>
+        <SectionTitle>Let's understand what we're building.</SectionTitle>
         <p style={{
           fontFamily: 'var(--sans)',
-          fontSize: '1rem',
+          fontSize: '0.95rem',
           color: 'var(--muted)',
-          maxWidth: '52ch',
-          margin: '0 auto 2.5rem',
-          lineHeight: 1.6,
           fontWeight: 300,
+          lineHeight: 1.6,
+          maxWidth: '58ch',
+          marginTop: '1rem',
+          marginBottom: '2.5rem',
         }}>
-          Have an idea, a product problem, or something that needs shipping? Tell me what you're building, where you're stuck, and what you need next.
+          This is the first step in understanding your business, your customers, and what you're trying to accomplish. You don't need to know design or technical terminology.
         </p>
 
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <a href="https://cal.com/davidraigoza" target="_blank" rel="noopener noreferrer" style={primaryButtonStyle}>
-            Book a Discovery Call →
-          </a>
-          <a href="mailto:hello@davidraigoza.design" style={secondaryButtonStyle}>
-            Email Me
-          </a>
-        </div>
+        <DiscoveryForm />
       </section>
 
-      {/* ── FOOTER ───────────────────────────────────────────────────── */}
-      <footer style={{
+      {/* ── FAQS ────────────────────────────────────────────────────── */}
+      <section style={{
         borderTop: '1px solid var(--border)',
-        padding: '1.5rem clamp(1.5rem, 5vw, 4rem)',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        gap: '1rem',
+        padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+        maxWidth: '1300px',
+        margin: '0 auto',
         position: 'relative',
         zIndex: 1,
       }}>
-        <Link href="/" style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em', textDecoration: 'none' }}>
-          ← Back to Home
-        </Link>
-        <span style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em' }}>
-          © {new Date().getFullYear()} David Raigoza Studio
-        </span>
-      </footer>
+        <Label>Frequently Asked Questions</Label>
+        <SectionTitle>Everything you need to know before we talk.</SectionTitle>
+
+        <div style={{ marginTop: '3rem', maxWidth: '750px' }}>
+          {FAQS.map((faq, idx) => (
+            <div key={faq.q} style={{ borderBottom: '1px solid var(--border)', padding: '1.25rem 0' }}>
+              <button
+                type="button"
+                onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--text)',
+                  fontSize: '1rem',
+                  fontWeight: 400,
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  padding: 0,
+                }}
+              >
+                <span>{faq.q}</span>
+                <span style={{ color: 'var(--accent)', marginLeft: '1rem' }}>
+                  {openFaq === idx ? '−' : '+'}
+                </span>
+              </button>
+              {openFaq === idx && (
+                <p style={{ fontSize: '0.85rem', color: 'var(--muted)', fontWeight: 300, marginTop: '0.75rem', lineHeight: 1.6 }}>
+                  {faq.a}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
     </main>
-  )
-}
-
-// ─── SHARED STYLE TOKENS ─────────────────────────────────────────────────────
-
-const cardStyle: React.CSSProperties = {
-  border: '1px solid var(--border)',
-  padding: '1.75rem',
-  background: 'rgba(255,255,255,0.01)',
-}
-
-// Engagement-model cards intentionally do NOT use `cardStyle`. A full boxed
-// border on all four sides is what made the section read as a pricing table.
-// Instead: a single hairline top rule (the visual cue that echoes the "PROBLEMS"
-// and other list sections elsewhere on the page), generous internal padding,
-// and flex column + auto-margin CTA so the button always sits flush at the
-// bottom regardless of how much text sits above it — this is what keeps the
-// four cards the same height without padding any of them artificially.
-const offerCardStyle: React.CSSProperties = {
-  borderTop: '2px solid var(--border)',
-  paddingTop: '1.75rem',
-  display: 'flex',
-  flexDirection: 'column',
-  height: '100%',
-}
-
-const primaryButtonStyle: React.CSSProperties = {
-  fontFamily: 'var(--mono)',
-  fontSize: '0.7rem',
-  letterSpacing: '0.15em',
-  textTransform: 'uppercase',
-  color: 'var(--bg)',
-  background: 'var(--text)',
-  padding: '0.85rem 2rem',
-  textDecoration: 'none',
-  fontWeight: 600,
-  transition: 'opacity 0.2s ease',
-}
-
-const secondaryButtonStyle: React.CSSProperties = {
-  fontFamily: 'var(--mono)',
-  fontSize: '0.7rem',
-  letterSpacing: '0.15em',
-  textTransform: 'uppercase',
-  color: 'var(--text)',
-  background: 'transparent',
-  border: '1px solid var(--border)',
-  padding: '0.8rem 2rem',
-  textDecoration: 'none',
-  fontWeight: 600,
-  transition: 'opacity 0.2s ease',
-}
-
-// ─── SHARED HELPER COMPONENTS ─────────────────────────────────────────────────
-// If these already exist as a shared module elsewhere in the project
-// (e.g. from the Bruma case study page), import them from there instead
-// of duplicating the definitions below.
-
-function Label({ children }: { children: React.ReactNode }) {
-  return (
-    <p style={{
-      fontFamily: 'var(--mono)',
-      fontSize: '0.65rem',
-      color: 'var(--accent)',
-      letterSpacing: '0.25em',
-      textTransform: 'uppercase',
-      marginBottom: '0.75rem',
-    }}>
-      {children}
-    </p>
-  )
-}
-
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 style={{
-      fontFamily: 'var(--serif)',
-      fontSize: 'clamp(2rem, 4vw, 3rem)',
-      fontWeight: 300,
-      color: 'var(--text)',
-      lineHeight: 1.1,
-      letterSpacing: '-0.02em',
-      maxWidth: '22ch',
-    }}>
-      {children}
-    </h2>
   )
 }

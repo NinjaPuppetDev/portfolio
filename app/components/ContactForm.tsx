@@ -9,12 +9,23 @@ export default function ContactForm() {
   const [contactStatus, setContactStatus] = useState('idle')
   const [contactError, setContactError] = useState('')
 
+  const isValidEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+  }
+
   const handleContactSubmit = async () => {
     if (!contactName.trim() || !contactEmail.trim() || !contactMessage.trim()) {
       setContactError('All fields are required.')
       setContactStatus('error')
       return
     }
+
+    if (!isValidEmail(contactEmail)) {
+      setContactError('Please enter a valid email address.')
+      setContactStatus('error')
+      return
+    }
+
     setContactStatus('loading')
     setContactError('')
     try {
