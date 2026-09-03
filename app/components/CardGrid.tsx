@@ -32,13 +32,17 @@ export default function CardGrid({ projects, cols = 3 }: { projects: Project[]; 
   }, [cols])
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: `repeat(${activeCols}, 1fr)`, gap: '0' }}>
+    <div 
+      className="w-full max-w-full overflow-hidden"
+      style={{ display: 'grid', gridTemplateColumns: `repeat(${activeCols}, 1fr)`, gap: '0' }}
+    >
       {projects.map((p, i) => {
         const col = (i % activeCols) + 1
         const row = Math.floor(i / activeCols) + 1
         return (
           <div
             key={p.index}
+            className="w-full min-w-0 overflow-hidden box-border"
             style={{
               borderTop: row === 1 ? '1px solid var(--border)' : 'none',
               borderBottom: '1px solid var(--border)',

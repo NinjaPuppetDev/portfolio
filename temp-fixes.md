@@ -1,9 +1,277 @@
+# CardGrid.tsx
+
+```tsx
+'use client'
+
+import ProjectCard from './ProjectCard'
+
+interface Project {
+  index: string
+  year: string
+  title: string
+  subtitle: string
+  tags: string[]
+  description: string
+  link: string
+  linkLabel: string
+  accent: string
+  variant: 'web3' | 'product' | 'brand'
+  image?: string
+}
+
+export default function CardGrid({ projects, cols = 3 }: { projects: Project[]; cols?: number }) {
+  const gridClass =
+    cols === 1
+      ? 'grid-cols-1'
+      : cols === 2
+        ? 'grid-cols-1 sm:grid-cols-2'
+        : 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3'
+
+  return (
+    <div className={`grid ${gridClass} gap-3 sm:gap-4 lg:gap-5`}>
+      {projects.map((p, i) => {
+        const col = (i % (cols === 1 ? 1 : cols === 2 ? 2 : 3)) + 1
+        const row = Math.floor(i / (cols === 1 ? 1 : cols === 2 ? 2 : 3)) + 1
+
+        return (
+          <div
+            key={p.index}
+            className={[
+              'overflow-hidden bg-[#0A0A0A]',
+              row === 1 ? 'border-t border-white/10' : '',
+              col === 1 ? 'border-l border-white/10' : '',
+              'border-b border-r border-white/10',
+            ].join(' ')}
+          >
+            <ProjectCard {...p} />
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+```
+
+# ProjectCard.tsx
+
+```tsx
+'use client'
+
+import { useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+
+export interface ProjectCardProps {
+  index: string
+  title: string
+  subtitle: string
+  tags: string[]
+  description: string
+  link: string
+  linkLabel: string
+  year: string
+  accent?: string
+  variant?: 'web3' | 'brand' | 'product'
+  image?: string
+  layout?: 'split' | 'stacked'
+}
+
+export default function ProjectCard(props: ProjectCardProps) {
+  const {
+    index,
+    title,
+    subtitle,
+    tags,
+    description,
+    link,
+    linkLabel,
+    year,
+    accent = 'var(--accent)',
+    image,
+    layout = 'split',
+  } = props
+
+  const [hovered, setHovered] = useState(false)
+  const active = hovered
+  const isExternal = link.startsWith('http')
+  const isSplit = layout === 'split'
+
+  const cardChassisStyles: React.CSSProperties = {
+    position: 'relative',
+    backgroundColor: '#090909',
+    textDecoration: 'none',
+    overflow: 'hidden',
+    height: '100%',
+    width: '100%',
+    borderTop: hovered ? '1px solid rgba(255, 255, 255, 0.18)' : '1px solid rgba(255, 255, 255, 0.08)',
+    borderLeft: hovered ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid rgba(255, 255, 255, 0.05)',
+    borderRight: '1px solid rgba(0, 0, 0, 0.7)',
+    borderBottom: '1px solid rgba(0, 0, 0, 0.9)',
+    borderRadius: '16px',
+    boxShadow: hovered
+      ? '0 32px 64px -16px rgba(0, 0, 0, 0.95), inset 0 1px 1px rgba(255, 255, 255, 0.05)'
+      : '0 16px 36px -12px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.02)',
+    transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
+    transition: 'border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+  }
+
+  const chassisProps = {
+    onMouseEnter: () => setHovered(true),
+    onMouseLeave: () => setHovered(false),
+    style: cardChassisStyles,
+    className: [
+      'group relative flex h-full w-full flex-col overflow-hidden rounded-[16px] bg-[#090909] no-underline transition-all duration-300',
+      isSplit ? 'md:flex-row' : '',
+      hovered ? 'border border-white/20 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.95)]' : 'border border-white/10 shadow-[0_16px_36px_-12px_rgba(0,0,0,0.8)]',
+    ].join(' '),
+  }
+
+  const cardContent = (
+    <div className="flex h-full w-full flex-col justify-between gap-3 bg-[#090909] p-4 sm:p-5 md:gap-4 md:p-6">
+      <div className={[
+        'flex flex-1 items-stretch gap-4',
+        isSplit ? 'flex-col md:flex-row md:gap-6' : 'flex-col',
+      ].join(' ')}>
+        <div
+          className={[
+            'relative w-full overflow-hidden rounded-lg border border-white/10 bg-[#040404] md:flex-shrink-0',
+            isSplit ? 'aspect-[16/10] md:w-[46%] md:aspect-square md:min-h-[180px] md:max-h-[260px]' : 'aspect-[16/10] md:aspect-[16/10]',
+          ].join(' ')}
+        >
+          {image ? (
+            <>
+              <Image
+                src={image}
+                alt={title}
+                fill
+                sizes="(max-width: 768px) 100vw, 45vw"
+                className="object-cover object-center transition-transform duration-300 md:scale-[1.03]"
+                style={{
+                  filter: 'grayscale(100%) brightness(0.75) contrast(1.05)',
+                }}
+              />
+
+              <div
+                className="pointer-events-none absolute inset-0 bg-[#040404] opacity-60 md:opacity-80"
+                aria-hidden="true"
+              />
+
+              <div
+                className="pointer-events-none absolute inset-0 shadow-[inset_0_0_30px_rgba(0,0,0,0.6)]"
+                aria-hidden="true"
+              />
+            </>
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.04),transparent_70%)]">
+              <span
+                className="font-[var(--mono)] text-[0.6rem] uppercase tracking-[0.2em] text-[#fff] opacity-70"
+                style={{ color: accent }}
+              >
+                Interactive Artifact
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className="flex w-full flex-1 flex-col justify-start md:w-[54%]">
+          <div
+            className="font-[var(--mono)] text-[0.7rem] uppercase tracking-[0.15em]"
+            style={{ color: accent, marginBottom: '0.4rem' }}
+          >
+            {index} / {year}
+          </div>
+
+          <div
+            className="font-[var(--mono)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted)] opacity-80"
+            style={{ marginBottom: '1.25rem' }}
+          >
+            Project Artifact · {index}
+          </div>
+
+          <h3
+            className="mb-3 font-[var(--serif)] text-[clamp(1.65rem,2.6vw,2.45rem)] font-light italic leading-[1.15] tracking-[-0.01em] text-white"
+          >
+            {title}
+          </h3>
+
+          {subtitle && (
+            <p
+              className="mb-5 font-[var(--mono)] text-[0.625rem] uppercase tracking-[0.08em] leading-[1.4] text-[var(--muted)]"
+            >
+              {subtitle}
+            </p>
+          )}
+
+          <div className="mt-auto flex flex-wrap gap-2 pt-3">
+            {tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-[4px] border border-white/10 bg-white/[0.03] px-2 py-1 font-[var(--mono)] text-[0.55rem] uppercase tracking-[0.08em]"
+                style={{
+                  color: active ? '#FFFFFF' : 'var(--muted)',
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div
+        className={[
+          'mt-auto flex gap-3 border-t border-white/10 pt-3',
+          isSplit ? 'flex-col md:flex-row md:items-end md:justify-between' : 'flex-col',
+        ].join(' ')}
+      >
+        <p
+          className="m-0 max-w-full font-[var(--sans)] text-[clamp(0.85rem,0.95vw,0.92rem)] font-light leading-[1.5] text-[var(--text)] opacity-90 md:max-w-[46ch]"
+        >
+          {description}
+        </p>
+
+        <div className="flex shrink-0 items-center">
+          <span
+            className="flex items-center gap-2 whitespace-normal font-[var(--mono)] text-[0.65rem] uppercase tracking-[0.14em] sm:whitespace-nowrap"
+            style={{ color: accent, fontWeight: 500 }}
+          >
+            {linkLabel}
+            <span
+              className="inline-block transition-transform duration-200"
+              style={{ transform: active ? 'translateX(4px)' : 'translateX(0)' }}
+            >
+              →
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+
+  if (isExternal) {
+    return (
+      <a href={link} target="_blank" rel="noopener noreferrer" {...chassisProps}>
+        {cardContent}
+      </a>
+    )
+  }
+
+  return (
+    <Link href={link} {...chassisProps}>
+      {cardContent}
+    </Link>
+  )
+}
+```
+
+# FloatingChat.tsx
+
+```tsx
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-// ─── TYPES ────────────────────────────────────────────────────────────────────
 interface Message {
   role: 'user' | 'assistant'
   content: string
@@ -19,9 +287,6 @@ interface TourAction {
 
 type TourType = 'design' | 'web3' | 'product'
 
-// ─── TOUR CONFIGURATION META ──────────────────────────────────────────────────
-// Product tour is the primary buyer path — leads with the AI/SaaS proof points
-// (Virtual Portfolio Hub, CommonGround) rather than brand or Web3 work.
 const PRODUCT_TOUR = [
   { step: 1, path: '/work/virtual-portfolio-hub', nextLabel: 'Next: CommonGround →' },
   { step: 2, path: '/work/common-ground', nextLabel: 'Get in touch →', finalStop: true },
@@ -44,7 +309,6 @@ function tourArrayFor(type: TourType | null) {
   return PRODUCT_TOUR
 }
 
-// ─── CLIENT-SIDE NAVIGATION INTENT MAP ───────────────────────────────────────
 const NAV_INTENTS: { patterns: RegExp[]; path: string; label: string }[] = [
   { patterns: [/\bhome(page)?\b/i, /\bstart\b/i, /\bback to (the )?top\b/i], path: '/', label: 'Taking you home.' },
   { patterns: [/\bpepe\s*matilda\b/i], path: '/work/pepe-matilda', label: 'Opening Pepe Matilda.' },
@@ -73,8 +337,6 @@ function detectNavIntent(text: string): { path: string; label: string } | null {
 const TOUR_RECOVERY = /\b(show|open|restart|see|start|re-?open).{0,20}tour\b/i
 const TOUR_OFFER_PATTERN = /product tour|ai tour|saas tour|design tour|web3 tour|brand tour|protocol tour/i
 
-// Swapped "I'm a recruiter" for client-facing quick replies — the buyer here
-// is a founder/technical leader, not a hiring manager screening a candidate.
 const SUGGESTIONS = [
   'I need a product designed and built',
   'I need a brand or design system',
@@ -87,7 +349,6 @@ const GREETING: Message = {
   content: "Hi — I'm Vera, an AI system architected into this ecosystem. I can unpack the studio's operational layout, break down specific technical systems, or guide you through selected production logs.",
 }
 
-// how long to wait after mount before surfacing the "Talk to me" nudge
 const NUDGE_DELAY_MS = 3500
 
 function isExternal(path: string) {
@@ -121,7 +382,6 @@ export default function FloatingChat() {
   const [contactEmail, setContactEmail] = useState('')
   const [contactName, setContactName] = useState('')
 
-  // Proactive attention-getting nudge shown near the trigger button
   const [showNudge, setShowNudge] = useState(false)
   const [nudgeDismissed, setNudgeDismissed] = useState(false)
 
@@ -171,8 +431,6 @@ export default function FloatingChat() {
     if (open) setTimeout(() => inputRef.current?.focus(), 150)
   }, [open, contactMode])
 
-  // Surface the "Talk to me" nudge a few seconds after the page loads,
-  // as long as the chat hasn't been opened and the nudge wasn't dismissed.
   useEffect(() => {
     if (!mounted) return
     const timer = setTimeout(() => {
@@ -181,7 +439,6 @@ export default function FloatingChat() {
     return () => clearTimeout(timer)
   }, [mounted, open, nudgeDismissed])
 
-  // Hide the nudge as soon as the chat opens
   useEffect(() => {
     if (open) setShowNudge(false)
   }, [open])
@@ -443,7 +700,6 @@ export default function FloatingChat() {
           transition: 'opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       >
-        {/* Editorial Sub-Header */}
         <div style={{ padding: '1.25rem', borderBottom: '1px solid rgba(255, 255, 255, 0.04)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
           <div>
             <p style={{ fontFamily: 'var(--mono)', fontSize: '0.55rem', color: 'var(--muted)', opacity: 0.5, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.15rem' }}>
@@ -478,7 +734,6 @@ export default function FloatingChat() {
           </div>
         </div>
 
-        {/* Content Stream */}
         <div style={{ flex: 1, overflowY: 'auto', padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           {messages.map((msg, i) => (
             <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.role === 'user' ? 'flex-end' : 'flex-start', gap: '0.5rem' }}>
@@ -531,7 +786,6 @@ export default function FloatingChat() {
           <div ref={bottomRef} />
         </div>
 
-        {/* Action Controls Deck */}
         <div style={{ padding: '0px 1.25rem 0.75rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.35rem', flexShrink: 0 }}>
           {(!tourActive && !contactMode && (lastMsg?.tourAction?.offerTour || TOUR_OFFER_PATTERN.test(lastMsg?.content ?? ''))) && (
             <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
@@ -553,7 +807,6 @@ export default function FloatingChat() {
           )}
         </div>
 
-        {/* Console Input Line */}
         <div style={{ padding: '0.75rem 1.25rem 1.25rem 1.25rem', borderTop: '1px solid rgba(255, 255, 255, 0.04)', display: 'flex', gap: '0.5rem', alignItems: 'flex-end', flexShrink: 0 }}>
           <textarea
             ref={inputRef}
@@ -612,7 +865,6 @@ export default function FloatingChat() {
         </div>
       </div>
 
-      {/* Luxury System Dock Trigger — blob button + delayed "Talk to me" nudge */}
       <div
         style={{
           position: 'fixed',
@@ -672,7 +924,6 @@ export default function FloatingChat() {
             >
               ✕
             </button>
-            {/* speech bubble tail, pointing down at the blob */}
             <span
               style={{
                 position: 'absolute',
@@ -803,3 +1054,4 @@ function TourButton({ children, onClick, secondary }: { children: React.ReactNod
     </button>
   )
 }
+```

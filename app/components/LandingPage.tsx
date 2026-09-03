@@ -33,7 +33,7 @@ const productProjects = [
     subtitle: 'Building a shared operational space for seamless alignment and real-time collaboration.',
     tags: ['Product Architecture', 'Next.js', 'Supabase', 'UX Architecture'],
     description:
-      'A unified platform designed to bridge operational gaps between teams, streamlining communication, state synchronization, and decision-making into a clean, real-time workspace.',
+      'A real-time workspace designed to align teams, information, and decisions in one place.',
     link: '/work/common-ground',
     linkLabel: 'View case study',
     accent: 'var(--accent)',
@@ -51,7 +51,7 @@ const web3Projects = [
     subtitle: 'Making decentralized finance feel understandable before it asks for trust.',
     tags: ['Product Design', 'UX Architecture', 'Solidity', 'Next.js'],
     description:
-      'Designed a DeFi banking experience that hides protocol complexity behind a clearer product layer, connecting the user experience, system architecture, and smart-contract logic. The project was shortlisted from 411 global submissions.',
+      'A DeFi banking experience that translates protocol complexity into a clearer product layer.',
     link: '/work/qie-neobank',
     linkLabel: 'View case study',
     accent: 'var(--accent)',
@@ -65,7 +65,7 @@ const web3Projects = [
     subtitle: 'Making complex on-chain risk states understandable while markets move.',
     tags: ['UX Design', 'State Management', 'Solidity', 'Chainlink Oracles'],
     description:
-      'Designed an interface for interpreting automated smart-contract and oracle data during volatile settlement conditions, translating technical blockchain states into clearer signals people can actually act on.',
+      'An interface that translates smart-contract and oracle states into actionable signals.',
     link: '/work/bruma-protocol',
     linkLabel: 'View protocol',
     accent: 'var(--accent)',
@@ -83,7 +83,7 @@ const brandProjects = [
     subtitle: 'Designing the connection between a physical product and the digital experience around it.',
     tags: ['Industrial Design', 'Lápiz de Acero', 'Brand Systems', 'E-commerce UI'],
     description:
-      "A jewelry brand built around custom manufacturing, 3D product development, e-commerce, and brand systems. The work connected physical production with a digital storefront and received Colombia's Lápiz de Acero award in 2013.",
+      "A jewelry brand connecting custom manufacturing, product design, e-commerce, and brand systems.",
     link: '/work/pepe-matilda',
     linkLabel: 'View project',
     accent: 'var(--amber)',
@@ -97,7 +97,7 @@ const brandProjects = [
     subtitle: 'Exploring what happens when a shoe becomes a digital product.',
     tags: ['Figma', 'Blender', 'Brand Systems', 'UI Design'],
     description:
-      'A custom 3D-printed footwear concept combining product design, 3D modeling, AI-assisted prototyping, and an interactive digital experience. The project explores how customization can become part of the product itself rather than another form to complete.',
+      'A 3D-printed footwear concept exploring customization through digital product design.',
     link: '/work/next-step',
     linkLabel: 'View case study',
     accent: 'var(--amber)',
@@ -111,7 +111,7 @@ const brandProjects = [
     subtitle: 'Building a digital ritual around a physical skincare product.',
     tags: ['Figma', 'Blender', 'Brand Systems', 'UI Design'],
     description:
-      'A cosmetics brand concept exploring how visual identity, product storytelling, and interaction can work together to make an online purchase feel more considered and tangible.',
+      'A cosmetics concept connecting visual identity, product storytelling, and digital interaction.',
     link: '/work/marigold-bloom',
     linkLabel: 'View case study',
     accent: 'var(--amber)',
@@ -125,7 +125,7 @@ const brandProjects = [
     subtitle: 'The code behind the systems, not just the screenshots.',
     tags: ['Solidity', 'Next.js', 'Smart Contracts', 'Web3'],
     description:
-      'An open repository containing the smart contracts, protocol interfaces, and supporting systems behind selected Web3 work. Built to make the architecture inspectable rather than hiding the implementation behind polished mockups.',
+      'An open repository making the architecture behind selected projects inspectable.',
     link: 'https://github.com/NinjaPuppetDev',
     linkLabel: 'View on GitHub',
     accent: 'var(--accent)',

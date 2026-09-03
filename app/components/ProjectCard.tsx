@@ -54,9 +54,11 @@ export default function ProjectCard(props: ProjectCardProps) {
     position: 'relative',
     backgroundColor: '#090909',
     textDecoration: 'none',
-    overflow: 'hidden',
+    overflow: 'visible',
     height: '100%',
+    minHeight: 'auto',
     width: '100%',
+    boxSizing: 'border-box',
     borderTop: hovered && !isMobile ? '1px solid rgba(255, 255, 255, 0.18)' : '1px solid rgba(255, 255, 255, 0.08)',
     borderLeft: hovered && !isMobile ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid rgba(255, 255, 255, 0.05)',
     borderRight: '1px solid rgba(0, 0, 0, 0.7)',
@@ -80,13 +82,13 @@ export default function ProjectCard(props: ProjectCardProps) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
         height: '100%',
+        minHeight: 'auto',
         width: '100%',
-        padding: isMobile ? '1.25rem' : 'clamp(1.25rem, 2vw, 1.85rem)',
+        padding: isMobile ? '1.25rem 1rem' : 'clamp(1.25rem, 2vw, 1.85rem)',
         backgroundColor: '#090909',
         boxSizing: 'border-box',
-        gap: isMobile ? '0.75rem' : '0.85rem',
+        gap: isMobile ? '1.25rem' : '0.85rem',
       }}
     >
       {/* ── TOP SECTION: IMAGE + PROJECT HEADER (SPLIT) ───────────── */}
@@ -95,23 +97,25 @@ export default function ProjectCard(props: ProjectCardProps) {
           display: 'flex',
           flexDirection: isSplit ? 'row' : 'column',
           gap: isSplit ? 'clamp(1.25rem, 2.5vw, 2rem)' : '1rem',
-          flex: '1 1 auto',
           alignItems: 'stretch',
+          width: '100%',
+          minWidth: 0,
         }}
       >
         {/* Left Side: Photographic Reveal Image */}
         <div
           style={{
             width: isSplit ? '46%' : '100%',
-            aspectRatio: isSplit ? '1 / 1' : '16 / 10',
-            minHeight: isSplit ? '180px' : '160px',
-            maxHeight: isSplit ? '260px' : '220px',
+            flexGrow: 0,
+            flexShrink: 0,
+            flexBasis: isSplit ? '46%' : 'auto',
+            aspectRatio: isSplit ? '1 / 1' : '16 / 9',
+            minHeight: isSplit ? '180px' : 'auto',
             position: 'relative',
             overflow: 'hidden',
             backgroundColor: '#040404',
             borderRadius: '8px',
             border: '1px solid rgba(255, 255, 255, 0.08)',
-            flexShrink: 0,
           }}
         >
           {image ? (
@@ -188,11 +192,12 @@ export default function ProjectCard(props: ProjectCardProps) {
         {/* Right Side: Header Meta & Big Title */}
         <div
           style={{
-            width: isSplit ? '52%' : '100%',
-            flex: 1,
+            width: isSplit ? 'auto' : '100%',
+            flex: isSplit ? '1 1 0' : '0 1 auto',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
+            minWidth: 0,
           }}
         >
           {/* Index / Year */}
@@ -217,7 +222,7 @@ export default function ProjectCard(props: ProjectCardProps) {
               color: 'var(--muted)',
               letterSpacing: '0.12em',
               textTransform: 'uppercase',
-              marginBottom: '1.25rem',
+              marginBottom: isMobile ? '0.5rem' : '1.25rem',
               opacity: 0.8,
             }}
           >
@@ -228,13 +233,14 @@ export default function ProjectCard(props: ProjectCardProps) {
           <h3
             style={{
               fontFamily: 'var(--serif)',
-              fontSize: 'clamp(1.65rem, 2.6vw, 2.45rem)',
+              fontSize: isMobile ? '1.75rem' : 'clamp(1.65rem, 2.6vw, 2.45rem)',
               fontWeight: 300,
               fontStyle: 'italic',
               lineHeight: 1.15,
               color: '#FFFFFF',
-              marginBottom: '0.65rem',
+              marginBottom: '0.5rem',
               letterSpacing: '-0.01em',
+              wordBreak: 'break-word',
             }}
           >
             {title}
@@ -246,10 +252,10 @@ export default function ProjectCard(props: ProjectCardProps) {
               style={{
                 fontFamily: 'var(--mono)',
                 fontSize: '0.625rem',
-                color: 'var(--muted)',
+                color: 'rgba(255, 255, 255, 0.7)',
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
-                marginBottom: '1.25rem',
+                marginBottom: isMobile ? '0.75rem' : '1.25rem',
                 lineHeight: 1.4,
               }}
             >
@@ -261,10 +267,11 @@ export default function ProjectCard(props: ProjectCardProps) {
           <div
             style={{
               display: 'flex',
-              gap: '0.35rem',
+              gap: '0.5rem',
               flexWrap: 'wrap',
-              marginTop: 'auto',
-              paddingTop: '0.75rem',
+              marginTop: isMobile ? '0.25rem' : '1rem',
+              paddingTop: '0.5rem',
+              minWidth: 0,
             }}
           >
             {tags.map((tag) => (
@@ -275,11 +282,12 @@ export default function ProjectCard(props: ProjectCardProps) {
                   fontSize: '0.55rem',
                   letterSpacing: '0.08em',
                   textTransform: 'uppercase',
-                  color: active ? '#FFFFFF' : 'var(--muted)',
+                  color: 'rgba(255, 255, 255, 0.7)',
                   backgroundColor: 'rgba(255, 255, 255, 0.03)',
                   border: '1px solid rgba(255, 255, 255, 0.08)',
                   borderRadius: '4px',
                   padding: '0.2rem 0.45rem',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 {tag}
@@ -297,18 +305,17 @@ export default function ProjectCard(props: ProjectCardProps) {
           alignItems: isMobile ? 'flex-start' : 'flex-end',
           justifyContent: 'space-between',
           gap: '0.85rem',
-          paddingTop: '0.65rem',
+          paddingTop: '0.75rem',
           borderTop: '1px solid rgba(255, 255, 255, 0.06)',
-          marginTop: 'auto',
+          width: '100%',
         }}
       >
         {/* Description */}
         <p
           style={{
             fontFamily: 'var(--sans)',
-            fontSize: 'clamp(0.85rem, 0.95vw, 0.92rem)',
-            color: 'var(--text)',
-            opacity: 0.88,
+            fontSize: isMobile ? '0.875rem' : 'clamp(0.85rem, 0.95vw, 0.92rem)',
+            color: 'rgba(255, 255, 255, 0.88)',
             lineHeight: 1.5,
             fontWeight: 300,
             maxWidth: isSplit ? '46ch' : '100%',
@@ -318,38 +325,42 @@ export default function ProjectCard(props: ProjectCardProps) {
           {description}
         </p>
 
-        {/* CTA Link */}
+        {/* CTA Link Container (Reserves vertical space if label is empty) */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             flexShrink: 0,
+            paddingTop: isMobile ? '0.25rem' : '0',
+            minHeight: '1.25rem',
           }}
         >
-          <span
-            style={{
-              fontFamily: 'var(--mono)',
-              fontSize: '0.65rem',
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-              color: accent,
-              fontWeight: 500,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {linkLabel}
+          {linkLabel && (
             <span
               style={{
-                transform: active ? 'translateX(4px)' : 'translateX(0)',
-                transition: 'transform 0.2s ease',
+                fontFamily: 'var(--mono)',
+                fontSize: '0.65rem',
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                color: accent,
+                fontWeight: 500,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                whiteSpace: 'nowrap',
               }}
             >
-              →
+              {linkLabel}
+              <span
+                style={{
+                  transform: active ? 'translateX(4px)' : 'translateX(0)',
+                  transition: 'transform 0.2s ease',
+                }}
+              >
+                →
+              </span>
             </span>
-          </span>
+          )}
         </div>
       </div>
     </div>

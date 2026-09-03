@@ -155,7 +155,7 @@ export default function ProjectHorizontalTrack({ tracks }: ProjectHorizontalTrac
           left: 0,
           width: '100%',
           height: '100dvh',
-          overflow: 'hidden',
+          overflow: 'visible',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
@@ -292,7 +292,6 @@ export default function ProjectHorizontalTrack({ tracks }: ProjectHorizontalTrac
                   data-project-index={idx}
                   style={{
                     width: 'clamp(340px, 60vw, 840px)',
-                    maxHeight: 'min(64vh, 490px)',
                     height: 'auto',
                     minHeight: '340px',
                     flexShrink: 0,

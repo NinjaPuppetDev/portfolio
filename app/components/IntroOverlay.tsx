@@ -1,36 +1,38 @@
 // app/components/IntroOverlay.tsx
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useVeraStore } from '../store/veraStore'
 
 const MIN_DURATION_MS = 1200
 const FADE_MS = 600
 
 export default function IntroOverlay() {
-  const [mounted, setMounted] = useState(false)
   const [fading, setFading] = useState(false)
   const [visible, setVisible] = useState(true)
   const setMode = useVeraStore((s) => s.setMode)
   const setLocked = useVeraStore((s) => s.setLocked)
-  const hasRun = useRef(false)
 
   useEffect(() => {
-    setMounted(true)
-    if (hasRun.current) return
-    hasRun.current = true
-
     setMode('loading')
     setLocked(true)
 
     const start = performance.now()
+    let completionStarted = false
+    let unlockTimer: ReturnType<typeof setTimeout> | undefined
+    let fadeTimer: ReturnType<typeof setTimeout> | undefined
+    let fallbackTimer: ReturnType<typeof setTimeout> | undefined
+
     const finish = () => {
+      if (completionStarted) return
+      completionStarted = true
+
       const elapsed = performance.now() - start
       const wait = Math.max(0, MIN_DURATION_MS - elapsed)
-      setTimeout(() => {
+      unlockTimer = setTimeout(() => {
         setLocked(false)
         setFading(true)
-        setTimeout(() => {
+        fadeTimer = setTimeout(() => {
           setVisible(false)
         }, FADE_MS)
       }, wait)
@@ -40,15 +42,18 @@ export default function IntroOverlay() {
       finish()
     } else {
       window.addEventListener('load', finish)
-      const fallbackTimer = setTimeout(finish, 2500)
-      return () => {
-        window.removeEventListener('load', finish)
-        clearTimeout(fallbackTimer)
-      }
+      fallbackTimer = setTimeout(finish, 2500)
+    }
+
+    return () => {
+      window.removeEventListener('load', finish)
+      if (fallbackTimer) clearTimeout(fallbackTimer)
+      if (unlockTimer) clearTimeout(unlockTimer)
+      if (fadeTimer) clearTimeout(fadeTimer)
     }
   }, [setMode, setLocked])
 
-  if (!mounted || !visible) return null
+  if (!visible) return null
 
   return (
     <div
