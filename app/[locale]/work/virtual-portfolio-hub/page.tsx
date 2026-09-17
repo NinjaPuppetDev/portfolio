@@ -1,0 +1,532 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useLocale } from 'next-intl'
+
+// ─── CONSTANTS ───────────────────────────────────────────────────────────────
+const WALKTHROUGH_VIDEO_URL = '/work/virtual-portfolio-hub/vph-walkthrough.mp4'
+const LIVE_APP_URL = 'https://aistudio.google.com/apps/a6a43dcb-0f83-4b02-aed2-169360546c3a?fullscreenApplet=true'
+
+const CONTENT = {
+  en: {
+    eyebrow: 'Full-Stack Platform · Gemini AI Integration · Evaluation Systems',
+    title: 'Career Portfolio Hub.',
+    subtitle: 'AI-Assisted Submission & Evaluation Platform',
+    heroDesc: 'A full-stack platform that helps bootcamp participants transform rough project notes into structured portfolio submissions while giving reviewers a standardized workspace for evaluating projects against a shared rubric.',
+    watchWalkthrough: 'Watch Build Walkthrough ↓',
+    openLive: 'Open Live App →',
+    challengeNum: '01 / The Challenge',
+    challengeTitle: 'Bootcamp evaluations are fragmented.',
+    challengeP1: 'Participants typically prepare their projects in documents, emails, and chat messages before manually assembling a final submission. Reviewers then receive inconsistent formats, making evaluation slower and more subjective.',
+    challengeP2: 'The challenge was to design a workflow that standardized both submission and evaluation without replacing human judgment.',
+    solutionNum: '02 / The Solution',
+    solutionTitle: 'AI assists both sides of the process.',
+    solutionP1: "Participants begin with rough notes rather than polished documentation. The platform uses Gemini to transform those notes into structured project summaries aligned with the bootcamp's evaluation rubric. Participants remain in control, reviewing and editing the generated content before publishing.",
+    solutionP2: 'On the reviewer side, evaluators receive standardized submissions, AI-generated assessment suggestions, and dedicated scoring tools while retaining full authority over the final decision.',
+    walkthroughLabel: 'Live Walkthrough',
+    walkthroughTitle: 'Platform Demonstration',
+    walkthroughNote: 'BUILT TO DEMONSTRATE HUMAN-IN-THE-LOOP AI WORKFLOWS AND STANDARDIZED EVALUATIONS.',
+    workflowLabel: 'Dual-Sided Experience',
+    workflowTitle: 'Product Workflow',
+    studentTitle: 'Student Workspace',
+    studentDesc: 'The participant workspace allows students to enter rough notes, generate structured portfolio content with AI, manually edit every section, publish the submission, and continue making revisions until the evaluation deadline. Once closed, editing is automatically disabled to preserve evaluation integrity.',
+    reviewerTitle: 'Reviewer Workspace',
+    reviewerDesc: 'Reviewers access a dedicated evaluation interface with standardized project summaries, AI-generated baseline recommendations, seven rubric scoring categories, reviewer notes, award nomination workflows, and submission locking after final approval.',
+    archLabel: 'System Design',
+    archTitle: 'Architecture',
+    archDesc: 'Designed around complete product execution rather than static prompt engineering.',
+    architectureItems: [
+      {
+        title: 'AI-Assisted Authoring',
+        detail: 'Transforms rough project notes into structured submissions aligned with the evaluation rubric.',
+      },
+      {
+        title: 'Human-in-the-Loop Editing',
+        detail: 'Every AI-generated section remains editable before publication.',
+      },
+      {
+        title: 'Dual Interface Architecture',
+        detail: 'Separate experiences were designed for participants and reviewers, each optimized for their specific workflow.',
+      },
+      {
+        title: 'Deadline Management',
+        detail: 'Submission windows are controlled centrally, automatically preventing modifications after the review cutoff.',
+      },
+      {
+        title: 'AI Recommendation Engine',
+        detail: 'Provides reviewers with an initial assessment while leaving scoring decisions entirely in human hands.',
+      },
+    ],
+    outcomesLabel: 'Outcomes',
+    outcomesTitle: 'Measurable Impact',
+    outcomesDesc: 'The platform demonstrates how AI can augment structured review processes without automating decision making.',
+    impactPoints: [
+      'Participants spend less time formatting documentation.',
+      'Reviewers receive standardized submissions.',
+      'Bootcamp organizers maintain consistent evaluation criteria.',
+      'Human judgment remains the final authority.',
+    ],
+    ctaReady: 'Ready to scale your product?',
+    ctaTitle: 'One Team. Zero Handoffs. Full Stack.',
+    startProject: 'Start a Project →',
+    back: '← Back to All Case Studies',
+  },
+  es: {
+    eyebrow: 'Plataforma Full-Stack · Integración Gemini AI · Sistemas de Evaluación',
+    title: 'Career Portfolio Hub.',
+    subtitle: 'Plataforma de Envío y Evaluación Asistida por IA',
+    heroDesc: 'Una plataforma full-stack que ayuda a participantes de bootcamps a transformar notas preliminares en entregas estructuradas de portafolio, ofreciendo a los evaluadores un espacio de trabajo estandarizado bajo una rúbrica compartida.',
+    watchWalkthrough: 'Ver Demostración del Desarrollo ↓',
+    openLive: 'Abrir App en Vivo →',
+    challengeNum: '01 / El Desafío',
+    challengeTitle: 'Las evaluaciones en bootcamps están fragmentadas.',
+    challengeP1: 'Los participantes suelen preparar sus proyectos de forma dispersa en documentos, correos y chats antes de consolidar manualmente una entrega final. Los evaluadores reciben formatos inconsistentes, lo que hace la revisión más lenta y subjetiva.',
+    challengeP2: 'El desafío fue diseñar un flujo que estandarizara tanto el envío como la evaluación sin reemplazar el criterio humano.',
+    solutionNum: '02 / La Solución',
+    solutionTitle: 'La IA asiste ambos extremos del proceso.',
+    solutionP1: 'Los participantes parten de notas preliminares en lugar de documentación exhaustiva. La plataforma emplea Gemini para transformar esos borradores en resúmenes estructurados alineados con la rúbrica del bootcamp. Los estudiantes mantienen el control, revisando y editando cada sección antes de publicar.',
+    solutionP2: 'Por su parte, los evaluadores reciben entregas estandarizadas, sugerencias de evaluación generadas por IA y herramientas de calificación dedicadas, reteniendo la autoridad absoluta sobre la decisión final.',
+    walkthroughLabel: 'Demostración en Vivo',
+    walkthroughTitle: 'Recorrido de la Plataforma',
+    walkthroughNote: 'DISEÑADO PARA DEMOSTRAR FLUJOS DE IA CON CRITERIO HUMANO Y EVALUACIONES ESTANDARIZADAS.',
+    workflowLabel: 'Experiencia Bilateral',
+    workflowTitle: 'Flujo del Producto',
+    studentTitle: 'Espacio de Trabajo del Estudiante',
+    studentDesc: 'El espacio de trabajo permite a los estudiantes ingresar notas en borrador, generar contenido estructurado con IA, editar cada sección manualmente, publicar la entrega y realizar iteraciones hasta la fecha límite. Al cerrarse el plazo, la edición se deshabilita automáticamente para garantizar la integridad.',
+    reviewerTitle: 'Espacio de Trabajo del Evaluador',
+    reviewerDesc: 'Los evaluadores acceden a una interfaz dedicada con resúmenes estandarizados, recomendaciones base generadas por IA, siete categorías de rúbrica, notas de revisión, flujo de nominación a premios y bloqueo de entregas tras la aprobación final.',
+    archLabel: 'Diseño del Sistema',
+    archTitle: 'Arquitectura',
+    archDesc: 'Concebida en torno a la ejecución integral del producto, superando la simple ingeniería de prompts estática.',
+    architectureItems: [
+      {
+        title: 'Redacción Asistida por IA',
+        detail: 'Transforma notas informales en entregas estructuradas y alineadas con la rúbrica de evaluación.',
+      },
+      {
+        title: 'Edición con Criterio Humano',
+        detail: 'Cada sección generada por IA permanece editable antes de su publicación definitiva.',
+      },
+      {
+        title: 'Arquitectura de Interfaz Dual',
+        detail: 'Experiencias diferenciadas para participantes y evaluadores, optimizadas para sus flujos de trabajo.',
+      },
+      {
+        title: 'Control de Fechas Límite',
+        detail: 'Ventanas de entrega administradas centralmente, impidiendo modificaciones tras el cierre oficial.',
+      },
+      {
+        title: 'Motor de Recomendación IA',
+        detail: 'Brinda a los evaluadores un diagnóstico preliminar dejando las calificaciones enteramente en manos humanas.',
+      },
+    ],
+    outcomesLabel: 'Resultados',
+    outcomesTitle: 'Impacto Medible',
+    outcomesDesc: 'La plataforma demuestra cómo la IA puede potenciar procesos de revisión estructurados sin sustituir la toma de decisiones humana.',
+    impactPoints: [
+      'Los participantes reducen drásticamente el tiempo dedicado al formateo de documentación.',
+      'Los evaluadores reciben proyectos estructurados bajo un estándar uniforme.',
+      'Los organizadores del bootcamp garantizan criterios de evaluación transparentes y homogéneos.',
+      'El criterio humano se consolida como la autoridad final irremplazable.',
+    ],
+    ctaReady: '¿Listo para escalar tu producto?',
+    ctaTitle: 'Un Equipo. Cero Fricciones. Full Stack.',
+    startProject: 'Iniciar un Proyecto →',
+    back: '← Volver a todos los proyectos',
+  },
+}
+
+// ─── JSON-LD ──────────────────────────────────────────────────────────────────
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: 'Career Portfolio Hub — AI-Assisted Submission & Evaluation Platform',
+  description:
+    'A full-stack platform that helps bootcamp participants transform rough project notes into structured portfolio submissions while giving reviewers a standardized workspace.',
+  creator: { '@type': 'Person', name: 'David Raigoza', url: 'https://davidraigoza.design' },
+}
+
+export default function CareerPortfolioHubCaseStudy() {
+  const locale = useLocale()
+  const t = locale === 'es' ? CONTENT.es : CONTENT.en
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => { setMounted(true) }, [])
+
+  const fadeIn = (delay = 0): React.CSSProperties => ({
+    opacity: mounted ? 1 : 0,
+    transform: mounted ? 'translateY(0)' : 'translateY(16px)',
+    transition: `opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s`,
+  })
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      <main style={{ background: 'var(--bg)', color: 'var(--text)', minHeight: '100vh', position: 'relative' }}>
+
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)`,
+            backgroundSize: '100px 100px',
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        />
+
+        {/* ── HERO ─────────────────────────────────────────────────── */}
+        <section style={{
+          padding: 'clamp(5rem, 10vw, 8rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 4rem)',
+          maxWidth: '1300px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '1.5rem', ...fadeIn(0.1) }}>
+            {t.eyebrow}
+          </p>
+
+          <h1 style={{
+            fontFamily: 'var(--serif)',
+            fontSize: 'clamp(3rem, 7vw, 6.5rem)',
+            fontWeight: 300,
+            lineHeight: 0.95,
+            letterSpacing: '-0.03em',
+            marginBottom: '2.5rem',
+            ...fadeIn(0.2)
+          }}>
+            {t.title}
+            <br />
+            <span style={{ fontStyle: 'italic', color: 'var(--text)', opacity: 0.9 }}>
+              {t.subtitle}
+            </span>
+          </h1>
+
+          <p style={{ fontFamily: 'var(--sans)', fontSize: 'clamp(1.1rem, 1.6vw, 1.35rem)', color: 'var(--text)', maxWidth: '58ch', lineHeight: 1.5, fontWeight: 400, marginBottom: '2.5rem', ...fadeIn(0.3) }}>
+            {t.heroDesc}
+          </p>
+
+          <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'center', ...fadeIn(0.4) }}>
+            <a
+              href="#walkthrough"
+              style={{
+                fontFamily: 'var(--mono)',
+                fontSize: '0.7rem',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: 'var(--bg)',
+                background: 'var(--text)',
+                padding: '0.85rem 2rem',
+                textDecoration: 'none',
+                fontWeight: 600,
+                transition: 'opacity 0.2s ease',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+            >
+              {t.watchWalkthrough}
+            </a>
+            <a
+              href={LIVE_APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}
+            >
+              {t.openLive}
+            </a>
+          </div>
+        </section>
+
+        {/* ── CHALLENGE & SOLUTION ───────────────────────────────── */}
+        <section style={{
+          borderTop: '1px solid var(--border)',
+          padding: '4rem clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1300px',
+          margin: '0 auto',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: '3rem',
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          <div>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>{t.challengeNum}</span>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.5rem', margin: '0.5rem 0 1rem', fontWeight: 300 }}>{t.challengeTitle}</h3>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.65 }}>
+              {t.challengeP1}
+            </p>
+            <p style={{ fontSize: '0.95rem', color: 'var(--muted)', marginTop: '0.75rem', fontWeight: 300, lineHeight: 1.65, fontStyle: 'italic' }}>
+              {t.challengeP2}
+            </p>
+          </div>
+
+          <div>
+            <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>{t.solutionNum}</span>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.5rem', margin: '0.5rem 0 1rem', fontWeight: 300 }}>{t.solutionTitle}</h3>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text)', fontWeight: 300, lineHeight: 1.65 }}>
+              {t.solutionP1}
+            </p>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text)', marginTop: '0.75rem', fontWeight: 300, lineHeight: 1.65 }}>
+              {t.solutionP2}
+            </p>
+          </div>
+        </section>
+
+        {/* ── WALKTHROUGH ─────────────────────────────────────────── */}
+        <section id="walkthrough" style={{
+          borderTop: '1px solid var(--border)',
+          padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1300px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '2rem', marginBottom: '2.5rem' }}>
+            <div>
+              <Label>{t.walkthroughLabel}</Label>
+              <SectionTitle>{t.walkthroughTitle}</SectionTitle>
+            </div>
+            <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.1em', maxWidth: '36ch', textAlign: 'right' }}>
+              {t.walkthroughNote}
+            </p>
+          </div>
+
+          <div style={{
+            position: 'relative',
+            width: '100%',
+            border: '1px solid var(--border)',
+            background: '#0a0a0a',
+            overflow: 'hidden',
+            borderRadius: '4px',
+          }}>
+            <video
+              controls
+              playsInline
+              preload="metadata"
+              poster="/work/virtual-portfolio-hub/hub-preview.png"
+              style={{ width: '100%', height: 'auto', display: 'block' }}
+            >
+              <source src={WALKTHROUGH_VIDEO_URL} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </section>
+
+        {/* ── WORKFLOW ─────────────────────────────── */}
+        <section id="workflow" style={{
+          borderTop: '1px solid var(--border)',
+          padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1300px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          <Label>{t.workflowLabel}</Label>
+          <SectionTitle>{t.workflowTitle}</SectionTitle>
+
+          {/* Student Workspace Block */}
+          <div style={{ marginTop: '3rem', marginBottom: '5rem' }}>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.8rem', color: 'var(--text)', fontWeight: 300, marginBottom: '1rem' }}>
+              {t.studentTitle}
+            </h3>
+            <p style={{ fontSize: '0.95rem', color: 'var(--muted)', marginBottom: '1.5rem', fontWeight: 300 }}>
+              {t.studentDesc}
+            </p>
+            <div style={{
+              border: '1px solid var(--border)',
+              background: '#0a0a0a',
+              overflow: 'hidden',
+              borderRadius: '4px',
+            }}>
+              <img
+                src="/work/virtual-portfolio-hub/studentworkspace.png"
+                alt="Student Submission Center Workspace"
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </div>
+          </div>
+
+          {/* Reviewer Workspace Block */}
+          <div>
+            <h3 style={{ fontFamily: 'var(--serif)', fontSize: '1.8rem', color: 'var(--text)', fontWeight: 300, marginBottom: '1rem' }}>
+              {t.reviewerTitle}
+            </h3>
+            <p style={{ fontSize: '0.95rem', color: 'var(--muted)', marginBottom: '1.5rem', fontWeight: 300 }}>
+              {t.reviewerDesc}
+            </p>
+            <div style={{
+              border: '1px solid var(--border)',
+              background: '#0a0a0a',
+              overflow: 'hidden',
+              borderRadius: '4px',
+            }}>
+              <img
+                src="/work/virtual-portfolio-hub/reviewerworkspace.png"
+                alt="Reviewer Evaluation Workspace"
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* ── ARCHITECTURE ───────────────────────────────────────── */}
+        <section style={{
+          borderTop: '1px solid var(--border)',
+          padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1300px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          <Label>{t.archLabel}</Label>
+          <SectionTitle>{t.archTitle}</SectionTitle>
+
+          <p style={{ fontFamily: 'var(--sans)', fontSize: '1rem', color: 'var(--muted)', maxWidth: '60ch', lineHeight: 1.7, marginTop: '1rem', marginBottom: '3rem', fontWeight: 300 }}>
+            {t.archDesc}
+          </p>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gap: '1.5rem',
+          }}>
+            {t.architectureItems.map((item, idx) => (
+              <div key={item.title} style={{ border: '1px solid var(--border)', padding: '1.5rem', background: 'rgba(255,255,255,0.01)' }}>
+                <span style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)' }}>0{idx + 1}</span>
+                <h3 style={{ fontFamily: 'var(--sans)', fontSize: '1rem', fontWeight: 500, margin: '0.5rem 0', color: 'var(--text)' }}>{item.title}</h3>
+                <p style={{ fontSize: '0.8rem', color: 'var(--muted)', lineHeight: 1.5, fontWeight: 300 }}>{item.detail}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── IMPACT ─────────────────────────────────────────────── */}
+        <section style={{
+          borderTop: '1px solid var(--border)',
+          padding: 'clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem)',
+          maxWidth: '1300px',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          <Label>{t.outcomesLabel}</Label>
+          <SectionTitle>{t.outcomesTitle}</SectionTitle>
+
+          <p style={{ fontFamily: 'var(--serif)', fontSize: '1.25rem', color: 'var(--text)', maxWidth: '60ch', lineHeight: 1.5, marginTop: '1.5rem', marginBottom: '2.5rem', fontWeight: 300 }}>
+            {t.outcomesDesc}
+          </p>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
+            {t.impactPoints.map((point, index) => (
+              <div key={index} style={{
+                border: '1px solid var(--border)',
+                padding: '1.75rem',
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '1rem'
+              }}>
+                <span style={{ fontFamily: 'var(--mono)', color: 'var(--accent)', fontSize: '0.9rem' }}>✓</span>
+                <p style={{ fontSize: '0.95rem', color: 'var(--text)', lineHeight: 1.5, fontWeight: 300 }}>{point}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── BOTTOM CTA ───────────────────────────────────────────── */}
+        <section style={{
+          borderTop: '1px solid var(--border)',
+          padding: 'clamp(5rem, 10vw, 8rem) clamp(1.5rem, 5vw, 4rem)',
+          textAlign: 'center',
+          position: 'relative',
+          overflow: 'hidden',
+          zIndex: 1,
+        }}>
+          <p style={{ fontFamily: 'var(--mono)', fontSize: '0.65rem', color: 'var(--accent)', letterSpacing: '0.25em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
+            {t.ctaReady}
+          </p>
+
+          <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 300, color: 'var(--text)', marginBottom: '2.5rem', lineHeight: 1.05 }}>
+            {t.ctaTitle}
+          </h2>
+
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link
+              href={`/${locale}/#contact`}
+              style={{
+                fontFamily: 'var(--mono)',
+                fontSize: '0.75rem',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: 'var(--bg)',
+                background: 'var(--text)',
+                padding: '1rem 2.5rem',
+                textDecoration: 'none',
+                fontWeight: 600,
+                transition: 'opacity 0.2s ease',
+              }}
+            >
+              {t.startProject}
+            </Link>
+          </div>
+        </section>
+
+        {/* ── FOOTER ───────────────────────────────────────────────── */}
+        <footer style={{
+          borderTop: '1px solid var(--border)',
+          padding: '1.5rem clamp(1.5rem, 5vw, 4rem)',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '1rem',
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          <Link href={`/${locale}`} style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em', textDecoration: 'none' }}>
+            {t.back}
+          </Link>
+          <span style={{ fontFamily: 'var(--mono)', fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em' }}>
+            © {new Date().getFullYear()} David Raigoza Studio
+          </span>
+        </footer>
+      </main>
+    </>
+  )
+}
+
+// ─── SHARED HELPER COMPONENTS ──────────────────────────────────────────────
+function Label({ children }: { children: React.ReactNode }) {
+  return (
+    <p style={{
+      fontFamily: 'var(--mono)',
+      fontSize: '0.65rem',
+      color: 'var(--accent)',
+      letterSpacing: '0.25em',
+      textTransform: 'uppercase',
+      marginBottom: '0.75rem',
+    }}>
+      {children}
+    </p>
+  )
+}
+
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 style={{
+      fontFamily: 'var(--serif)',
+      fontSize: 'clamp(2rem, 4vw, 3rem)',
+      fontWeight: 300,
+      color: 'var(--text)',
+      lineHeight: 1.1,
+      letterSpacing: '-0.02em',
+    }}>
+      {children}
+    </h2>
+  )
+}

@@ -1,0 +1,43 @@
+# David Raigoza
+
+> One-partner, zero-handoffs product design and engineering studio. David Raigoza helps founders and product teams turn ideas into production-ready products by combining product strategy, design, engineering, and AI workflows into one continuous partnership. Based in Medellín, Colombia; works internationally.
+
+David is a solo product designer and full-stack engineer with 15 years of experience across product design, brand strategy, Web3/DeFi development, smart contract security auditing, and digital marketing. He designs and builds the software himself, with no handoff to a separate development team.
+
+## Work With Me
+
+- [Work With Me](https://davidraigoza.design/work-with-me): Services, engagement models, pricing, and process.
+- Services: Discovery & Product Strategy, Product Design, Product Engineering, AI Workflow Design, Web3 Product Development.
+- Engagement models: Discovery Sprint (starting at $2,500), MVP Partnership (starting at $10,000), Fractional Product Partner (custom monthly engagement).
+- Process: Understand → Model → Design → Build → Deploy → Learn.
+- Best fit for: teams validating a new product, teams needing both strategy and execution, AI product builders, Web3 product builders, teams wanting one technical partner.
+- Not the best fit for: buyers looking for the cheapest freelancer, teams needing a large production agency, teams with a finished spec needing only implementation, high-volume marketing production.
+- [Book a Discovery Call](https://cal.com/davidraigoza)
+
+## Selected Work
+
+- [Virtual Portfolio Hub](https://aistudio.google.com/apps/a6a43dcb-0f83-4b02-aed2-169360546c3a?fullscreenApplet=true): Conversational AI portfolio platform with dynamic project filtering, built during an AI bootcamp competition.
+- [SiftParity (ApplyIQ)](https://applyiq-job-scanner.vercel.app/): Enterprise tracking platform migrated from Airtable to Supabase with sub-100ms real-time telemetry.
+- [QIE Neobank](https://davidraigoza.design/work/qie-neobank): Full-stack DeFi ecosystem abstracting protocol friction; shortlisted from 411 global submissions.
+- [Bruma Protocol](https://bruma-protocol.vercel.app/): Smart-contract telemetry paired with AI-generated risk narratives for volatile settlement windows.
+- [GitHub Core](https://github.com/NinjaPuppetDev): Open smart contracts, protocol interfaces, and telemetry systems.
+- [Pepe Matilda](https://davidraigoza.design/work/pepe-matilda): Silver jewelry brand David founded; e-commerce design awarded Colombia's Lápiz de Acero (2013).
+- [NextStep](https://davidraigoza.design/work/next-step): Parametric visual configuration flow for a custom 3D-printed footwear brand.
+- [Marigold Bloom](https://davidraigoza.design/work/marigold-bloom): Omnichannel identity and ritual-driven digital interface for a clean cosmetics brand.
+
+## Products in Development
+
+- Vera: AI interface for navigating products and portfolios.
+- Common Ground: Ontology-based market positioning analysis tool.
+- Web3 Builder: AI-assisted Web3 application builder with automated deployment and testing.
+
+## Writing
+
+- [All essays](https://davidraigoza.design/writing)
+- [How do we introduce agentic interfaces without abandoning the interaction patterns people already know?](https://davidraigoza.design/writing/introducing-agentic-interfaces)
+- [I Thought I Was Building a Chatbot. I Ended Up Replacing Navigation.](https://davidraigoza.design/writing/i-thought-i-was-building-a-chatbot)
+
+## Contact
+
+- Email: hello@davidraigoza.design
+- Discovery call: https://cal.com/davidraigoza
