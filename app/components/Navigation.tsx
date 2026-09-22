@@ -11,11 +11,6 @@ import MobileNavigation from './MobileNavigation'
 export default function Navigation() {
   const pathname = usePathname()
 
-  // Instantly bypass navigation chrome on any /negocios route
-  if (pathname?.includes('/negocios')) {
-    return null
-  }
-
   const { variant } = useExperiment()
   const router = useRouter()
   const locale = useLocale()
@@ -105,22 +100,10 @@ export default function Navigation() {
     </div>
   )
 
-  const isSpanish = locale === 'es' || pathname?.startsWith('/es')
-
   const navItems = [
     { label: t('work'), href: '/#work', id: 'nav-work' },
     { label: t('home'), href: '/#home', id: 'nav-home' },
     { label: t('workWithMe'), href: '/work-with-me', id: 'nav-work-with-me' },
-    ...(isSpanish
-      ? [
-          {
-            label: t('negocios'),
-            href: '/es/negocios',
-            highlight: true,
-            id: 'nav-negocios',
-          },
-        ]
-      : []),
   ]
 
   return (

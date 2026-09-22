@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { Space_Mono, Cormorant_Garamond, DM_Sans } from 'next/font/google'
 // @ts-ignore: allow global CSS import without type declarations
 import './globals.css'
 import Cursor from './components/Cursor'
@@ -8,29 +7,10 @@ import VeraCompanion from './components/VeraCompanion'
 import { ExperimentProvider } from './components/ExperimentProvider'
 import IntroOverlay from './components/IntroOverlay'
 
-const spaceMono = Space_Mono({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  style: ['normal', 'italic'],
-  variable: '--mono',
-  display: 'swap',
-})
-
-const cormorantGaramond = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['300', '400', '600'],
-  style: ['normal', 'italic'],
-  variable: '--serif',
-  display: 'swap',
-})
-
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  weight: ['300', '400'],
-  style: ['normal', 'italic'],
-  variable: '--sans',
-  display: 'swap',
-})
+// Fallback CSS variable classes to replace next/font/google dynamic loaders
+const spaceMono = { variable: 'font-mono' }
+const cormorantGaramond = { variable: 'font-serif' }
+const dmSans = { variable: 'font-sans' }
 
 // Base domain required by Next.js for resolving relative OG image and canonical URLs
 const baseUrl = 'https://davidraigoza.design'

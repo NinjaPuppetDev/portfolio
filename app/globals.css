@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -17,6 +18,10 @@
 }
 
 :root {
+  --mono: 'Space Mono', monospace;
+  --serif: 'Cormorant Garamond', serif;
+  --sans: 'DM Sans', sans-serif;
+
   --bg:        #080808;
   --surface:   #0f0f0f;
   --border:    #1e1e1e;
@@ -56,7 +61,7 @@ body {
   position: relative;
 }
 
-/* Custom Cursor Elements (Default Site) */
+/* Custom Cursor Elements */
 .cursor {
   position: fixed;
   top: 0;
@@ -83,38 +88,6 @@ body {
   z-index: 999998;
   will-change: transform, width, height, opacity;
   transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
-}
-
-/* Custom Retro 2D Pixel Arrow Cursor for Negocios (Business) Page */
-.negocios-page,
-.negocios-page * {
-  cursor: url('/cursors/pixel-pointer-32.png') 0 0, url('/cursors/pixel-pointer.svg') 0 0, auto;
-}
-
-.negocios-page a,
-.negocios-page a *,
-.negocios-page button,
-.negocios-page button *,
-.negocios-page [role="button"],
-.negocios-page [role="button"] *,
-.negocios-page input,
-.negocios-page select,
-.negocios-page textarea,
-.negocios-page .card-hover,
-.negocios-page [data-cursor="pointer"] {
-  cursor: url('/cursors/pixel-pointer-hover-32.png') 0 0, url('/cursors/pixel-pointer-hover.svg') 0 0, pointer;
-}
-
-.has-negocios-cursor,
-.has-negocios-cursor * {
-  cursor: none !important;
-}
-
-@media (pointer: coarse) {
-  .has-negocios-cursor,
-  .has-negocios-cursor * {
-    cursor: auto !important;
-  }
 }
 
 /* Custom Scrollbar */
@@ -152,7 +125,7 @@ body::before {
   z-index: 9990;
 }
 
-/* Lightweight Ambient Vignette (Zero CPU Turbulence Overhead) */
+/* Lightweight Ambient Vignette */
 body::after {
   content: '';
   position: fixed;
